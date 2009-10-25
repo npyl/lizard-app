@@ -1,0 +1,318 @@
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="robots" content="all" />
+<title>Boot Help</title>
+<link rel="stylesheet" href="../css/style.css" type="text/css">
+</head>
+<body>
+<a name="bootHelpMe"></a>
+<div id="intro">
+<h1 id="boot"><span>Boot configuration Help (com.apple.Boot.plist)</span></h1>
+<p class="intro">Chameleon uses this file as a preferences file - many aspects of Chameleon can be configured with these options.</p>
+</div>
+
+<a name="Graphics Mode Help"></a><div class="step">
+<h2>Graphics Mode</h2>
+<p>Force booting using a fixed resolution. Hertz setting is optional</p>
+</div>
+
+<a name="Kernel Help"></a><div class="step">
+<h2>Kernel</h2>
+<p>Path for alternate kernel</p>
+</div>
+
+<a name="Time Out Help"></a><div class="step">
+<h2>Time Out</h2>
+<p>  Boots the default partition (same device as Chameleon, first bootable partition) automatically after waiting num seconds without further user interaction. Pressing the down arrow allows you to select additional options like verbose booting, or allows you to add additional parameters</p>
+</div>
+
+<a name="Theme Help"></a><div class="step">
+<h2>Theme</h2>
+<p>Uses the folder Extra/Themes/theme_name as the GUI theme Chameleon uses (default is an embedded "Default" theme)</p>
+</div>
+
+<a name="NVidia Injection"></a><div class="step">
+<h2>Nvidia Injection</h2>
+<p> Automatic device-properties generation for graphics cards. Currently supports only nVidia cards. (defaults to no)</p>
+</div>
+
+<a name="Ethernet BuiltIn Help"></a><div class="step">
+<h2>BuiltIn Ethernet</h2>
+<p>Automatic device-properties generation for ethernet interfaces. (defaults to no)</p>
+</div>
+
+<a name="GUI Help"></a><div class="step">
+<h2>Disable User Interface</h2>
+<p>Disables the graphical Chameleon in favor of the all-text version. GUI mode is enabled by default</p>
+</div>
+
+<a name="32bits Help"></a><div class="step">
+<h2>32bits Compatibility Mode</h2>
+<p>Launch the kernel in 32bits mode (default is 64). Only avaible with Snow Leopard</p>
+</div>
+
+<a name="Kernel Flags Help"></a><div class="step">
+<h2>Kernel Flags</h2>
+<p><table cellspacing="0" cellpadding="0" class="t1">
+  <tbody>
+    <tr>
+      <td valign="top" class="td1">
+        <p class="p2"><span class="s1"><b>Flag</b></span></p>
+      </td>
+      <td valign="top" class="td1">
+        <p class="p2"><span class="s1"><b>Value</b></span></p>
+      </td>
+      <td valign="top" class="td2">
+        <p class="p2"><span class="s1"><b>Description</b></span></p>
+      </td>
+    </tr>
+    <tr>
+      <td valign="top" class="td3">
+        <p class="p2"><span class="s1">ex: mach_kernel*</span></p>
+      </td>
+      <td valign="top" class="td3">
+        <p class="p2"><span class="s1">kernel_name</span></p>
+      </td>
+      <td valign="top" class="td4">
+        <p class="p2"><span class="s1">Use an alternate kernel.</span></p>
+      </td>
+    </tr>
+    <tr>
+      <td valign="top" class="td5">
+        <p class="p2"><span class="s1">-v</span></p>
+      </td>
+      <td valign="top" class="td5">
+        <p class="p2"><span class="s1">none</span></p>
+      </td>
+      <td valign="top" class="td6">
+        <p class="p2"><span class="s1">verbose mode (text)</span></p>
+      </td>
+    </tr>
+    <tr>
+      <td valign="top" class="td3">
+        <p class="p2"><span class="s1">-f</span></p>
+      </td>
+      <td valign="top" class="td3">
+        <p class="p2"><span class="s1">none</span></p>
+      </td>
+      <td valign="top" class="td4">
+        <p class="p2"><span class="s1">force boot without cached kexts</span></p>
+      </td>
+    </tr>
+    <tr>
+      <td valign="top" class="td7">
+        <p class="p2"><span class="s1">-x</span></p>
+      </td>
+      <td valign="top" class="td7">
+        <p class="p2"><span class="s1">none</span></p>
+      </td>
+      <td valign="top" class="td8">
+        <p class="p2"><span class="s1">safe mode: less drivers loaded</span></p>
+      </td>
+    </tr>
+    <tr>
+      <td valign="top" class="td3">
+        <p class="p2"><span class="s1">-s</span></p>
+      </td>
+      <td valign="top" class="td3">
+        <p class="p2"><span class="s1">none</span></p>
+      </td>
+      <td valign="top" class="td4">
+        <p class="p2"><span class="s1">single user: command line boot</span></p>
+      </td>
+    </tr>
+    <tr>
+      <td valign="top" class="td9">
+        <p class="p2"><span class="s1">cpus=</span></p>
+      </td>
+      <td valign="top" class="td9">
+        <p class="p2"><span class="s1">ie: cpus=1</span></p>
+      </td>
+      <td valign="top" class="td10">
+        <p class="p2"><span class="s1">instructs the kernel to use x CPUs/cores</span></p>
+      </td>
+    </tr>
+    <tr>
+      <td valign="top" class="td11">
+        <p class="p2"><span class="s1">config=</span></p>
+      </td>
+      <td valign="top" class="td11">
+        <p class="p2"><span class="s1">&lt;file&gt;</span></p>
+      </td>
+      <td valign="top" class="td12">
+        <p class="p2"><span class="s1">specifies where to look for a com.apple.Boot.plist file</span></p>
+      </td>
+    </tr>
+    <tr>
+      <td valign="top" class="td7">
+        <p class="p2"><span class="s1">rd=</span></p>
+      </td>
+      <td valign="top" class="td7">
+        <p class="p2"><span class="s1">diskXsY</span></p>
+      </td>
+      <td valign="top" class="td8">
+        <p class="p2"><span class="s1">boots the OS on this partition (BSD format; use diskutil list)</span></p>
+      </td>
+    </tr>
+    <tr>
+      <td valign="top" class="td13">
+        <p class="p2"><span class="s1">uuid=</span></p>
+      </td>
+      <td valign="top" class="td13">
+        <p class="p2"><span class="s1">UUID adress</span></p>
+      </td>
+      <td valign="top" class="td14">
+        <p class="p2"><span class="s1">specify hard drive adress to bootloader</span></p>
+      </td>
+    </tr>
+    <tr>
+      <td valign="top" class="td5">
+        <p class="p2"><span class="s1">-legacy</span></p>
+      </td>
+      <td valign="top" class="td5">
+        <p class="p2"><span class="s1">none</span></p>
+      </td>
+      <td valign="top" class="td6">
+        <p class="p2"><span class="s1">force 32bit kernel (Leopard)</span></p>
+      </td>
+    </tr>
+    <tr>
+      <td valign="top" class="td11">
+        <p class="p2"><span class="s1">platform=</span></p>
+      </td>
+      <td valign="top" class="td11">
+        <p class="p2"><span class="s1">X86PC</span></p>
+      </td>
+      <td valign="top" class="td12">
+        <p class="p2"><span class="s1">Boot platform</span></p>
+      </td>
+    </tr>
+    <tr>
+      <td valign="top" class="td9">
+        <p class="p2"><span class="s1">idlehalt=</span></p>
+      </td>
+      <td valign="top" class="td9">
+        <p class="p2"><span class="s1">0, 1</span></p>
+      </td>
+      <td valign="top" class="td10">
+        <p class="p2"><span class="s1">Energy interupt</span></p>
+      </td>
+    </tr>
+  </tbody>
+</table>
+</div>
+
+<a name="Rescan Help"></a><div class="step">
+<h2>Rescan</h2>
+<p>Enable DVD/CD-ROM rescan mode.</p>
+</div>
+
+<a name="Rescan Prompt Help"></a><div class="step">
+<h2>Rescan Prompt</h2>
+<p> Prompts for CD-ROM rescan mode.</p>
+</div>
+
+<a name="QuietBoo tHelp"></a><div class="step">
+<h2>Quiet Boot</h2>
+<p>No messages or prompts displayed while booting (press F10 while booting to override)</p>
+</div>
+
+<a name="Instant Menu Help"></a><div class="step">
+<h2>Instant Menu</h2>
+<p>Force displaying the partition selection menu. (defaults to no)</p>
+</div>
+
+<div class="step">
+<a name="Wake Help"></a><h2>Wake</h2>
+<p>Disable wake up after hibernation (enbaled by default).</p>
+</div>
+
+<a name="ForceWake Help"></a><div class="step">
+<h2>ForceWake</h2>
+<p>Force using the sleepimage (disabled by default).</p>
+</div>
+
+<a name="Wait"></a><div class="step">
+<h2>Wait</h2>
+<p> Prompt for a key press before starting the kernel. (defaults to no)</p>
+</div>
+
+<a name="USBBusFix Help"></a><div class="step">
+<h2>USBBusFix</h2>
+<p> Enable the EHCI and UHCI fixes (disabled by default). These make the USB ports "built-in", enable waking by pressing akey or moving the mouse and fix waking the OS to prevent device removal errors.</p>
+</div>
+
+<a name="EHCIacquire Help"></a><div class="step">
+<h2>EHCIacquire</h2>
+<p>Enable the EHCI fix only (disabled by default)</p>
+</div>
+
+<a name="UHCIreset Help"></a><div class="step">
+<h2>UHCIreset</h2>
+<p>Enable the UHCI fix only (disabled by default)</p>
+</div>
+
+
+<a name="DropSSDT Help"></a><div class="step">
+<h2>DropSSDT</h2>
+<p>Skip the SSDT tables while relocating the ACPI tables.</p>
+</div>
+
+<a name="SMBIOSdefaults Help"></a><div class="step">
+<h2>SMBIOSdefaults</h2>
+<p> Don't use the default values for SMBIOS overriding. If smbios.plist doesn't exist, factory values are kept.</p>
+</div>
+
+<a name="Vbios"></a><div class="step">
+<h2>Skip Video BIOS</h2>
+<p>Skip VideoBIOS Injection to device-properties. (defaults to Yes)</p>
+</div>
+
+
+<a name="Wake Image Help"></a><div class="step">
+<h2>WakeImage</h2>
+<p>Use an alternate sleepimage file (default path is /private/var/vm/sleepimage).</p>
+</div>
+
+<a name="DSDT Help"></a><div class="step">
+<h2>DSDT</h2>
+<p>Use an alternate DSDT.aml file (DSDT is automatically loaded from default path of /DSDT.aml or Extra/DSDT.aml.</p>
+</div>
+
+<a name="Default Partition Help"></a><div class="step">
+<h2>Default Partition</h2>
+<p>Sets the default boot partition where X is the drive and Y is the partition.</p>
+</div>
+
+<a name="smbios"></a><div class="step">
+<h2>smbios.plist</h2>
+<p>Use an alternate smbios.plist file (default path: /smbios.plist /Extra/smbios.plist rd(0,0)/Extra/smbios.plist).</p>
+</div>
+
+<a name="Video Rom"></a><div class="step">
+<h2>Video Rom</h2>
+<p>Use an alternate ROM image located @ /file/path (default path: /NVIDIA.ROM)</p>
+</div>
+
+<a name="Legacy Logo"></a><div class="step">
+<h2>Legacy Logo</h2>
+<p>Show the legacy grey apple logo in GUI mode (defaults to no)</p>
+</div>
+
+<a name="Boot Banner"></a><div class="step">
+<h2>Disable Boot Banner</h2>
+<p>Show boot banner (logo.png in the selected Theme) in GUI mode (defaults to yes)</p>
+</div>
+<!---------------------------------------->
+<a name="devices-properties"></a><div class="step">
+<h2>Devices Properties</h2>
+<p>Adds support for devices via a hex base64 encoded "EFI strings". Only entry is supported, but more than 1 device can be included within the encoded string. Don't works if Nividia Injection or Built In Ethernet are enable. the button "Current Injection" copy on desktop and show you last boot injected dev-props</p>
+</div>
+
+
+<div class="blank">
+</div>
+
+</body>
+</html>
