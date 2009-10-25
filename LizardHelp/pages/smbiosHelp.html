@@ -1,0 +1,91 @@
+
+<html>
+
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<title>Smbios Help</title>
+<meta name="robots" content="all" />
+<link rel="stylesheet" href="../css/style.css" type="text/css">
+</head>
+<body>
+<a name="smbiosHelp"></a>
+<div id="intro">
+<h1 id="smbios"><span>SMBIOS configuration Help (smbios.plist)</span></h1>
+<p class="intro">This is the a simple text file with few parameters. Mostly this information is reflected in system profiler information. This file is in an extended XML format called a property list (or plist as the suffix shows).</p>
+</div>
+
+<a name="SMbiosversionHelp"></a><div class="step">
+<h2>Boot ROM Version</h2>
+<p>The boot rom (aka BIOS version). You can take this data from a real mac or from Apple’s site (which I would describe on how to get information on a particular Boot ROM for a particular mac)</p>
+</div>
+
+<a name="Model Name"></a><div class="step">
+<h2>Model Name</h2>
+<p>The Mac Model Family . For instance if you want to emulate as a MacPro , the Family would be “MacPro” (without quotes) , as for a Mac Mini it would be “MacMini” (without quotes)</p>
+</div>
+
+<a name="SMproductnameHelp"></a><div class="step">
+<h2>Model Identifier</h2>
+<p>The model , for instance you can call yours as “MacPro0,1″ , or “MacPro1,5″ or even follow a real Mac Model. Its up to you</p>
+</div>
+
+<a name="SMmanufacterHelp"></a><div class="step">
+<h2>Manufacter</h2>
+<p> The manufacturer of the Computer. Default its Apple , but then if you want to put your own OEM branding. Feel free to edit it</p>
+</div>
+
+<a name="SMsystemversionHelp"></a><div class="step">
+<h2>SMBIOS Version</h2>
+<p>Its used when fakeSMC is not being used. But since we have fakeSMC , you can easily skip this part. Only use this if you plan to stick with dsmos or if you want SMC Version to be like a RealMac</p>
+</div>
+
+<a name="FSB Speed"></a><div class="step">
+<h2>FSB Speed</h2>
+<p>Frequency of your FSB (measured in Mhz)</p>
+</div>
+
+<a name="Serial Number"></a><div class="step">
+<h2>Serial Number</h2>
+<p>Serial Number of your Hackint0sh</p>
+</div>
+
+<a name="Processor Speed"></a><div class="step">
+<h2>Processor Speed</h2>
+<p>Your computer clock speed (i.e Intel Pentium D 830 is a 3.00Ghz processor) . Therefore it would be 3000 (Measured in Mhz) (whereby 1Ghz = 1000Mhz)</p>
+</div>
+
+<a name="SMmaximalclockHelp"></a><div class="step">
+<h2>Memory Speed</h2>
+<p>Memory clock speed (i.e 533Mhz , 667Mhz). Its measured in Mhz</p>
+</div>
+
+<a name="Bios Date"></a><div class="step">
+<h2>Bios Date</h2>
+<p>Date when the firmware was released. This is optional , you could actually skip this.</p>
+</div>
+
+<a name="SMmemtypeHelp"></a><div class="step">
+<h2>Memory Type</h2>
+<p>Use 18 for DDR / 19 for DDR2 / 20 for  DDR2 FB-DIMM / 24 for DDR3 – You can get the whole list for SMmemtype by reading Chameleon’s documentation or grabbing the source code</p>
+</div>
+
+<a name="SMmemmanufacterHelp"></a><div class="step">
+<h2>Memory Manufacturer</h2>
+<p>Manufacturer of your RAM (i.e Kingston , Apple , etc)</p>
+</div>
+
+<a name="SMmemserialHelp"></a><div class="step">
+<h2>Memory Serial</h2>
+<p>Serial number of your RAM</p>
+</div>
+
+<a name="SMmempartHelp"></a><div class="step">
+<h2>Memory Part</h2>
+<p>part number of your RAM</p>
+</div>
+
+<div class="blank">
+</div>
+
+</body>
+</html>

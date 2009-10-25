@@ -1,0 +1,41 @@
+
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+<meta name="robots" content="all" />
+<title>ISO Help</title>
+<link rel="stylesheet" href="../css/style.css" type="text/css">
+</head>
+<body>
+<a name="isoHelp"></a>
+<div id="intro">
+<h1 id="iso"><span>Bootable ISO Help</span></h1>
+<p class="intro">Build a simple and usefull Bootable ISO for your Retail Installation Disc. Compatible Leopard/Snow Leopard</p>
+</div>
+
+<a name="Instructions"></a><div class="step">
+<h2>Instructions</h2>
+<p>Drag files into view, then run the script. You can replace file by dragging one other with same name. <br>
+You can't remove a single file, but remove all by pressing "remove all" </p>
+<p>If you drag a dsdt.aml or smbios.plist, or NVIDIA.ROM or mach_kernel, the script will automatically link them in com.apple.boot.plist. Make sure files are named as above.</p>
+<p>You can specify a custom theme by declaring it into com.apple.Boot.plist, and drag theme's folder with other files. Custom screen resolution is also supported</p>
+<p>The script needs three necessary files: cdboot (shipped with Lizard) + com.apple.Boot.plist + Extensions.mkext or Extensions folder.</p>
+</div>
+
+<a name="Process Infos"></a><div class="step">
+<h2>Process Infos</h2>
+<p>This box displays informations about the current process. It warm when script failed or succeded, and tell you what to do if something goes wrong. You can unactivate sounds in preferences.</p>
+</div>
+
+<a name="Options"></a><div class="step">
+<h2>Options</h2>
+<p><strong>Disable User Interface</strong>: can fix "ebios" errors when the chameleon's GUI is enabled</p>
+<p><strong>Mount ISO when finished</strong>: If the ISO is succefully created, it will be mounted on desktop</p>
+<p><strong>Refresh view when succeded</strong>: If the ISO is succefully created, remove files from view and temp folders</p>
+</div>
+
+<div class="blank">
+</div>
+
+</body>
+</html>

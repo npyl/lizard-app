@@ -1,0 +1,123 @@
+body {
+font-family: Arial;
+font-size: 0.80em;
+margin: 20px;
+color:#333;
+}
+h1 {
+background: 0 0 no-repeat;
+padding-left: 55px;
+font-size: 1.5em;
+color: #5e719b;
+height: 48px;
+position: relative;
+}
+#boot {
+background-image: url(../images/boot.png);
+}
+#smbios {
+background-image: url(../images/smbios.png);
+}
+#iso {
+background-image: url(../images/cd.png);
+}
+
+h1 span {
+position: absolute;
+bottom: 2px;
+}
+
+h2 {
+color: #5e719b;
+font-size: 1.2em;
+margin: 0.1em;
+}
+#contentright h2 {
+color: #5e719b;
+}
+.step {
+-webkit-border-radius: 10px;
+-webkit-box-shadow: 1px 1px 1px silver;
+border: 1px solid silver;
+padding: 5px 10px;
+margin: 15px 0;
+}
+.intro {
+margin: auto 55px;
+color: gray;
+}
+#frame { 
+text-align: left; 
+margin-top: 12px; 
+margin-right: auto; 
+margin-left: auto; 
+width: 500px; 
+}
+h4 { 
+color: #000; 
+font-size: 8pt; 
+font-family: Arial, sans-serif; 
+font-weight: 300; 
+margin-top: 21px; 
+}
+#contentleft { 
+margin-top: 38px;  
+float: left;
+width: 235px;
+}
+
+#contentcenter 
+{ margin-top: 2px; 
+padding: 0; 
+width: 18px;
+}
+
+#contentright { 
+margin-top: 18px; 
+padding-left: 20px;
+padding-top: 20px; 
+height: 300px;
+width: 210px;
+float: left; 
+border-left: 1px solid #808080; 
+}
+
+.space17 { 
+padding-top: 17px;
+}
+.smlapp { 
+height: 275px; 
+}
+.utility { 
+margin-top: 6px; 
+margin-bottom: 24px; 
+}
+.icon { 
+margin-bottom: -10px; 
+}
+table {
+font-size: 1em;
+
+}
+/* table */
+ p.p1 {margin: 0.0px 0.0px 0.0px 0.0px; min-height: 14.0px}
+    p.p2 {margin: 0.0px 0.0px 0.0px 0.0px; color: #444444}
+    p.p3 {margin: 0.0px 0.0px 0.0px 48.0px; color: #444444; min-height: 11.0px}
+    p.p4 {margin: 0.0px 0.0px 0.0px 48.0px; color: #444444}
+    span.s1 {letter-spacing: 0.0px}
+    table.t1 {background-color: #ffffff; border-collapse: collapse}
+    td.td1 { height: 13.0px; border-style: solid; border-width: 1.0px 1.0px 1.0px 1.0px; border-color: #a9a9a9; padding: 10.0px 10.0px 10.0px 10.0px}
+    td.td2 { height: 13.0px; border-style: solid; border-width: 1.0px 1.0px 1.0px 1.0px; border-color: #a9a9a9; padding: 10.0px 10.0px 10.0px 10.0px}
+    td.td3 {width: 75.5px; height: 26.0px; background-color: #ebeef0; border-style: solid; border-width: 1.0px 1.0px 1.0px 1.0px; border-color: #a9a9a9; padding: 10.0px 10.0px 10.0px 10.0px}
+    td.td4 { height: 26.0px; background-color: #ebeef0; border-style: solid; border-width: 1.0px 1.0px 1.0px 1.0px; border-color: #a9a9a9; padding: 10.0px 10.0px 10.0px 10.0px}
+    td.td5 { height: 13.0px; background-color: #ffffff; border-style: solid; border-width: 1.0px 1.0px 1.0px 1.0px; border-color: #a9a9a9; padding: 10.0px 10.0px 10.0px 10.0px}
+    td.td6 { height: 13.0px; background-color: #ffffff; border-style: solid; border-width: 1.0px 1.0px 1.0px 1.0px; border-color: #a9a9a9; padding: 10.0px 10.0px 10.0px 10.0px}
+    td.td7 { height: 26.0px; background-color: #ffffff; border-style: solid; border-width: 1.0px 1.0px 1.0px 1.0px; border-color: #a9a9a9; padding: 10.0px 10.0px 10.0px 10.0px}
+    td.td8 { height: 26.0px; background-color: #ffffff; border-style: solid; border-width: 1.0px 1.0px 1.0px 1.0px; border-color: #a9a9a9; padding: 10.0px 10.0px 10.0px 10.0px}
+    td.td9 { height: 52.0px; background-color: #ffffff; border-style: solid; border-width: 1.0px 1.0px 1.0px 1.0px; border-color: #a9a9a9; padding: 10.0px 10.0px 10.0px 10.0px}
+    td.td10 { height: 52.0px; background-color: #ffffff; border-style: solid; border-width: 1.0px 1.0px 1.0px 1.0px; border-color: #a9a9a9; padding: 10.0px 10.0px 10.0px 10.0px}
+    td.td11 { height: 13.0px; background-color: #ebeef0; border-style: solid; border-width: 1.0px 1.0px 1.0px 1.0px; border-color: #a9a9a9; padding: 10.0px 10.0px 10.0px 10.0px}
+    td.td12 { height: 13.0px; background-color: #ebeef0; border-style: solid; border-width: 1.0px 1.0px 1.0px 1.0px; border-color: #a9a9a9; padding: 10.0px 10.0px 10.0px 10.0px}
+    td.td13 { height: 39.0px; background-color: #ebeef0; border-style: solid; border-width: 1.0px 1.0px 1.0px 1.0px; border-color: #a9a9a9; padding: 10.0px 10.0px 10.0px 10.0px}
+    td.td14 { height: 39.0px; background-color: #ebeef0; border-style: solid; border-width: 1.0px 1.0px 1.0px 1.0px; border-color: #a9a9a9; padding: 10.0px 10.0px 10.0px 10.0px}
+    
