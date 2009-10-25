@@ -83,7 +83,6 @@
 //@property (copy, nonatomic) NSString *SMuuid;
 @property (copy, nonatomic) NSString *setSmbioPath;
 
-- (IBAction)disclosureTrianglePressed:(id)sender;
 - (IBAction)saveSMBIOS:(id)sender;
 - (IBAction)bindSelection:(id)sender;
 
