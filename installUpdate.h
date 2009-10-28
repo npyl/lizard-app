@@ -60,6 +60,8 @@
 	NSMutableArray *warmImages;
 	NSMutableArray *rDiskXArray;
 	
+	NSMutableArray *displayFinal;
+	
 	//chemins
 	NSString *i386Path;
 	NSString *opExtra;
@@ -101,6 +103,7 @@
 @property (retain, nonatomic) NSMutableArray *diskROnly;
 @property (retain, nonatomic) NSMutableArray *warmImages;
 @property (retain, nonatomic) NSMutableArray *rDiskXArray;
+@property (retain, nonatomic) NSMutableArray *displayFinal;
 
 @property (readonly) IBOutlet NSWindow *dlWindow;
 

@@ -32,6 +32,7 @@
 @synthesize vThemes;
 @synthesize lExtensions;
 @synthesize coExtensions;
+@synthesize displayFinal;
 
 - (void)openPanelDidEnd:(NSOpenPanel *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo {
 	if (returnCode == NSAlertFirstButtonReturn) {
@@ -50,7 +51,7 @@
 		}
 		//envoi les données à l'helpertool (10)
 		NSArray *args = [NSArray arrayWithObjects:helperToolPath, @"duplicate", boot0, boot1h, boot, selectedDevice, rDiskX,[i386Path stringByAppendingPathComponent:@"fdisk"],theRootPath, nil];
-
+		
 		NSTask *runInstall = [[NSTask alloc] init];
 		[runInstall setLaunchPath:helperToolPath];
 		[runInstall setArguments:args];
@@ -78,7 +79,7 @@
     return self.rDisk.count;
 }
 - (id)tableView:(NSTableView *)theView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)rowIndex {
-
+	
 	int i = 0;
 	NSString *theString;
 	NSMutableArray *bankArray = [NSMutableArray arrayWithCapacity:15];
@@ -94,20 +95,20 @@
 	NSImage *goodIcon = [[NSImage alloc] initWithContentsOfFile:goodStatus];
 	
 	//récupération des icones
-	for (theString in theicon) {
-		theImage = [[NSWorkspace sharedWorkspace]iconForFile:[theicon objectAtIndex:i]];
+	for (theString in displayFinal) {
+		theImage = [[NSWorkspace sharedWorkspace]iconForFile:[displayFinal objectAtIndex:i]];
 		[bankArray insertObject:theImage atIndex:i];
-		[stoleArray insertObject:[[theicon objectAtIndex:i] lastPathComponent] atIndex:i];
+		[stoleArray insertObject:[[displayFinal objectAtIndex:i] lastPathComponent] atIndex:i];
 		if ([[diskROnly objectAtIndex:i] isEqualToString:@"Yes"]) {
 			[warmArray insertObject:errorIcon atIndex:i];
 		}
 		else if ([[diskUUID objectAtIndex:i] isEqualToString:@"Not bootable"]) {
-				[warmArray insertObject:warningIcon atIndex:i];
+			[warmArray insertObject:warningIcon atIndex:i];
 		}
 		else {
 			[warmArray insertObject:goodIcon atIndex:i];
 		}
-			i++;	
+		i++;    
 	}
 	//stockage
 	iconKey = [NSMutableArray arrayWithArray:bankArray];
@@ -124,24 +125,22 @@
 		return [warmImages objectAtIndex:rowIndex];
 	}
 	if ([[tableColumn identifier] isEqualToString:@"mount"]) {
-		return [theicon objectAtIndex:rowIndex];
+		return [displayFinal objectAtIndex:rowIndex];
 	}
 	//if ([[tableColumn identifier] isEqualToString:@"point"]) {
-		//return [theicon objectAtIndex:rowIndex];
+	//return [theicon objectAtIndex:rowIndex];
 	//}
 	return NULL;
 }
 - (void)tableView:(NSTableView *)tableView setObjectValue:(id)object forTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)rowIndex {
-
+	
 }
 - (id)init {
     
 	if (self = [super init]) {
-	
+        
 		self.theicon = [[NSWorkspace sharedWorkspace] mountedLocalVolumePaths];
-		NSLog(@"%@", [theicon description]);
 		
-		int i =0;
 		NSString *trootName = @"";
 		NSString *rootName = @"";
 		NSString *readOnly = @"";
@@ -150,7 +149,9 @@
 		NSString *UUID = @"";
 		NSString *rDiskXx = @"";
 		NSString *trDiskXx = @"";
-		NSString *theString;
+		NSString *moreString;
+		NSString *theName = @"";
+		NSString *tTheName = @"";
 		//NSString *finalRDisk;
 		NSMutableArray *listItem = [NSMutableArray arrayWithCapacity:10];
 		NSMutableArray *listName = [NSMutableArray arrayWithCapacity:10];
@@ -158,12 +159,13 @@
 		NSMutableArray *listUUID = [NSMutableArray arrayWithCapacity:10];
 		NSMutableArray *listROnly= [NSMutableArray arrayWithCapacity:10];
 		NSMutableArray *listRDiskX= [NSMutableArray arrayWithCapacity:10];
-		
-		
-		//infos depuis diskutil en comptant le nombre de disques montés
-		for( theString in theicon )
+		NSMutableArray *myString = [NSMutableArray arrayWithCapacity:10];
+
+		int i = 0;
+		for (moreString in theicon)
 		{
 			NSArray *listItems;
+			NSArray *itemsFirst;
 			NSTask *diskutil=[[NSTask alloc] init];
 			NSPipe *pipe=[[NSPipe alloc] init];
 			NSFileHandle *handle;
@@ -175,113 +177,119 @@
 			[diskutil launch];
 			NSString *string=[[NSString alloc] initWithData:[handle readDataToEndOfFile] encoding:NSUTF8StringEncoding]; // convert NSData -> NSString
 			
-			// separation du contenu pour ne retenir que rdisk
-			listItems = [string componentsSeparatedByString:@" Device Identifier:"];
-			//ajout du rdisk dans une array
-			if ([listItems objectAtIndex:0])
-			{
-				//supprime l'espace a l'entrée
-				listItems = [[listItems objectAtIndex:1] componentsSeparatedByString:@"Device Node:"];
-				trootName = [[listItems objectAtIndex:0] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-				rootName = [trootName stringByReplacingOccurrencesOfString:@"\n" withString:@""];
-				if ([rootName isEqualToString: @""]) { // rien ne s'afiche sinon
-					[listItem insertObject:@"Untitled" atIndex:i];
-					rootName = @"Untitled";
+							listItems = [string componentsSeparatedByString:@" Device Identifier:"];
+			itemsFirst = [string componentsSeparatedByString:@" Partition Type:"];
+			itemsFirst = [[itemsFirst objectAtIndex:1] componentsSeparatedByString:@"Bootable:"];
+			tTheName = [[itemsFirst objectAtIndex:0] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+			theName = [tTheName stringByReplacingOccurrencesOfString:@"\n" withString:@""];
+			
+			//NSLog (theName);
+			if (![theName isEqualToString: @"None"]) { // rien ne s'afiche sinon
+				//ajout du rdisk dans une array
+				if ([listItems objectAtIndex:0])
+				{
+					//supprime l'espace a l'entrée
+					listItems = [[listItems objectAtIndex:1] componentsSeparatedByString:@"Device Node:"];
+					trootName = [[listItems objectAtIndex:0] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+					rootName = [trootName stringByReplacingOccurrencesOfString:@"\n" withString:@""];
+									[listItem insertObject:rootName atIndex:0 + i];
+					if ([rootName isEqualToString: @""]) { // rien ne s'afiche sinon
+						[listItem insertObject:@"Untitled" atIndex:0 + i];
+						rootName = @"Untitled";
+					}
+					self.rDisk = [NSMutableArray arrayWithArray:listItem];
+
 				}
-				[listItem insertObject:rootName atIndex:i];
+				// Volume Name
+				listItems = [string componentsSeparatedByString:@"Volume Name:"];
+				if ([listItems objectAtIndex:0]) {
+					if (floor(NSAppKitVersionNumber) > NSAppKitVersionNumber10_5) { //modifications dans diskutil
+						listItems = [[listItems objectAtIndex:1] componentsSeparatedByString:@"Escaped with Unicode:"];
+					}
+					else {
+						listItems = [[listItems objectAtIndex:1] componentsSeparatedByString:@"Mount Point:"];
+					}
+					readOnly = [[listItems objectAtIndex:0] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+					[listName insertObject:readOnly atIndex:i];
+					if ([readOnly isEqualToString: @""]) { // rien ne s'afiche sinon
+						[listName insertObject:@"Untitled" atIndex:i];
+						readOnly = @"Untitled";
+					}
+					self.selectedPath = [NSMutableArray arrayWithArray:listName];
+				}
 				
-				//stockage dans l'array pour afficher dans tableView
-				self.rDisk = [NSMutableArray arrayWithArray:listItem];
-			}
-			
-			// Volume Name
-			listItems = [string componentsSeparatedByString:@"Volume Name:"];
-			if ([listItems objectAtIndex:0]) {
-				if (floor(NSAppKitVersionNumber) > NSAppKitVersionNumber10_5) { //modifications dans diskutil
-				listItems = [[listItems objectAtIndex:1] componentsSeparatedByString:@"Escaped with Unicode:"];
+				//System files
+				listItems = [string componentsSeparatedByString:@"File System:"];
+				if ([listItems objectAtIndex:0]) {
+					if (floor(NSAppKitVersionNumber) > NSAppKitVersionNumber10_5) {
+						listItems = [[listItems objectAtIndex:1] componentsSeparatedByString:@"Type:"];
+					}
+					else {
+						listItems = [[listItems objectAtIndex:1] componentsSeparatedByString:@"Owners:"];
+					}
+					type = [[listItems objectAtIndex:0] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+					[listType insertObject:type atIndex:i];
+					if ([type isEqualToString: @""]) { // rien ne s'afiche sinon
+						[listType insertObject:@"Unknown" atIndex:i];
+						type = @"Unknown";
+					}
+					self.diskType = [NSMutableArray arrayWithArray:listType];
 				}
-				else {
-				listItems = [[listItems objectAtIndex:1] componentsSeparatedByString:@"Mount Point:"];
+				
+				//Bootable
+				listItems = [string componentsSeparatedByString:@"Bootable:"];
+				if ([listItems objectAtIndex:0]) {
+					listItems = [[listItems objectAtIndex:1] componentsSeparatedByString:@"Media Type:"];
+					UUID = [[listItems objectAtIndex:0] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+					[listUUID insertObject:UUID atIndex:i];
+					if ([UUID isEqualToString: @""]) { // rien ne s'afiche sinon
+						[listUUID insertObject:@"Unknown" atIndex:i];
+						UUID = @"Unknown";
+					}
+					self.diskUUID = [NSMutableArray arrayWithArray:listUUID];
 				}
-				readOnly = [[listItems objectAtIndex:0] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-				[listName insertObject:readOnly atIndex:i];
-				if ([readOnly isEqualToString: @""]) { // rien ne s'afiche sinon
-					[listName insertObject:@"Untitled" atIndex:i];
-					readOnly = @"Untitled";
-				}
-				self.selectedPath = [NSMutableArray arrayWithArray:listName];
-			}
-			
-			//System files
-			listItems = [string componentsSeparatedByString:@"File System:"];
-			if ([listItems objectAtIndex:0]) {
+				
+				//readOnly
 				if (floor(NSAppKitVersionNumber) > NSAppKitVersionNumber10_5) {
-				listItems = [[listItems objectAtIndex:1] componentsSeparatedByString:@"Type:"];
+					listItems = [string componentsSeparatedByString:@"Read-Only Volume:"];
 				}
 				else {
-				listItems = [[listItems objectAtIndex:1] componentsSeparatedByString:@"Owners:"];
+					listItems = [string componentsSeparatedByString:@"Read Only:"];
 				}
-				type = [[listItems objectAtIndex:0] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-				[listType insertObject:type atIndex:i];
-				if ([type isEqualToString: @""]) { // rien ne s'afiche sinon
-					[listType insertObject:@"Unknown" atIndex:i];
-					type = @"Unknown";
+				if ([listItems objectAtIndex:0]) {
+					listItems = [[listItems objectAtIndex:1] componentsSeparatedByString:@"Ejectable:"];
+					rOnly = [[listItems objectAtIndex:0] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+					[listROnly insertObject:rOnly atIndex:i];
+					if ([rOnly isEqualToString: @""]) { // rien ne s'afiche sinon
+						[listROnly insertObject:@"Unknown" atIndex:i];
+						rOnly = @"Unknown";
+					}
+				self.diskROnly = [NSMutableArray arrayWithArray:listROnly];
 				}
-				self.diskType = [NSMutableArray arrayWithArray:listType];
-			}
-			
-			//Bootable
-			listItems = [string componentsSeparatedByString:@"Bootable:"];
-			if ([listItems objectAtIndex:0]) {
-				listItems = [[listItems objectAtIndex:1] componentsSeparatedByString:@"Media Type:"];
-			}
-				UUID = [[listItems objectAtIndex:0] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-				[listUUID insertObject:UUID atIndex:i];
-				if ([UUID isEqualToString: @""]) { // rien ne s'afiche sinon
-					[listUUID insertObject:@"Unknown" atIndex:i];
-					UUID = @"Unknown";
+				
+				//rdiskX
+				listItems = [string componentsSeparatedByString:@"Part Of Whole:"];
+				if ([listItems objectAtIndex:0]) {
+					listItems = [[listItems objectAtIndex:1] componentsSeparatedByString:@"Device / Media Name:"];
+					trDiskXx = [[listItems objectAtIndex:0] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+					rDiskXx = [trDiskXx stringByReplacingOccurrencesOfString:@"\n" withString:@""];
+					[listRDiskX insertObject:rDiskXx atIndex:i];
+					if ([rDiskXx isEqualToString: @""]) { // rien ne s'afiche sinon
+						[listRDiskX insertObject:@"Unknown" atIndex:i];
+						rDiskXx = @"Unknown";
+					}
+				self.rDiskXArray = [NSMutableArray arrayWithArray:listRDiskX];
 				}
-				self.diskUUID = [NSMutableArray arrayWithArray:listUUID];
-			
-			//readOnly
-			if (floor(NSAppKitVersionNumber) > NSAppKitVersionNumber10_5) {
-			listItems = [string componentsSeparatedByString:@"Read-Only Volume:"];
-			}
-			else {
-				listItems = [string componentsSeparatedByString:@"Read Only:"];
-			}
-			if ([listItems objectAtIndex:0]) {
-				listItems = [[listItems objectAtIndex:1] componentsSeparatedByString:@"Ejectable:"];
-			}
-			rOnly = [[listItems objectAtIndex:0] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-			[listROnly insertObject:rOnly atIndex:i];
-			if ([rOnly isEqualToString: @""]) { // rien ne s'afiche sinon
-				[listROnly insertObject:@"Unknown" atIndex:i];
-				rOnly = @"Unknown";
-			}
-			self.diskROnly = [NSMutableArray arrayWithArray:listROnly];
-			
-			//rdiskX
-			listItems = [string componentsSeparatedByString:@"Part Of Whole:"];
-			if ([listItems objectAtIndex:0]) {
-				listItems = [[listItems objectAtIndex:1] componentsSeparatedByString:@"Device / Media Name:"];
-			}
-			trDiskXx = [[listItems objectAtIndex:0] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-			rDiskXx = [trDiskXx stringByReplacingOccurrencesOfString:@"\n" withString:@""];
-			[listRDiskX insertObject:rDiskXx atIndex:i];
-			if ([rDiskXx isEqualToString: @""]) { // rien ne s'afiche sinon
-				[listRDiskX insertObject:@"Unknown" atIndex:i];
-				rDiskXx = @"Unknown";
-			}
-			self.rDiskXArray = [NSMutableArray arrayWithArray:listRDiskX];
-			
+				[myString insertObject:[theicon objectAtIndex:i] atIndex:i];
+				self.displayFinal =  [NSMutableArray arrayWithArray:myString];
 			[diskutil release];
 			i++;
+			}
 		}
-		//NSLog([rDisk description]);
 	}
 	return self;
 }
+
 - (IBAction)selectDevice:(id)sender {
 	//recuperation de la valeure du rdisk
 	self.selectedDevice = [rDisk objectAtIndex:[theView selectedRow]];
@@ -293,8 +301,8 @@
 }
 
 - (void)loopAccrosVerion {
-
-NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
+	
+	NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
 	NSFileManager *theManager = [NSFileManager defaultManager];
 	NSString *mExtensions = [self.opExtra stringByAppendingPathComponent:@"Extensions"];
 	NSString *lPath;
@@ -327,7 +335,7 @@ NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
 }
 
 - (void)loopAccrosExtensions {
- NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
+	NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
 	
 	NSFileManager *theManager = [NSFileManager defaultManager];
 	NSString *mExtensions = [self.opExtra stringByAppendingPathComponent:@"Extensions"];
@@ -488,7 +496,7 @@ NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
 		[alert setMessageText:@"No device selected!"];
         [alert setInformativeText:@"Please, select device before openning chameleon's bin folder"];
 		[alert beginSheetModalForWindow:[NSApp mainWindow] modalDelegate:self didEndSelector:@selector(openPanelDidEnd:returnCode:contextInfo:) contextInfo:nil];
-
+		
 	}
 	else {
 		//NSFileManager *theManager = [NSFileManager defaultManager];
@@ -513,12 +521,12 @@ NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
 }
 
 - (IBAction)serverUpdate:(id)sender {
-		if (![dlWindow isVisible]) {
-			[dlWindow makeKeyAndOrderFront:self];
-		}
-		else {
-			[dlWindow orderOut:nil];
-		}
+	if (![dlWindow isVisible]) {
+		[dlWindow makeKeyAndOrderFront:self];
+	}
+	else {
+		[dlWindow orderOut:nil];
+	}
 }
 - (IBAction)launchInstall:(id)sender
 {
@@ -528,8 +536,8 @@ NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
 	
 	if ((! selectedDevice)  || (! i386Path)) {
 		if ((!selectedDevice) && (i386Path)) {
-		[alert setMessageText:@"No device selected!"];
-        [alert setInformativeText:@"Please, select device before openning chameleon's i386 folder"];
+			[alert setMessageText:@"No device selected!"];
+			[alert setInformativeText:@"Please, select device before openning chameleon's i386 folder"];
 		}
 		else if ((selectedDevice) && (! i386Path)) {
 			[alert setMessageText:@"Chameleon's folder not specified"];
@@ -552,7 +560,7 @@ NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
 		[alert addButtonWithTitle:@"Install"];
 		[alert addButtonWithTitle:@"Cancel"];
 		[alert setMessageText:@"Chameleon installation"];
-		[alert setInformativeText:[NSString stringWithFormat:@"You really want to install Chameleon on %@ %@ %@ %@",[selectedPath objectAtIndex:[theView selectedRow]], @"(", [rDisk objectAtIndex:[theView selectedRow]], @") ?"]];	 
+		[alert setInformativeText:[NSString stringWithFormat:@"You really want to install Chameleon on %@ %@ %@ %@",[selectedPath objectAtIndex:[theView selectedRow]], @"(", [rDisk objectAtIndex:[theView selectedRow]], @") ?"]];     
 	}
 	[alert beginSheetModalForWindow:[NSApp mainWindow] modalDelegate:self didEndSelector:@selector(openPanelDidEnd:returnCode:contextInfo:) contextInfo:nil];
 }
@@ -574,7 +582,7 @@ NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
 		[alert setMessageText:[NSString stringWithFormat:@"%@ %@",[selectedPath objectAtIndex:[theView selectedRow]],  @"is a Read-Only Device"]];
 		[alert setInformativeText:@"Installation Aborded"];
 		[alert beginSheetModalForWindow:[NSApp mainWindow] modalDelegate:self didEndSelector:@selector(openPanelDidEnd:returnCode:contextInfo:) contextInfo:nil];
-
+		
 	}
 	else {
 		[progressIndicator startAnimation: self];
@@ -591,19 +599,19 @@ NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
 		if ([bExtensions state]==NSOnState) {
 			for (contentString in coExtensions) {
 				[theManager copyItemAtPath:[coExtensions objectAtIndex:f] toPath:[extFolder stringByAppendingPathComponent:[contentString lastPathComponent]] error:&copyError];
-			f++;
+				f++;
 			}
 			f = 0;
 			for (contentString in lExtensions) {
 				[theManager copyItemAtPath:[lExtensions objectAtIndex:f] toPath:[extFolder stringByAppendingPathComponent:[contentString lastPathComponent]] error:&copyError];
-			f++;
+				f++;
 			}
 		}
 		f = 0;
 		if ([bThemes state]==NSOnState) {
 			for (contentString in vThemes) {
 				[theManager copyItemAtPath:[vThemes objectAtIndex:f] toPath:[themesFolder stringByAppendingPathComponent:[contentString lastPathComponent]] error:&copyError];
-			f++;
+				f++;
 			}
 		}
 		if ([bSmbios state]==NSOnState) {
@@ -632,4 +640,3 @@ NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
     [super dealloc];
 }
 @end
-
