@@ -258,7 +258,7 @@ NSString *prebootDirPath = @"/tmp/newiso/Extra/Preboot/Extra";
 		NSSound *sound;
 		if (cdbootTask && cdbootPipe && theFileHandle) {
 			// contruire le dictionnaire
-			NSString *errorDesc = nil;
+			NSString *errorTesc = nil;
 			NSPropertyListFormat format;
 			
 			// com.apple.boot.plist
@@ -274,7 +274,7 @@ NSString *prebootDirPath = @"/tmp/newiso/Extra/Preboot/Extra";
 			NSMutableDictionary *isoTemp = (NSMutableDictionary *)[NSPropertyListSerialization
 																	propertyListFromData:isoBootXML
 																	mutabilityOption:NSPropertyListMutableContainersAndLeaves
-																	format:&format errorDescription:&errorDesc];
+																	format:&format errorDescription:&errorTesc];
 			
 			self.graphicsMode = [isoTemp objectForKey:@"Graphics Mode"];
 			self.kernelPath = [isoTemp objectForKey:@"Kernel"];
@@ -392,7 +392,7 @@ NSString *prebootDirPath = @"/tmp/newiso/Extra/Preboot/Extra";
 			
 			NSData *isoBootData = [NSPropertyListSerialization dataFromPropertyList:isoTemp
 																			   format:NSPropertyListXMLFormat_v1_0
-																	 errorDescription:&errorDesc];
+																	 errorDescription:&errorTesc];
 			
 			if (isoBootData){
 				[isoBootData writeToFile:isoBootPath atomically:NO];
@@ -435,7 +435,7 @@ NSString *prebootDirPath = @"/tmp/newiso/Extra/Preboot/Extra";
 			if (graphicsMode)
 				[preisoTemp setObject:graphicsMode forKey:@"Graphics Mode"];
 			
-			NSData *plistPreBootData = [NSPropertyListSerialization dataFromPropertyList:preisoTemp format:NSPropertyListXMLFormat_v1_0 errorDescription:&errorDesc];
+			NSData *plistPreBootData = [NSPropertyListSerialization dataFromPropertyList:preisoTemp format:NSPropertyListXMLFormat_v1_0 errorDescription:&errorTesc];
 			
 			if (plistPreBootData){
 				[plistPreBootData writeToFile:plistpreBootPath atomically:NO];
@@ -461,9 +461,9 @@ NSString *prebootDirPath = @"/tmp/newiso/Extra/Preboot/Extra";
 				sound = [[NSSound alloc] initWithContentsOfFile:@"/System/Library/Sounds/Basso.aiff" byReference:YES];
 				[sound play];
 			}
-			 [[cdConfirm image] release];
 			 [cdConfirm setImage: processOk];
 			 NSLog(@"iso failed.");
+			[sound release];
 		 }
 	 }
 }
@@ -545,6 +545,7 @@ NSString *prebootDirPath = @"/tmp/newiso/Extra/Preboot/Extra";
 	[cdConfirm setImage: processOk];
     [cdbootButton setEnabled:YES];
     [thePool release];
+	[sound release];
     [NSThread exit];
 } 
 @end

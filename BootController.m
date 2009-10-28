@@ -547,7 +547,7 @@ else if (![theManager fileExistsAtPath:comBootPath]){
 	if (kernelFlags) {
 		//supprime l'espace à la fin
 		if([self.kernelFlags hasSuffix:@" "]) {
-			self.kernelFlags = [self.kernelFlags substringFromIndex:[self.kernelFlags length] - [@" " length]];
+			kernelFlags = [self.kernelFlags substringFromIndex:[self.kernelFlags length] - [@" " length]];
 		}
 			[bootDict setObject:kernelFlags forKey:@"Kernel Flags"];
 	}

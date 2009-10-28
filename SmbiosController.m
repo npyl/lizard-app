@@ -569,7 +569,7 @@
 	[tableView reloadData];
 }
 - (IBAction)insertRow:(id)sender
-{
+{	
 	[self.smOne removeObjectAtIndex:[tableView selectedRow]];
 	[self.smThree removeObjectAtIndex:[tableView selectedRow]];
 	[self.smFour removeObjectAtIndex:[tableView selectedRow]];
