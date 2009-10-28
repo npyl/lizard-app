@@ -13,7 +13,7 @@ int main(int argc, char *argv[])
 {
 	NSAutoreleasePool *pool = [[NSAutoreleasePool alloc] init];
 	NSLog(@"AuthHelperTool started");
-	NSLog([NSString stringWithFormat:@"%d",argc] );
+	//NSLog([NSString stringWithFormat:@"%d",argc] );
 	
 	// Nomber d'arguments envoyer par le IBAction
 	if (argc == 10)
@@ -72,19 +72,25 @@ int main(int argc, char *argv[])
 				
 				// setuid pour executer sudo.
 				setuid(0);
-				NSArray *fdiskArgs = [NSArray arrayWithObjects: fdiskPath, @"-f", boot0, @"-u", @"-y", [@"/dev/r" stringByAppendingString:rDiskX], nil];
-				[NSTask launchedTaskWithLaunchPath:@"/usr/bin/sudo" arguments:fdiskArgs];
-				NSLog(@"done with %@: ?", fdiskArgs);
-				sleep(2);
-				NSArray *ddArgs = [NSArray arrayWithObjects: @"dd", [@"if="stringByAppendingString:boot1h], [@"of=/dev/r" stringByAppendingString:selectedDevice], nil];
-				[NSTask launchedTaskWithLaunchPath:@"/usr/bin/sudo" arguments:ddArgs];
-				NSLog(@"done with %@: ?", ddArgs);
-				sleep(2);
-				NSArray *cpArgs = [NSArray arrayWithObjects: @"cp", boot, theRootPath, nil];
-				[NSTask launchedTaskWithLaunchPath:@"/usr/bin/sudo" arguments:cpArgs];
-				NSLog(@"done with %@: ?", cpArgs);
+				if (![boot0 isEqualToString:@"null"]) {
+					NSArray *fdiskArgs = [NSArray arrayWithObjects: fdiskPath, @"-f", boot0, @"-u", @"-y", [@"/dev/r" stringByAppendingString:rDiskX], nil];
+					[NSTask launchedTaskWithLaunchPath:@"/usr/bin/sudo" arguments:fdiskArgs];
+					//NSLog(@"done with %@: ?", fdiskArgs);
+					sleep(2);
+				}
+
+				if (![boot1h isEqualToString:@"null"]) {
+					NSArray *ddArgs = [NSArray arrayWithObjects: @"dd", [@"if="stringByAppendingString:boot1h], [@"of=/dev/r" stringByAppendingString:selectedDevice], nil];
+					[NSTask launchedTaskWithLaunchPath:@"/usr/bin/sudo" arguments:ddArgs];
+					//NSLog(@"done with %@: ?", ddArgs);
+					sleep(2);
+				}
+				if (![boot isEqualToString:@"null"]) {
+					NSArray *cpArgs = [NSArray arrayWithObjects: @"cp", boot, theRootPath, nil];
+					[NSTask launchedTaskWithLaunchPath:@"/usr/bin/sudo" arguments:cpArgs];
+					//NSLog(@"done with %@: ?", cpArgs);
+				}
 			}
-			return 1;
 		}
 	}
 	//NSLog(@"AuthHelperTool exiting");

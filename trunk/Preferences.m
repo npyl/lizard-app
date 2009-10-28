@@ -58,17 +58,7 @@ NSString * extraDefault = @"/Extra";
 }
 
 - (void)awakeFromNib  {
-NSString *DisableCCState = [[NSUserDefaults standardUserDefaults] stringForKey:@"DisableCC"];
-NSString *DisableSoundState = [[NSUserDefaults standardUserDefaults] stringForKey:@"DisableSound"];
-NSString *systemBootState = [[NSUserDefaults standardUserDefaults] stringForKey:@"systemBoot"];
-NSString *updateState = [[NSUserDefaults standardUserDefaults] stringForKey:@"disableUpdates"];
 
-	if ((DisableCCState) && (DisableSoundState) && (systemBootState) && (updateState)) {
-		[disableCC setStringValue:DisableCCState];
-		[disableSound setStringValue:DisableSoundState];
-		[systemBoot setStringValue:systemBootState];
-		[disableChamUpdates setStringValue:updateState];
-	}
 NSString *showExtraPath = [[NSUserDefaults standardUserDefaults] stringForKey:@"Extra Folder"];
 NSString *showBackupPath = [[NSUserDefaults standardUserDefaults] stringForKey:@"Backup Folder"];
 

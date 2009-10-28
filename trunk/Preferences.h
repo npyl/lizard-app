@@ -10,11 +10,6 @@
 
 
 @interface Preferences : NSObject {
-
-	IBOutlet id disableCC;
-	IBOutlet id disableSound;
-	IBOutlet id systemBoot;
-	IBOutlet id disableChamUpdates;
 	
 	IBOutlet id displayExtraPath;
 	IBOutlet id backupPath;

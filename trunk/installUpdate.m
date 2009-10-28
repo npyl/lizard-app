@@ -139,7 +139,7 @@
 	if (self = [super init]) {
 	
 		self.theicon = [[NSWorkspace sharedWorkspace] mountedLocalVolumePaths];
-		self.selectedDevice = [rDisk objectAtIndex:[theView selectedRow]];
+		NSLog(@"%@", [theicon description]);
 		
 		int i =0;
 		NSString *trootName = @"";
@@ -279,11 +279,8 @@
 			i++;
 		}
 		//NSLog([rDisk description]);
-
-		
 	}
 	return self;
-	
 }
 - (IBAction)selectDevice:(id)sender {
 	//recuperation de la valeure du rdisk
@@ -385,6 +382,7 @@ NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
 }
 - (void)openPanelWillEnd:(id)panel returnCode:(NSInteger)code contextInfo:(void *)userInfo {
 	if (code == NSAlertDefaultReturn) {
+		BOOL isDir;
 		NSString *processOkStatus = [[NSBundle mainBundle] pathForResource:@"accept" ofType:@"png"];
 		NSString *processKoStatus = [[NSBundle mainBundle] pathForResource:@"block" ofType:@"png"];
 		NSImage *processOk = [[NSImage alloc] initWithContentsOfFile:processOkStatus];
@@ -411,7 +409,7 @@ NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
 		[extraBox setTitle:[theManager displayNameAtPath:sourcesFolder]];
 		
 		
-		if ([theManager fileExistsAtPath:boot]) {
+		if ([theManager fileExistsAtPath:boot isDirectory:&isDir] && ! isDir) {
 			[bBoot setState:1];
 			[bBoot setEnabled:YES];
 			[iBoot setImage:processOk];
@@ -424,7 +422,7 @@ NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
 			[bBoot setEnabled:NO];
 			
 		}
-		if ([theManager fileExistsAtPath:boot0]) {
+		if ([theManager fileExistsAtPath:boot0 isDirectory:&isDir] && ! isDir) {
 			[bBoot0 setState:1];
 			[bBoot0 setEnabled:YES];
 			[iBoot0 setImage:processOk];
@@ -436,7 +434,7 @@ NSAutoreleasePool* pool = [[NSAutoreleasePool alloc] init];
 			[bBoot0 setState:0];
 			[bBoot0 setEnabled:NO];
 		}
-		if ([theManager fileExistsAtPath:boot1h]) {
+		if ([theManager fileExistsAtPath:boot1h isDirectory:&isDir] && ! isDir) {
 			[bBoot1h setState:1];
 			[bBoot1h setEnabled:YES];
 			[iBoot1h setImage:processOk];
