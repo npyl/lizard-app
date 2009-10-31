@@ -126,6 +126,7 @@
 	NSString *SLarch;
 	NSString *devProps;
 	NSString *wait;
+	NSString *pciRoot;
 
 }
 
@@ -160,6 +161,7 @@
 @property (copy, nonatomic) NSString *SLarch;
 @property (copy, nonatomic) NSString *devProps;
 @property (copy, nonatomic) NSString *wait;
+@property (copy, nonatomic) NSString *pciRoot;
 
 @property (copy, nonatomic) NSString *themeAuthor;
 @property (copy, nonatomic) NSString *themeVersion;
@@ -171,6 +173,7 @@
 - (IBAction)timeOutValue:(id)sender;
 - (IBAction)sendThemeUpdate:(id)sender;
 - (IBAction)insertFlag:(id)sender;
+- (IBAction)setPCIRoot:(id)sender;
 
 NSString *systemeBootPath = @"/Library/Preferences/SystemConfiguration/com.apple.Boot.plist";
 NSString *bootPath = @"com.apple.Boot.plist";

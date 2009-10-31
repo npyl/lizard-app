@@ -27,12 +27,12 @@
 	IBOutlet NSWindow *window;
 	
 	//recreation du plist
-	IBOutlet id SMfamilyUpdate;
-	IBOutlet id SMproductnameUpdate;
+	IBOutlet NSComboBox *SMfamilyUpdate;
+	IBOutlet NSComboBox *SMproductnameUpdate;
 	IBOutlet id SMsystemversionUpdate;
 	IBOutlet id SMserialUpdate;
 	IBOutlet id SMmanufacterUpdate;
-	IBOutlet id SMbiosversionUpdate;
+	IBOutlet NSComboBox *SMbiosversionUpdate;
 	
 	//confirmation de sauvegarde
 	IBOutlet id saveGood;
@@ -117,6 +117,9 @@ NSString *UserBank = @"ramBank";
 - (IBAction)addRow:(id)sender;
 - (IBAction)insertRow:(id)sender;
 - (IBAction)removeRow:(id)sender;
+- (IBAction) synchronizeModel:(id)sender;
+- (IBAction) synchronizeProduct:(id)sender;
+- (IBAction) synchronizeRom:(id)sender;
 
 @property (retain, nonatomic) NSMutableArray *smOne;
 @property (retain, nonatomic) NSMutableArray *smTwo;

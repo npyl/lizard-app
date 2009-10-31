@@ -42,6 +42,7 @@
 @synthesize SLarch;
 @synthesize devProps;
 @synthesize wait;
+@synthesize pciRoot;
 
 @synthesize themeAuthor;
 @synthesize themeVersion;
@@ -729,5 +730,48 @@ else if (![theManager fileExistsAtPath:comBootPath]){
 	self.themeWidth = [themeTemp objectForKey:@"screen_width"];
 	self.themeHeight = [themeTemp objectForKey:@"screen_height"];
 	}
-	// chemein du plist du theme//chemin de la thumbnail dans le dossier du theme
+
+// récup le PCIroot
+
+- (IBAction) setPCIRoot:(id)sender {
+	
+	NSImage *processIcon = [NSImage imageNamed:@"NSComputer"];
+	NSTask *gfxutil = [[NSTask alloc] init];
+	NSPipe *pipe=[[NSPipe alloc] init];
+	NSFileHandle *handle;
+	NSArray *outPuts;
+	NSString *tempString;
+	
+	[gfxutil setLaunchPath:[[NSBundle mainBundle] pathForResource:@"gfxutil" ofType:nil]];
+	[gfxutil setArguments:[NSArray arrayWithObjects:@"-f", @"display", nil]];
+	[gfxutil setStandardOutput:pipe];
+	handle=[pipe fileHandleForReading];
+	[gfxutil launch];
+	
+	NSString *string=[[NSString alloc] initWithData:[handle readDataToEndOfFile] encoding:NSUTF8StringEncoding];
+	outPuts = [string componentsSeparatedByString:@"DevicePath = "];
+	tempString = [outPuts objectAtIndex:1];
+	NSLog (@"%@",tempString); 
+	if ([tempString hasPrefix:@"PciRoot(0x0)"]) {
+		self.pciRoot = @"0";
+	}
+	else if ([tempString hasPrefix:@"PciRoot(0x1)"]) {
+		self.pciRoot = @"1";
+	}
+	else {
+		self.pciRoot = @"error: can't find a correct value";
+	}
+	
+	[gfxutil release];
+	[pipe release];
+	
+	if (pciRoot) {
+		NSAlert *alert = [[NSAlert alloc] init];
+		[alert setMessageText:@"PCIRoot configuration"];
+		[alert setIcon:processIcon];
+		[alert setInformativeText:[NSString stringWithFormat:@"%@ %@", @"Detected PCIRoot value is:", self.pciRoot]];
+		[alert beginSheetModalForWindow:[NSApp mainWindow] modalDelegate:self didEndSelector:@selector(openPanelDidEnd:returnCode:contextInfo:) contextInfo:nil];
+		[alert release];
+	}
+}
 @end

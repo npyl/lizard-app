@@ -593,6 +593,18 @@
 
 			[tableView reloadData];
 		}
-		
-	}
-		@end
+}
+//synchro des selections dans les modeles
+- (IBAction) synchronizeModel:(id)sender {
+	[SMproductnameUpdate selectItemAtIndex:[SMfamilyUpdate indexOfSelectedItem]];
+	[SMbiosversionUpdate selectItemAtIndex:[SMfamilyUpdate indexOfSelectedItem]];
+}
+- (IBAction) synchronizeProduct:(id)sender {
+	[SMfamilyUpdate selectItemAtIndex:[SMproductnameUpdate indexOfSelectedItem]];
+	[SMbiosversionUpdate selectItemAtIndex:[SMproductnameUpdate indexOfSelectedItem]];
+}
+- (IBAction) synchronizeRom:(id)sender {
+	[SMproductnameUpdate selectItemAtIndex:[SMbiosversionUpdate indexOfSelectedItem]];
+	[SMfamilyUpdate selectItemAtIndex:[SMbiosversionUpdate indexOfSelectedItem]];
+}
+@end
