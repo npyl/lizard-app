@@ -12,8 +12,8 @@
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="1867"/>
 			<integer value="1"/>
+			<integer value="1867"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -60,8 +60,8 @@
 								<int key="NSfFlags">1044</int>
 							</object>
 							<reference key="NSControlView" ref="132668249"/>
-							<int key="NSButtonFlags">-2033958657</int>
-							<int key="NSButtonFlags2">163</int>
+							<int key="NSButtonFlags">-2033434369</int>
+							<int key="NSButtonFlags2">162</int>
 							<object class="NSCustomResource" key="NSNormalImage">
 								<string key="NSClassName">NSImage</string>
 								<string key="NSResourceName">SMLPreviewIcon</string>
@@ -2523,6 +2523,7 @@
 				<string key="NSWindowTitle">com.apple.boot.plist Preview</string>
 				<string key="NSWindowClass">NSPanel</string>
 				<nil key="NSViewClass"/>
+				<string key="NSWindowContentMaxSize">{1.79769e+308, 1.79769e+308}</string>
 				<object class="NSView" key="NSWindowView" id="725573144">
 					<reference key="NSNextResponder"/>
 					<int key="NSvFlags">256</int>
@@ -2541,7 +2542,7 @@
 										<object class="NSTextView" id="980255392">
 											<reference key="NSNextResponder" ref="914658674"/>
 											<int key="NSvFlags">2322</int>
-											<string key="NSFrameSize">{429, 18}</string>
+											<string key="NSFrameSize">{429, 14}</string>
 											<reference key="NSSuperview" ref="914658674"/>
 											<object class="NSTextContainer" key="NSTextContainer" id="669296371">
 												<object class="NSLayoutManager" key="NSLayoutManager">
@@ -2615,7 +2616,7 @@
 												<nil key="NSDefaultParagraphStyle"/>
 											</object>
 											<int key="NSTVFlags">6</int>
-											<string key="NSMaxSize">{463, 1e+07}</string>
+											<string key="NSMaxSize">{858, 1e+07}</string>
 											<string key="NSMinize">{223, 0}</string>
 											<nil key="NSDelegate"/>
 										</object>
@@ -6207,7 +6208,7 @@
 				<object class="NSMutableArray" key="dict.values">
 					<bool key="EncodedWithXMLCoder">YES</bool>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>{{173, 693}, {530, 369}}</string>
+					<string>{{360, 515}, {530, 369}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>

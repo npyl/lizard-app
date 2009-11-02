@@ -12,7 +12,7 @@
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="1"/>
+			<integer value="937"/>
 			<integer value="977"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
@@ -61,7 +61,7 @@
 							</object>
 							<reference key="NSControlView" ref="26021099"/>
 							<int key="NSButtonFlags">-2033958657</int>
-							<int key="NSButtonFlags2">163</int>
+							<int key="NSButtonFlags2">162</int>
 							<object class="NSCustomResource" key="NSNormalImage">
 								<string key="NSClassName">NSImage</string>
 								<string key="NSResourceName">SMLPreviewIcon</string>
@@ -118,7 +118,7 @@
 							<object class="NSTabViewItem" id="439364278">
 								<string key="NSIdentifier">1</string>
 								<object class="NSView" key="NSView" id="82540759">
-									<nil key="NSNextResponder"/>
+									<reference key="NSNextResponder" ref="152524639"/>
 									<int key="NSvFlags">256</int>
 									<object class="NSMutableArray" key="NSSubviews">
 										<bool key="EncodedWithXMLCoder">YES</bool>
@@ -414,7 +414,7 @@
 															</object>
 															<object class="NSTextFieldCell" key="NSDataCell">
 																<int key="NSCellFlags">338820672</int>
-																<int key="NSCellFlags2">1024</int>
+																<int key="NSCellFlags2">268436480</int>
 																<reference key="NSSupport" ref="309360419"/>
 																<reference key="NSControlView" ref="547480214"/>
 																<bool key="NSDrawsBackground">YES</bool>
@@ -825,6 +825,7 @@
 										</object>
 									</object>
 									<string key="NSFrame">{{10, 33}, {436, 296}}</string>
+									<reference key="NSSuperview" ref="152524639"/>
 								</object>
 								<string key="NSLabel">General</string>
 								<reference key="NSColor" ref="591985017"/>
@@ -833,7 +834,7 @@
 							<object class="NSTabViewItem" id="884564594">
 								<string key="NSIdentifier">2</string>
 								<object class="NSView" key="NSView" id="611494671">
-									<reference key="NSNextResponder" ref="152524639"/>
+									<nil key="NSNextResponder"/>
 									<int key="NSvFlags">256</int>
 									<object class="NSMutableArray" key="NSSubviews">
 										<bool key="EncodedWithXMLCoder">YES</bool>
@@ -991,7 +992,15 @@
 															</object>
 															<double key="NSIntercellSpacingWidth">3</double>
 															<double key="NSIntercellSpacingHeight">2</double>
-															<reference key="NSBackgroundColor" ref="601810287"/>
+															<object class="NSColor" key="NSBackgroundColor">
+																<int key="NSColorSpace">6</int>
+																<string key="NSCatalogName">System</string>
+																<string key="NSColorName">_sourceListBackgroundColor</string>
+																<object class="NSColor" key="NSColor">
+																	<int key="NSColorSpace">1</int>
+																	<bytes key="NSRGB">MC44MzkyMTU2OTU5IDAuODY2NjY2Njc0NiAwLjg5ODAzOTIyMTgAA</bytes>
+																</object>
+															</object>
 															<reference key="NSGridColor" ref="196972540"/>
 															<double key="NSRowHeight">17</double>
 															<int key="NSTvFlags">-692060160</int>
@@ -1002,7 +1011,8 @@
 															<int key="NSDraggingSourceMaskForLocal">15</int>
 															<int key="NSDraggingSourceMaskForNonLocal">0</int>
 															<bool key="NSAllowsTypeSelect">YES</bool>
-															<int key="NSTableViewDraggingDestinationStyle">0</int>
+															<int key="NSTableViewSelectionHighlightStyle">1</int>
+															<int key="NSTableViewDraggingDestinationStyle">1</int>
 														</object>
 													</object>
 													<string key="NSFrame">{{1, 17}, {438, 96}}</string>
@@ -1641,21 +1651,20 @@
 										</object>
 									</object>
 									<string key="NSFrame">{{10, 33}, {436, 296}}</string>
-									<reference key="NSSuperview" ref="152524639"/>
 								</object>
 								<string key="NSLabel">Memory</string>
 								<reference key="NSColor" ref="591985017"/>
 								<reference key="NSTabView" ref="152524639"/>
 							</object>
 						</object>
-						<reference key="NSSelectedTabViewItem" ref="884564594"/>
+						<reference key="NSSelectedTabViewItem" ref="439364278"/>
 						<reference key="NSFont" ref="309360419"/>
 						<int key="NSTvFlags">0</int>
 						<bool key="NSAllowTruncatedLabels">YES</bool>
 						<bool key="NSDrawsBackground">YES</bool>
 						<object class="NSMutableArray" key="NSSubviews">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<reference ref="611494671"/>
+							<reference ref="82540759"/>
 						</object>
 					</object>
 					<object class="NSImageView" id="880219687">
@@ -1876,9 +1885,6 @@
 			<object class="NSCustomObject" id="352243516">
 				<string key="NSClassName">smbioshelp</string>
 			</object>
-			<object class="NSUserDefaultsController" id="24986810">
-				<bool key="NSSharedInstance">YES</bool>
-			</object>
 			<object class="NSWindowTemplate" id="955545599">
 				<int key="NSWindowStyleMask">31</int>
 				<int key="NSWindowBacking">2</int>
@@ -1887,6 +1893,7 @@
 				<string key="NSWindowTitle">smbios.plist Preview</string>
 				<string key="NSWindowClass">NSPanel</string>
 				<nil key="NSViewClass"/>
+				<string key="NSWindowContentMaxSize">{1.79769e+308, 1.79769e+308}</string>
 				<object class="NSView" key="NSWindowView" id="570101977">
 					<reference key="NSNextResponder"/>
 					<int key="NSvFlags">256</int>
@@ -1905,7 +1912,7 @@
 										<object class="NSTextView" id="115132636">
 											<reference key="NSNextResponder" ref="966291179"/>
 											<int key="NSvFlags">2322</int>
-											<string key="NSFrame">{{0, 4}, {429, 14}}</string>
+											<string key="NSFrameSize">{429, 14}</string>
 											<reference key="NSSuperview" ref="966291179"/>
 											<object class="NSTextContainer" key="NSTextContainer" id="696651801">
 												<object class="NSLayoutManager" key="NSLayoutManager">
@@ -1979,7 +1986,7 @@
 												<nil key="NSDefaultParagraphStyle"/>
 											</object>
 											<int key="NSTVFlags">6</int>
-											<string key="NSMaxSize">{463, 1e+07}</string>
+											<string key="NSMaxSize">{858, 1e+07}</string>
 											<string key="NSMinize">{223, 0}</string>
 											<nil key="NSDelegate"/>
 										</object>
@@ -2648,11 +2655,6 @@
 					<object class="IBObjectRecord">
 						<int key="objectID">407</int>
 						<reference key="object" ref="352243516"/>
-						<reference key="parent" ref="0"/>
-					</object>
-					<object class="IBObjectRecord">
-						<int key="objectID">435</int>
-						<reference key="object" ref="24986810"/>
 						<reference key="parent" ref="0"/>
 					</object>
 					<object class="IBObjectRecord">
@@ -3513,7 +3515,6 @@
 					<string>404.IBPluginDependency</string>
 					<string>429.IBPluginDependency</string>
 					<string>430.IBPluginDependency</string>
-					<string>435.IBPluginDependency</string>
 					<string>440.IBPluginDependency</string>
 					<string>441.IBPluginDependency</string>
 					<string>444.IBPluginDependency</string>
@@ -3618,8 +3619,7 @@
 				<object class="NSMutableArray" key="dict.values">
 					<bool key="EncodedWithXMLCoder">YES</bool>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>{{926, 319}, {482, 415}}</string>
-					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
+					<string>{{641, 319}, {482, 415}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
@@ -4472,14 +4472,6 @@
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBFrameworkSource</string>
 						<string key="minorKey">AppKit.framework/Headers/NSTextView.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">NSUserDefaultsController</string>
-					<string key="superclassName">NSController</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBFrameworkSource</string>
-						<string key="minorKey">AppKit.framework/Headers/NSUserDefaultsController.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">
