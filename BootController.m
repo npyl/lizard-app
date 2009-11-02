@@ -350,8 +350,8 @@ else if (![theManager fileExistsAtPath:comBootPath]){
 }
 - (IBAction)insertFlag:(id)sender {
 	NSString *addedFlag = [[theFlag objectValueOfSelectedItem] stringByAppendingString:@" "];
-	if (! kernelFlags) {
-		self.kernelFlags = addedFlag;
+	if (! self.kernelFlags) {
+		self.kernelFlags = @"";
 	}
 	else {
 		self.kernelFlags = [self.kernelFlags stringByAppendingString:addedFlag]; // ajoute la valeur au string
@@ -397,7 +397,7 @@ else if (![theManager fileExistsAtPath:comBootPath]){
 
 		self.graphicsMode = [bootTemp objectForKey:@"Graphics Mode"];
 		self.kernelPath = [bootTemp objectForKey:@"Kernel"];
-		self.kernelFlags = [[bootTemp objectForKey:@"Kernel Flags"] stringByAppendingString:@" "];
+		self.kernelFlags = [bootTemp objectForKey:@"Kernel Flags"];
 		self.graphicsEnabler = [bootTemp objectForKey:@"GraphicsEnabler"];
 		self.timeOut = [bootTemp objectForKey:@"Timeout"];
 		self.ethernetBuiltIn = [bootTemp objectForKey:@"EthernetBuiltIn"];
@@ -545,7 +545,8 @@ else if (![theManager fileExistsAtPath:comBootPath]){
 		[bootDict setObject:@"i386" forKey:@"arch"];
 	}
 	
-	// textfields	
+	// textfields
+	NSString *lesFlags;
 	if (graphicsMode)
 		[bootDict setObject:graphicsMode forKey:@"Graphics Mode"];	
 	if (! kernelPath)
@@ -556,9 +557,6 @@ else if (![theManager fileExistsAtPath:comBootPath]){
 		[bootDict setObject:@"" forKey:@"Kernel Flags"]; //config defaut apple
 	if (kernelFlags) {
 		//supprime l'espace à la fin
-		if([self.kernelFlags hasSuffix:@" "]) {
-			kernelFlags = [self.kernelFlags substringFromIndex:[self.kernelFlags length] - [@" " length]];
-		}
 			[bootDict setObject:kernelFlags forKey:@"Kernel Flags"];
 	}
 	if (selectedTheme)
