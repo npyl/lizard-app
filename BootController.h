@@ -8,7 +8,6 @@
 
 #import <Cocoa/Cocoa.h>
 #import <AppKit/NSApplication.h>
-
 #define NSAppKitVersionNumber10_5 949
 
 @interface BootController : NSObject {
@@ -56,12 +55,11 @@
 	
 	//selection theme: infos
 	IBOutlet id fileCreatedDisplay;
-    IBOutlet id fileNameDisplay;
 	IBOutlet id themeThumbDisplay;
 	IBOutlet id testMe;
 	IBOutlet id testMeA;
-	IBOutlet id fileSizeDisplay;
 	IBOutlet id bootSizeDisplay;
+	IBOutlet id fileNameDisplay;
 	IBOutlet NSComboBox *myComboBox;
 	
 	
@@ -86,6 +84,9 @@
 	
 	//information si com.boot systeme
 	IBOutlet id systemBootStatus;
+	
+	//default partition combo
+	IBOutlet NSComboBox *updateDP;
 	
 	//theme.plist controllers
 	NSString *themeAuthor;
@@ -127,6 +128,15 @@
 	NSString *devProps;
 	NSString *wait;
 	NSString *pciRoot;
+	
+	//getPartitions
+	NSArray *theicon;
+	NSString *dpString;
+	NSMutableArray *selectedPath;
+	NSMutableArray *diskType;
+	NSMutableArray *diskUUID;
+	NSMutableArray *diskROnly;
+	NSNumber *actionTag;
 
 }
 
@@ -168,12 +178,25 @@
 @property (copy, nonatomic) NSString *themeWidth;
 @property (copy, nonatomic) NSString *themeHeight;
 
+//getPartitions
+@property (retain, nonatomic) NSArray *theicon;
+@property (retain, nonatomic) NSString *dpString;
+@property (retain, nonatomic) NSMutableArray *diskUUID;
+@property (retain, nonatomic) NSMutableArray *selectedPath;
+@property (retain, nonatomic) NSMutableArray *diskType;
+@property (retain, nonatomic) NSMutableArray *diskROnly;
+
 - (IBAction)getDevProps:(id)sender;
 - (IBAction)saveBoot:(id)sender;
 - (IBAction)timeOutValue:(id)sender;
 - (IBAction)sendThemeUpdate:(id)sender;
 - (IBAction)insertFlag:(id)sender;
 - (IBAction)setPCIRoot:(id)sender;
+
+- (IBAction)getWakeImage:(id)sender;
+- (IBAction)getDSDT:(id)sender;
+- (IBAction)getSMPath:(id)sender;
+- (IBAction)getVideoRom:(id)sender;
 
 NSString *systemeBootPath = @"/Library/Preferences/SystemConfiguration/com.apple.Boot.plist";
 NSString *bootPath = @"com.apple.Boot.plist";

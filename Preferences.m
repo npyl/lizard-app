@@ -86,6 +86,7 @@ NSString *showBackupPath = [[NSUserDefaults standardUserDefaults] stringForKey:@
     [openPanel setTitle:@"Choose a Path"];
 	[openPanel setCanChooseFiles:NO];
 	[openPanel setCanChooseDirectories:YES];
+	[openPanel setCanCreateDirectories:YES];
 	[openPanel beginSheetForDirectory:nil file:nil types:nil modalForWindow:[sender window] modalDelegate:self didEndSelector:@selector(openPanelShouldEnd:returnCode:contextInfo:) contextInfo:NULL];
 
 }
@@ -124,6 +125,7 @@ NSString *showBackupPath = [[NSUserDefaults standardUserDefaults] stringForKey:@
     [openPanel setTitle:@"Choose a Folder"];
 	[openPanel setCanChooseFiles:NO];
 	[openPanel setCanChooseDirectories:YES];
+	[openPanel setCanCreateDirectories:YES];
 	[openPanel beginSheetForDirectory:nil file:nil types:nil modalForWindow:[sender window] modalDelegate:self didEndSelector:@selector(openPanelWillEnd:returnCode:contextInfo:) contextInfo:NULL];
 	
 	if (![theManager isWritableFileAtPath:[displayBackupPath stringValue]]) {
