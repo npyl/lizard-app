@@ -12,8 +12,8 @@
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="119"/>
 			<integer value="201"/>
+			<integer value="119"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -620,7 +620,7 @@
 											<string key="NSContents">Download files</string>
 											<reference key="NSSupport" ref="172662802"/>
 											<reference key="NSControlView" ref="15779424"/>
-											<int key="NSButtonFlags">-1232846593</int>
+											<int key="NSButtonFlags">-2038152961</int>
 											<int key="NSButtonFlags2">163</int>
 											<string key="NSAlternateContents"/>
 											<string key="NSKeyEquivalent"/>
@@ -1186,10 +1186,10 @@
 				<string key="NSClassName">NSView</string>
 			</object>
 			<object class="NSWindowTemplate" id="585673360">
-				<int key="NSWindowStyleMask">8341</int>
+				<int key="NSWindowStyleMask">8343</int>
 				<int key="NSWindowBacking">2</int>
 				<string key="NSWindowRect">{{232, 655}, {369, 200}}</string>
-				<int key="NSWTFlags">74974208</int>
+				<int key="NSWTFlags">-998767616</int>
 				<string key="NSWindowTitle">Avaible downloads</string>
 				<string key="NSWindowClass">NSPanel</string>
 				<nil key="NSViewClass"/>

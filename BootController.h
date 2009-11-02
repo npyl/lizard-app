@@ -14,6 +14,8 @@
 	// spin
 	IBOutlet NSProgressIndicator *progressIndicator;
 	
+	IBOutlet NSWindow *bootWindow;
+	
 	BOOL didMoveView;
 	
 	//refaire le plistboot
@@ -21,6 +23,7 @@
 	IBOutlet id timeOutNumBox;
 	IBOutlet NSSlider *TimeOutSlide;
 	IBOutlet NSComboBox *themeUpdate;
+	IBOutlet NSTextView *basicView;
 	
 	//chekboxes
 	IBOutlet NSButton *graphicsEnablerBox;
@@ -127,7 +130,13 @@
 	NSString *SLarch;
 	NSString *devProps;
 	NSString *wait;
+	
+	NSData *plistBootXML;
+	NSData *viewBootData;
+	NSMutableDictionary *bootTemp;
+	
 	NSString *pciRoot;
+	NSString *comBootPath;
 	
 	//getPartitions
 	NSArray *theicon;
@@ -173,6 +182,8 @@
 @property (copy, nonatomic) NSString *wait;
 @property (copy, nonatomic) NSString *pciRoot;
 
+@property (retain, nonatomic) NSData *viewBootData;
+
 @property (copy, nonatomic) NSString *themeAuthor;
 @property (copy, nonatomic) NSString *themeVersion;
 @property (copy, nonatomic) NSString *themeWidth;
@@ -197,6 +208,8 @@
 - (IBAction)getDSDT:(id)sender;
 - (IBAction)getSMPath:(id)sender;
 - (IBAction)getVideoRom:(id)sender;
+
+- (IBAction)bootPreview:(id)sender;
 
 NSString *systemeBootPath = @"/Library/Preferences/SystemConfiguration/com.apple.Boot.plist";
 NSString *bootPath = @"com.apple.Boot.plist";

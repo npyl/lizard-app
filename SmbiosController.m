@@ -23,8 +23,11 @@
 @synthesize SMmemspeed;
 @synthesize SMbiosDate;
 @synthesize SMcputype;
+
 //@synthesize SMuuid;;
 @synthesize setSmbioPath;
+
+@synthesize smbiosData;
 
 // tableau memoire
 @synthesize smOne;
@@ -64,7 +67,7 @@
 		[smbiosDict setObject:@"MacPro3,1" forKey:@"SMproductname"];
 	}
 	
-	NSData *smbiosData = [NSPropertyListSerialization dataFromPropertyList:smbiosDict format:NSPropertyListXMLFormat_v1_0 errorDescription:&errorDesc];
+	self.smbiosData = [NSPropertyListSerialization dataFromPropertyList:smbiosDict format:NSPropertyListXMLFormat_v1_0 errorDescription:&errorDesc];
 	
 	// On lance les actions
 	if (returnCode == NSAlertFirstButtonReturn) {
@@ -273,6 +276,7 @@
 		self.SMcputype = [temp objectForKey:SMcpuKey];
 		
 		//self.SMuuid = [temp objectForKey:@"SMUUID"];
+		self.smbiosData = [NSPropertyListSerialization dataFromPropertyList:temp format:NSPropertyListXMLFormat_v1_0 errorDescription:&errorDesc];
 		
 		int i = 0;
 		int a = 0;
@@ -454,7 +458,7 @@
 		i++;
 	}
 	
-	NSData *smbiosData = [NSPropertyListSerialization dataFromPropertyList:smbiosDict format:NSPropertyListXMLFormat_v1_0 errorDescription:&errorDesc];
+	self.smbiosData = [NSPropertyListSerialization dataFromPropertyList:smbiosDict format:NSPropertyListXMLFormat_v1_0 errorDescription:&errorDesc];
 	// declaration des alertes
 	NSAlert *alert = [[NSAlert alloc] init];
 	[alert setAlertStyle:NSWarningAlertStyle];
@@ -606,5 +610,14 @@
 - (IBAction) synchronizeRom:(id)sender {
 	[SMproductnameUpdate selectItemAtIndex:[SMbiosversionUpdate indexOfSelectedItem]];
 	[SMfamilyUpdate selectItemAtIndex:[SMbiosversionUpdate indexOfSelectedItem]];
+}
+// appel preview
+- (IBAction)smPreview:(id)sender {
+	if (![smWindow isVisible]) {
+		[smWindow makeKeyAndOrderFront:self];
+	}
+	else {
+		[smWindow orderOut:nil];
+	}
 }
 @end

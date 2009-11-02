@@ -24,7 +24,9 @@
 	IBOutlet id imageStatus;
 	IBOutlet id smbioPathError;
 	IBOutlet id smbioIconhError;
-	IBOutlet NSWindow *window;
+	
+	IBOutlet NSWindow *smWindow;
+	NSData *smbiosData;
 	
 	//recreation du plist
 	IBOutlet NSComboBox *SMfamilyUpdate;
@@ -83,6 +85,8 @@
 //@property (copy, nonatomic) NSString *SMuuid;
 @property (copy, nonatomic) NSString *setSmbioPath;
 
+@property (retain, nonatomic) NSData *smbiosData;
+
 - (IBAction)saveSMBIOS:(id)sender;
 - (IBAction)bindSelection:(id)sender;
 
@@ -120,6 +124,8 @@ NSString *UserBank = @"ramBank";
 - (IBAction) synchronizeModel:(id)sender;
 - (IBAction) synchronizeProduct:(id)sender;
 - (IBAction) synchronizeRom:(id)sender;
+
+- (IBAction)smPreview:(id)sender;
 
 @property (retain, nonatomic) NSMutableArray *smOne;
 @property (retain, nonatomic) NSMutableArray *smTwo;
