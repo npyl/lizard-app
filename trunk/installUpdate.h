@@ -7,6 +7,7 @@
 //
 
 #import <Cocoa/Cocoa.h>
+#import "devicesInspect.h"
 #import <AppKit/NSApplication.h>
 #define NSAppKitVersionNumber10_5 949
 

@@ -43,11 +43,18 @@
 @synthesize devProps;
 @synthesize wait;
 @synthesize pciRoot;
+@synthesize dpString;
 
 @synthesize themeAuthor;
 @synthesize themeVersion;
 @synthesize themeWidth;
 @synthesize themeHeight;
+
+@synthesize theicon;
+@synthesize selectedPath;
+@synthesize diskType;
+@synthesize diskUUID;
+@synthesize diskROnly;
 
 //constantes
 NSString *errorDesc;
@@ -156,7 +163,7 @@ NSError *errorFile = nil;
 	else {
 		[SystemCheck setEnabled:NO];
 	}
-	//message conflit
+	
 	// definir la version de Chameleon installée
 	NSString *bootChamPath = [bootLoaderPath stringByAppendingPathComponent:@"boot"];
 	NSString *version3 = @"Chameleon 2 RC3";
@@ -355,6 +362,7 @@ else if (![theManager fileExistsAtPath:comBootPath]){
 - (id) init {
 
     if (self = [super init]) {
+		[NSThread detachNewThreadSelector:@selector(getPartitions) toTarget:self withObject:self];
 		//definition du dossier Extra
 		NSString *showExtraPath = [[NSUserDefaults standardUserDefaults] stringForKey:@"Extra Folder"];
 		NSString *chameleonBootPath = [showExtraPath stringByAppendingPathComponent:bootPath];
@@ -469,7 +477,6 @@ else if (![theManager fileExistsAtPath:comBootPath]){
 	else {
 		comBootPath = chameleonBootPath;
 	}
-	
 	NSMutableDictionary *bootDict = [NSMutableDictionary dictionary];
 	
 	// checkboxes
@@ -558,7 +565,9 @@ else if (![theManager fileExistsAtPath:comBootPath]){
 		[bootDict setObject:WakeImage forKey:@"WakeImage"];	
 	if (DSDT)
 		[bootDict setObject:DSDT forKey:@"DSDT"];	
+	
 	if (DefaultPartition)
+		self.DefaultPartition = [DefaultPartition substringToIndex:7];//isole uniquement le hd(x,x)
 		[bootDict setObject:DefaultPartition forKey:@"Default Partition"];	
 	if (setSmbioPath)
 		[bootDict setObject:setSmbioPath forKey:@"SMBIOS"];	
@@ -751,7 +760,7 @@ else if (![theManager fileExistsAtPath:comBootPath]){
 	NSString *string=[[NSString alloc] initWithData:[handle readDataToEndOfFile] encoding:NSUTF8StringEncoding];
 	outPuts = [string componentsSeparatedByString:@"DevicePath = "];
 	tempString = [outPuts objectAtIndex:1];
-	NSLog (@"%@",tempString); 
+	//NSLog (@"%@",tempString); 
 	if ([tempString hasPrefix:@"PciRoot(0x0)"]) {
 		self.pciRoot = @"0";
 	}
@@ -773,5 +782,138 @@ else if (![theManager fileExistsAtPath:comBootPath]){
 		[alert beginSheetModalForWindow:[NSApp mainWindow] modalDelegate:self didEndSelector:@selector(openPanelDidEnd:returnCode:contextInfo:) contextInfo:nil];
 		[alert release];
 	}
+}
+- (void) getPartitions
+{
+		NSAutoreleasePool *thePool = [[NSAutoreleasePool alloc] init];
+	self.theicon = [[NSWorkspace sharedWorkspace] mountedLocalVolumePaths];
+	NSString *trootName = @"";
+	NSString *rootName = @"";
+	NSString *readOnly = @"";
+	NSString *moreString;
+	NSString *theName = @"";
+	NSString *tTheName = @"";
+	//NSString *finalRDisk;
+	NSMutableArray *listItem = [NSMutableArray arrayWithCapacity:10];
+	NSMutableArray *listName = [NSMutableArray arrayWithCapacity:10];
+	
+	int i = 0;
+	for (moreString in theicon)
+	{
+		NSArray *listItems;
+		NSArray *itemsFirst;
+		NSTask *diskutil=[[NSTask alloc] init];
+		NSPipe *pipe=[[NSPipe alloc] init];
+		NSFileHandle *handle;
+		
+		[diskutil setLaunchPath:@"/usr/sbin/diskutil"];
+		[diskutil setArguments:[NSArray arrayWithObjects:@"info",[theicon objectAtIndex:i], nil]];
+		[diskutil setStandardOutput:pipe];
+		handle=[pipe fileHandleForReading];
+		[diskutil launch];
+		NSString *string=[[NSString alloc] initWithData:[handle readDataToEndOfFile] encoding:NSUTF8StringEncoding]; // convert NSData -> NSString
+		
+		listItems = [string componentsSeparatedByString:@" Device Identifier:"];
+		itemsFirst = [string componentsSeparatedByString:@" Partition Type:"];
+		itemsFirst = [[itemsFirst objectAtIndex:1] componentsSeparatedByString:@"Bootable:"];
+		tTheName = [[itemsFirst objectAtIndex:0] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+		theName = [tTheName stringByReplacingOccurrencesOfString:@"\n" withString:@""];
+		
+		//NSLog (theName);
+		if (![theName isEqualToString: @"None"]) { // rien ne s'afiche sinon
+			//ajout du rdisk dans une array
+			if ([listItems objectAtIndex:0])
+			{
+				//supprime l'espace a l'entrée
+				listItems = [[listItems objectAtIndex:1] componentsSeparatedByString:@"Device Node:"];
+				trootName = [[listItems objectAtIndex:0] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+				rootName = [trootName stringByReplacingOccurrencesOfString:@"\n" withString:@""];
+				if ([rootName isEqualToString: @""]) { // rien ne s'afiche sinon
+					rootName = @"Untitled";
+				}
+				moreString = [rootName stringByReplacingOccurrencesOfString:@"disk" withString:@"hd("];
+				moreString = [moreString stringByReplacingOccurrencesOfString:@"s" withString:@","];
+				[listItem insertObject:rootName atIndex:i];
+				
+			}
+			// Volume Name
+			listItems = [string componentsSeparatedByString:@"Volume Name:"];
+			if ([listItems objectAtIndex:0]) {
+				if (floor(NSAppKitVersionNumber) > NSAppKitVersionNumber10_5) { //modifications dans diskutil
+					listItems = [[listItems objectAtIndex:1] componentsSeparatedByString:@"Escaped with Unicode:"];
+				}
+				else {
+					listItems = [[listItems objectAtIndex:1] componentsSeparatedByString:@"Mount Point:"];
+				}
+				readOnly = [[listItems objectAtIndex:0] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+				if ([readOnly isEqualToString: @""]) { // rien ne s'afiche sinon
+					readOnly = @"Untitled";
+				}
+			}
+			self.dpString = [NSString stringWithFormat:@"%@%@", moreString, @")"];
+			[listName insertObject:[NSString stringWithFormat:@"%@ %@ %@",self.dpString,@"->",readOnly] atIndex:i];
+			self.selectedPath = [NSMutableArray arrayWithArray:listName];
+			[diskutil release];
+			[string release];
+			[pipe release];
+			i++;
+		}
+	}
+	[thePool release];
+}
+
+// envoie la valeur du default partition
+
+- (void)openPanelWillEnd:(NSOpenPanel *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo {
+	[[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"AppleShowAllFiles"];
+	if (returnCode == NSOKButton) {
+		if ([actionTag intValue]==1) { 
+			self.WakeImage = [sheet filename];
+		}
+		if (([actionTag intValue]==2) && ([[[sheet filename] lastPathComponent]isEqualToString:@"DSDT.aml"] || [[[sheet filename] lastPathComponent]isEqualToString:@"dsdt.aml"])) { 
+			self.DSDT = [sheet filename];
+		}
+		if (([actionTag intValue]==3) && [[[sheet filename] lastPathComponent]isEqualToString:@"smbios.plist"]) { 
+			self.setSmbioPath = [sheet filename];
+		}
+		if (([actionTag intValue]==4) && [[[sheet filename] lastPathComponent]isEqualToString:@"NVIDIA.ROM"]){ 
+			self.videoROM = [sheet filename];
+		}
+	}
+	return;
+}
+
+- (IBAction)getWakeImage:(id)sender 
+{
+	[[NSUserDefaults standardUserDefaults] setBool:YES forKey:@"AppleShowAllFiles"];
+	NSOpenPanel *openPanel = [NSOpenPanel openPanel];
+	actionTag = [NSNumber numberWithInteger:1];
+	[openPanel setCanChooseFiles:YES];
+	[openPanel setCanChooseDirectories:NO];
+	[openPanel beginSheetForDirectory:nil file:nil types:nil modalForWindow:[sender window] modalDelegate:self didEndSelector:@selector(openPanelWillEnd:returnCode:contextInfo:) contextInfo:NULL];
+}
+- (IBAction)getDSDT:(id)sender 
+{
+	actionTag = [NSNumber numberWithInteger:2];
+	NSOpenPanel *openPanel = [NSOpenPanel openPanel];
+	[openPanel setCanChooseFiles:YES];
+	[openPanel setCanChooseDirectories:NO];
+	[openPanel beginSheetForDirectory:nil file:nil types:nil modalForWindow:[sender window] modalDelegate:self didEndSelector:@selector(openPanelWillEnd:returnCode:contextInfo:) contextInfo:NULL];
+}
+- (IBAction)getSMPath:(id)sender 
+{
+	actionTag = [NSNumber numberWithInteger:3];
+	NSOpenPanel *openPanel = [NSOpenPanel openPanel];
+	[openPanel setCanChooseFiles:YES];
+	[openPanel setCanChooseDirectories:NO];
+	[openPanel beginSheetForDirectory:nil file:nil types:nil modalForWindow:[sender window] modalDelegate:self didEndSelector:@selector(openPanelWillEnd:returnCode:contextInfo:) contextInfo:NULL];
+}
+- (IBAction)getVideoRom:(id)sender 
+{
+	actionTag = [NSNumber numberWithInteger:4];
+	NSOpenPanel *openPanel = [NSOpenPanel openPanel];
+	[openPanel setCanChooseFiles:YES];
+	[openPanel setCanChooseDirectories:NO];
+	[openPanel beginSheetForDirectory:nil file:nil types:nil modalForWindow:[sender window] modalDelegate:self didEndSelector:@selector(openPanelWillEnd:returnCode:contextInfo:) contextInfo:NULL];
 }
 @end

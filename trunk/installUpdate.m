@@ -160,7 +160,7 @@
 		NSMutableArray *listROnly= [NSMutableArray arrayWithCapacity:10];
 		NSMutableArray *listRDiskX= [NSMutableArray arrayWithCapacity:10];
 		NSMutableArray *myString = [NSMutableArray arrayWithCapacity:10];
-
+		
 		int i = 0;
 		for (moreString in theicon)
 		{
@@ -177,7 +177,7 @@
 			[diskutil launch];
 			NSString *string=[[NSString alloc] initWithData:[handle readDataToEndOfFile] encoding:NSUTF8StringEncoding]; // convert NSData -> NSString
 			
-							listItems = [string componentsSeparatedByString:@" Device Identifier:"];
+			listItems = [string componentsSeparatedByString:@" Device Identifier:"];
 			itemsFirst = [string componentsSeparatedByString:@" Partition Type:"];
 			itemsFirst = [[itemsFirst objectAtIndex:1] componentsSeparatedByString:@"Bootable:"];
 			tTheName = [[itemsFirst objectAtIndex:0] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
@@ -192,13 +192,13 @@
 					listItems = [[listItems objectAtIndex:1] componentsSeparatedByString:@"Device Node:"];
 					trootName = [[listItems objectAtIndex:0] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
 					rootName = [trootName stringByReplacingOccurrencesOfString:@"\n" withString:@""];
-									[listItem insertObject:rootName atIndex:0 + i];
+					[listItem insertObject:rootName atIndex:0 + i];
 					if ([rootName isEqualToString: @""]) { // rien ne s'afiche sinon
 						[listItem insertObject:@"Untitled" atIndex:0 + i];
 						rootName = @"Untitled";
 					}
 					self.rDisk = [NSMutableArray arrayWithArray:listItem];
-
+					
 				}
 				// Volume Name
 				listItems = [string componentsSeparatedByString:@"Volume Name:"];
@@ -264,7 +264,7 @@
 						[listROnly insertObject:@"Unknown" atIndex:i];
 						rOnly = @"Unknown";
 					}
-				self.diskROnly = [NSMutableArray arrayWithArray:listROnly];
+					self.diskROnly = [NSMutableArray arrayWithArray:listROnly];
 				}
 				
 				//rdiskX
@@ -278,16 +278,17 @@
 						[listRDiskX insertObject:@"Unknown" atIndex:i];
 						rDiskXx = @"Unknown";
 					}
-				self.rDiskXArray = [NSMutableArray arrayWithArray:listRDiskX];
+					self.rDiskXArray = [NSMutableArray arrayWithArray:listRDiskX];
 				}
 				[myString insertObject:[theicon objectAtIndex:i] atIndex:i];
 				self.displayFinal =  [NSMutableArray arrayWithArray:myString];
-			[diskutil release];
-			i++;
+				[diskutil release];
+				i++;
 			}
 		}
 	}
 	return self;
+	NSLog ([diskROnly description]);
 }
 
 - (IBAction)selectDevice:(id)sender {
@@ -389,6 +390,7 @@
 	[pool release];
 }
 - (void)openPanelWillEnd:(id)panel returnCode:(NSInteger)code contextInfo:(void *)userInfo {
+	
 	if (code == NSAlertDefaultReturn) {
 		BOOL isDir;
 		NSString *processOkStatus = [[NSBundle mainBundle] pathForResource:@"accept" ofType:@"png"];
@@ -504,6 +506,7 @@
 		[openPanel setTitle:@"Select Chameleon Folder"];
 		[openPanel setCanChooseFiles:NO];
 		[openPanel setCanChooseDirectories:YES];
+
 		[openPanel beginSheetForDirectory:nil file:nil types:nil modalForWindow:[sender window] modalDelegate:self didEndSelector:@selector(openPanelWillEnd:returnCode:contextInfo:) contextInfo:NULL];
 		
 		if ([extraBox isHidden]) {
