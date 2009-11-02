@@ -568,9 +568,10 @@ else if (![theManager fileExistsAtPath:comBootPath]){
 	if (DSDT)
 		[bootDict setObject:DSDT forKey:@"DSDT"];	
 	
-	if (DefaultPartition)
+	if (DefaultPartition) {
 		self.DefaultPartition = [DefaultPartition substringToIndex:7];//isole uniquement le hd(x,x)
-		[bootDict setObject:DefaultPartition forKey:@"Default Partition"];	
+		[bootDict setObject:DefaultPartition forKey:@"Default Partition"];
+	}
 	if (setSmbioPath)
 		[bootDict setObject:setSmbioPath forKey:@"SMBIOS"];	
 	if (videoROM)

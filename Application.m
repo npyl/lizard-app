@@ -24,7 +24,6 @@
 	}
 	
 	//paramètre dossier Extra par defaut
-	NSString *showExtraPath = [[NSUserDefaults standardUserDefaults] stringForKey:@"Extra Folder"];
 	if (!showExtraPath) {
 		[[NSUserDefaults standardUserDefaults] setValue:@"/Extra" forKey:@"Extra Folder"];
 	}

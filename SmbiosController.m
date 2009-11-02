@@ -58,19 +58,24 @@
 	NSFileManager *theManager = [NSFileManager defaultManager];
 	NSMutableDictionary *smbiosDict = [NSMutableDictionary dictionary];
 	
-	//créer des entrées si elles n'existent pas
-	if (! SMfamily)
-		[smbiosDict setObject:@"Mac Pro" forKey:@"SMfamily"];
-	if (! SMproductname)
-		[smbiosDict setObject:@"MP31.88Z.00C1.B00.0802091544" forKey:@"SMbiosversion"];
-	if (! SMbiosversion) {
-		[smbiosDict setObject:@"MacPro3,1" forKey:@"SMproductname"];
-	}
-	
-	self.smbiosData = [NSPropertyListSerialization dataFromPropertyList:smbiosDict format:NSPropertyListXMLFormat_v1_0 errorDescription:&errorDesc];
 	
 	// On lance les actions
 	if (returnCode == NSAlertFirstButtonReturn) {
+		//créer des entrées si elles n'existent pas
+		if (! SMfamily) {
+			[smbiosDict setObject:@"Mac Pro" forKey:@"SMfamily"];
+			self.SMfamily = [smbiosDict objectForKey:@"SMfamily"];
+		}
+		if (! SMproductname) {
+			[smbiosDict setObject:@"MacPro3,1" forKey:@"SMproductname"];
+			self.SMproductname = [smbiosDict objectForKey:@"SMproductname"];
+		}
+		if (! SMbiosversion) {
+			[smbiosDict setObject:@"MP31.88Z.00C1.B00.0802091544" forKey:@"SMbiosversion"];
+			self.SMbiosversion = [smbiosDict objectForKey:@"SMbiosversion"];
+		}
+		self.smbiosData = [NSPropertyListSerialization dataFromPropertyList:smbiosDict format:NSPropertyListXMLFormat_v1_0 errorDescription:&errorDesc];
+		
 		//pas de dossier extra, on le crée
 		if ((![theManager fileExistsAtPath:showExtraPath isDirectory:&isDir]) && ((smbiosFinalPath == chameleonSmbiosPath) || (! setSmbioPath)))   {
 			[theManager createDirectoryAtPath:showExtraPath attributes:nil];
@@ -449,13 +454,14 @@
 	// enregistrement des infos memoire
 	int i = 0;
 	
-	for ( NSString *ramEntry in self.smOne )
+	if ((UserMen) && (UserSerial) && (UserPart) && (smOne)) {
+	for ( NSString *ramEntry in self.smOne)
 	{
-		[smbiosDict setObject:[self.smTwo objectAtIndex:i] forKey:[UserMen stringByAppendingString:ramEntry]];
-		[smbiosDict setObject:[self.smThree objectAtIndex:i] forKey:[UserSerial stringByAppendingString:ramEntry]];
-		[smbiosDict setObject:[self.smFour objectAtIndex:i] forKey:[UserPart stringByAppendingString:ramEntry]];
-		
+		[smbiosDict setObject:[self.smTwo objectAtIndex:i] forKey:[NSString stringWithFormat:@"%@%@", UserMen,ramEntry]];
+		[smbiosDict setObject:[self.smThree objectAtIndex:i] forKey:[NSString stringWithFormat:@"%@%@", UserSerial,ramEntry]];
+		[smbiosDict setObject:[self.smFour objectAtIndex:i] forKey:[NSString stringWithFormat:@"%@%@", UserPart,ramEntry]];		
 		i++;
+	}
 	}
 	
 	self.smbiosData = [NSPropertyListSerialization dataFromPropertyList:smbiosDict format:NSPropertyListXMLFormat_v1_0 errorDescription:&errorDesc];
@@ -530,7 +536,6 @@
 		[alert addButtonWithTitle:@"Cancel"];
         [alert setInformativeText:@"Press 'Generate new' to create a new smbios.plist (from the com.apple.Boot.plist target or by defaut in Extra folder) then press save if you entered datas"];
 		[alert beginSheetModalForWindow:[NSApp mainWindow] modalDelegate:self didEndSelector:@selector(openPanelDidEnd:returnCode:contextInfo:) contextInfo:nil];
-		
 		}	
 }
 //Gestion du tableau memoire
@@ -602,14 +607,23 @@
 - (IBAction) synchronizeModel:(id)sender {
 	[SMproductnameUpdate selectItemAtIndex:[SMfamilyUpdate indexOfSelectedItem]];
 	[SMbiosversionUpdate selectItemAtIndex:[SMfamilyUpdate indexOfSelectedItem]];
+	self.SMbiosversion = [SMbiosversionUpdate stringValue];
+	self.SMproductname = [SMproductnameUpdate stringValue];
+	self.SMfamily = [SMfamilyUpdate stringValue];
 }
 - (IBAction) synchronizeProduct:(id)sender {
 	[SMfamilyUpdate selectItemAtIndex:[SMproductnameUpdate indexOfSelectedItem]];
 	[SMbiosversionUpdate selectItemAtIndex:[SMproductnameUpdate indexOfSelectedItem]];
+	self.SMbiosversion = [SMbiosversionUpdate stringValue];
+	self.SMproductname = [SMproductnameUpdate stringValue];
+	self.SMfamily = [SMfamilyUpdate stringValue];
 }
 - (IBAction) synchronizeRom:(id)sender {
 	[SMproductnameUpdate selectItemAtIndex:[SMbiosversionUpdate indexOfSelectedItem]];
 	[SMfamilyUpdate selectItemAtIndex:[SMbiosversionUpdate indexOfSelectedItem]];
+	self.SMbiosversion = [SMbiosversionUpdate stringValue];
+	self.SMproductname = [SMproductnameUpdate stringValue];
+	self.SMfamily = [SMfamilyUpdate stringValue];
 }
 // appel preview
 - (IBAction)smPreview:(id)sender {
