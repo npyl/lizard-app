@@ -45,6 +45,8 @@
 @synthesize pciRoot;
 @synthesize dpString;
 
+@synthesize viewBootData;
+
 @synthesize themeAuthor;
 @synthesize themeVersion;
 @synthesize themeWidth;
@@ -74,7 +76,6 @@ NSError *errorFile = nil;
 	
 	//check les preferences du path com.boot
 	BOOL systemBoot;
-	NSString *comBootPath;
 	systemBoot = [[NSUserDefaults standardUserDefaults] boolForKey:@"systemBoot"];
 	if (systemBoot == YES) {
 		comBootPath = systemeBootPath;
@@ -141,7 +142,6 @@ NSError *errorFile = nil;
 	
 	//check les preferences du path com.boot
 	BOOL systemBoot;
-	NSString *comBootPath;
 	systemBoot = [[NSUserDefaults standardUserDefaults] boolForKey:@"systemBoot"];
 	if (systemBoot == YES) {
 		comBootPath = systemeBootPath;
@@ -382,7 +382,6 @@ else if (![theManager fileExistsAtPath:comBootPath]){
 		// com.apple.boot.plist
 		//check les preferences du path com.boot
 		BOOL systemBoot;
-		NSString *comBootPath;
 		systemBoot = [[NSUserDefaults standardUserDefaults] boolForKey:@"systemBoot"];
 		if (systemBoot == YES) {
 			comBootPath = systemeBootPath;
@@ -390,8 +389,8 @@ else if (![theManager fileExistsAtPath:comBootPath]){
 		else {
 			comBootPath = chameleonBootPath;
 		}
-        NSData *plistBootXML = [[NSFileManager defaultManager] contentsAtPath:comBootPath];
-        NSMutableDictionary *bootTemp = (NSMutableDictionary *)[NSPropertyListSerialization
+        plistBootXML = [[NSFileManager defaultManager] contentsAtPath:comBootPath];
+        bootTemp = (NSMutableDictionary *)[NSPropertyListSerialization
 												  propertyListFromData:plistBootXML
 												  mutabilityOption:NSPropertyListMutableContainersAndLeaves
 												  format:&format errorDescription:&errorDesc];
@@ -427,6 +426,10 @@ else if (![theManager fileExistsAtPath:comBootPath]){
 		self.SLarch = [bootTemp objectForKey:@"arch"];
 		self.devProps = [bootTemp objectForKey:@"device-properties"];
 		self.wait = [bootTemp objectForKey:@"Wait"];
+		
+		self.viewBootData = [NSPropertyListSerialization dataFromPropertyList:bootTemp
+																		   format:NSPropertyListXMLFormat_v1_0
+																 errorDescription:&errorDesc];
     }
     return self;
 	[saveGood setImage: nil];
@@ -469,7 +472,6 @@ else if (![theManager fileExistsAtPath:comBootPath]){
 	// pas de tableau, sinon nil empèche la sauvegarde
 	//check les preferences du path com.boot
 	BOOL systemBoot;
-	NSString *comBootPath;
 	systemBoot = [[NSUserDefaults standardUserDefaults] boolForKey:@"systemBoot"];
 	if (systemBoot == YES) {
 		comBootPath = systemeBootPath;
@@ -588,8 +590,8 @@ else if (![theManager fileExistsAtPath:comBootPath]){
 	if (devProps)
 		[bootDict setObject:devProps forKey:@"device-properties"];
 
-    NSData *plistBootData = [NSPropertyListSerialization dataFromPropertyList:bootDict
-														 format:NSPropertyListXMLFormat_v1_0
+	self.viewBootData = [NSPropertyListSerialization dataFromPropertyList:bootDict
+																   format:NSPropertyListXMLFormat_v1_0
 														 errorDescription:&errorDesc];
 	// declaration des alertes
 	NSAlert *alert = [[NSAlert alloc] init];
@@ -634,7 +636,7 @@ else if (![theManager fileExistsAtPath:comBootPath]){
 			[task setLaunchPath:@"/usr/libexec/authopen"];
 			[task setArguments:[NSArray arrayWithObjects:@"-c", @"-w", comBootPath, nil]];
 			[task setStandardInput:pipe];
-			[writeHandle writeData:plistBootData];
+			[writeHandle writeData:viewBootData];
 			[task launch];
 			close([writeHandle fileDescriptor]);//fermuture manuelle
 			[task waitUntilExit];//pour que l'icone s'affiche au bon moment
@@ -642,7 +644,7 @@ else if (![theManager fileExistsAtPath:comBootPath]){
 		}
 			//les autorisations sont déjà bonnes
 		else if ([theManager isWritableFileAtPath:comBootPath]) {
-			[plistBootData writeToFile:comBootPath atomically:NO]; //NO sinon ne fonctionne pas depuis authopen
+			[viewBootData writeToFile:comBootPath atomically:NO]; //NO sinon ne fonctionne pas depuis authopen
 		}
 		
 			NSString *acceptPath = [[NSBundle mainBundle] pathForResource:@"accept" ofType:@"png"];
@@ -916,4 +918,13 @@ else if (![theManager fileExistsAtPath:comBootPath]){
 	[openPanel setCanChooseDirectories:NO];
 	[openPanel beginSheetForDirectory:nil file:nil types:nil modalForWindow:[sender window] modalDelegate:self didEndSelector:@selector(openPanelWillEnd:returnCode:contextInfo:) contextInfo:NULL];
 }
+- (IBAction)bootPreview:(id)sender {
+	if (![bootWindow isVisible]) {
+		[bootWindow makeKeyAndOrderFront:self];
+	}
+	else {
+		[bootWindow orderOut:nil];
+	}
+}
+
 @end

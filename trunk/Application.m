@@ -17,7 +17,11 @@
 	// remove DS_Store
 	NSError *error;
 	NSFileManager *theManager = [NSFileManager defaultManager];
-	[theManager removeItemAtPath:@"/Extra/Themes/.DS_Store" error:&error];
+	NSString *showExtraPath = [[NSUserDefaults standardUserDefaults] stringForKey:@"Extra Folder"];
+	NSString *removeDS = [showExtraPath stringByAppendingPathComponent:@"Themes/.DS_Store"];
+	if (removeDS) {
+	[theManager removeItemAtPath:removeDS error:&error];
+	}
 	
 	//paramètre dossier Extra par defaut
 	NSString *showExtraPath = [[NSUserDefaults standardUserDefaults] stringForKey:@"Extra Folder"];
