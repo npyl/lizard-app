@@ -12,8 +12,8 @@
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="937"/>
-			<integer value="977"/>
+			<integer value="1"/>
+			<integer value="975"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -52,7 +52,7 @@
 						<bool key="NSEnabled">YES</bool>
 						<object class="NSButtonCell" key="NSCell" id="898197378">
 							<int key="NSCellFlags">67239424</int>
-							<int key="NSCellFlags2">134217728</int>
+							<int key="NSCellFlags2">150994944</int>
 							<string key="NSContents"/>
 							<object class="NSFont" key="NSSupport" id="309360419">
 								<string key="NSName">LucidaGrande</string>
@@ -1888,7 +1888,7 @@
 			<object class="NSWindowTemplate" id="955545599">
 				<int key="NSWindowStyleMask">31</int>
 				<int key="NSWindowBacking">2</int>
-				<string key="NSWindowRect">{{230, 207}, {427, 334}}</string>
+				<string key="NSWindowRect">{{224, 573}, {427, 334}}</string>
 				<int key="NSWTFlags">-461897728</int>
 				<string key="NSWindowTitle">smbios.plist Preview</string>
 				<string key="NSWindowClass">NSPanel</string>
@@ -1993,7 +1993,6 @@
 									</object>
 									<string key="NSFrame">{{1, 1}, {427, 334}}</string>
 									<reference key="NSSuperview" ref="1045553856"/>
-									<reference key="NSNextKeyView" ref="115132636"/>
 									<reference key="NSDocView" ref="115132636"/>
 									<reference key="NSBGColor" ref="347989968"/>
 									<object class="NSCursor" key="NSCursor">
@@ -2025,7 +2024,6 @@
 							</object>
 							<string key="NSFrame">{{-1, -1}, {429, 336}}</string>
 							<reference key="NSSuperview" ref="570101977"/>
-							<reference key="NSNextKeyView" ref="966291179"/>
 							<int key="NSsFlags">658</int>
 							<reference key="NSVScroller" ref="836166673"/>
 							<reference key="NSHScroller" ref="872177279"/>
@@ -3619,7 +3617,7 @@
 				<object class="NSMutableArray" key="dict.values">
 					<bool key="EncodedWithXMLCoder">YES</bool>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
-					<string>{{641, 319}, {482, 415}}</string>
+					<string>{{670, 456}, {482, 415}}</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>
 					<string>com.apple.InterfaceBuilder.CocoaPlugin</string>

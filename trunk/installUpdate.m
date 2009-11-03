@@ -71,7 +71,7 @@
 
 - (void)awakeFromNib
 {
-	helperToolPath = [[[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"AuthHelperTool"] retain];
+	helperToolPath = [[[[NSBundle mainBundle] resourcePath] stringByAppendingPathComponent:@"LizardHelperTool"] retain];
 	[extraBox setHidden:YES];
 }
 - (NSInteger)numberOfRowsInTableView:(NSTableView *)theView {
@@ -288,7 +288,7 @@
 		}
 	}
 	return self;
-	NSLog ([diskROnly description]);
+	//NSLog ([diskROnly description]);
 }
 
 - (IBAction)selectDevice:(id)sender {

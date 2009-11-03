@@ -301,22 +301,22 @@
 			if ([temp valueForKey:[UserMen stringByAppendingFormat:@"%d",i]]) {
 				tempMe = [temp valueForKey:[UserMen stringByAppendingFormat:@"%d",i]];
 				if (tempMe) {
-					[manArray insertObject:tempMe atIndex:(0 + a)];
-					[bankArray insertObject:[NSString stringWithFormat:@"%d",i] atIndex:(0 + a)]; //manufacter comme referent
+					[manArray insertObject:tempMe atIndex:a];
+					[bankArray insertObject:[NSString stringWithFormat:@"%d",i] atIndex:a]; //manufacter comme referent
 					a++;
 				}
 			}
 			if ([temp valueForKey:[UserSerial stringByAppendingFormat:@"%d",i]]) {
 				SMSer = [temp valueForKey:[UserSerial stringByAppendingFormat:@"%d",i]];
 				if (SMSer) {
-					[serArray insertObject:SMSer atIndex:(0 + b)];
+					[serArray insertObject:SMSer atIndex:b];
 					b++;
 				}
 			}
 			if ([temp valueForKey:[UserPart stringByAppendingFormat:@"%d",i]]) {
 				SMPart = [temp valueForKey:[UserPart stringByAppendingFormat:@"%d",i]];
 				if (SMPart) {
-					[partArray insertObject:SMPart atIndex:(0 + c)];
+					[partArray insertObject:SMPart atIndex:c];
 					c++;
 				}
 			}
@@ -453,8 +453,6 @@
 	
 	// enregistrement des infos memoire
 	int i = 0;
-	
-	if ((UserMen) && (UserSerial) && (UserPart) && (smOne)) {
 	for ( NSString *ramEntry in self.smOne)
 	{
 		[smbiosDict setObject:[self.smTwo objectAtIndex:i] forKey:[NSString stringWithFormat:@"%@%@", UserMen,ramEntry]];
@@ -462,7 +460,7 @@
 		[smbiosDict setObject:[self.smFour objectAtIndex:i] forKey:[NSString stringWithFormat:@"%@%@", UserPart,ramEntry]];		
 		i++;
 	}
-	}
+
 	
 	self.smbiosData = [NSPropertyListSerialization dataFromPropertyList:smbiosDict format:NSPropertyListXMLFormat_v1_0 errorDescription:&errorDesc];
 	// declaration des alertes
@@ -571,7 +569,12 @@
 }
 - (IBAction)addRow:(id)sender
 {
-	[smOne addObject:[ramBank stringValue]];
+	if ([[ramBank stringValue]isEqualToString:@"" ]) {
+		[smOne addObject:@"1"];	
+	}
+	else {
+		[smOne addObject:[ramBank stringValue]];
+	}
 	[smTwo addObject:[ramManufacter stringValue]];
 	[smThree addObject:[ramSerial stringValue]];
 	[smFour addObject:[ramPart stringValue]];
@@ -579,14 +582,20 @@
 }
 - (IBAction)insertRow:(id)sender
 {	
-	[self.smOne removeObjectAtIndex:[tableView selectedRow]];
-	[self.smThree removeObjectAtIndex:[tableView selectedRow]];
-	[self.smFour removeObjectAtIndex:[tableView selectedRow]];
-	[self.smTwo removeObjectAtIndex:[tableView selectedRow]];
-	[self.smOne insertObject:[ramBank stringValue] atIndex:[tableView selectedRow]];
-	[self.smTwo insertObject:[ramManufacter stringValue] atIndex:[tableView selectedRow]];
-	[self.smThree insertObject:[ramSerial stringValue] atIndex:[tableView selectedRow]];
-	[self.smFour insertObject:[ramPart stringValue] atIndex:[tableView selectedRow]];
+	[smOne removeObjectAtIndex:[tableView selectedRow]];
+	[smThree removeObjectAtIndex:[tableView selectedRow]];
+	[smFour removeObjectAtIndex:[tableView selectedRow]];
+	[smTwo removeObjectAtIndex:[tableView selectedRow]];
+	
+	if ([[ramBank stringValue]isEqualToString:@"" ]) {
+		[smOne insertObject:@"1" atIndex:[tableView selectedRow]];
+	}
+	else {
+		[smOne insertObject:[ramBank stringValue] atIndex:[tableView selectedRow]];
+	}
+	[smTwo insertObject:[ramManufacter stringValue] atIndex:[tableView selectedRow]];
+	[smThree insertObject:[ramSerial stringValue] atIndex:[tableView selectedRow]];
+	[smFour insertObject:[ramPart stringValue] atIndex:[tableView selectedRow]];
 
 	[tableView reloadData];
 }
@@ -595,10 +604,10 @@
 	{	
 		if ([tableView selectedRow] > -1) {
 			
-			[self.smOne removeObjectAtIndex:[tableView selectedRow]];
-			[self.smThree removeObjectAtIndex:[tableView selectedRow]];
-			[self.smFour removeObjectAtIndex:[tableView selectedRow]];
-			[self.smTwo removeObjectAtIndex:[tableView selectedRow]];
+			[smOne removeObjectAtIndex:[tableView selectedRow]];
+			[smThree removeObjectAtIndex:[tableView selectedRow]];
+			[smFour removeObjectAtIndex:[tableView selectedRow]];
+			[smTwo removeObjectAtIndex:[tableView selectedRow]];
 
 			[tableView reloadData];
 		}

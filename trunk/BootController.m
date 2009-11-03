@@ -546,7 +546,6 @@ else if (![theManager fileExistsAtPath:comBootPath]){
 	}
 	
 	// textfields
-	NSString *lesFlags;
 	if (graphicsMode)
 		[bootDict setObject:graphicsMode forKey:@"Graphics Mode"];	
 	if (! kernelPath)
