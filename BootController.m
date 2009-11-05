@@ -370,12 +370,11 @@ else if (![theManager fileExistsAtPath:comBootPath]){
 	
 		NSFileManager* fileManager = [NSFileManager defaultManager];
 		NSArray *directory = [fileManager contentsOfDirectoryAtPath:chameleonThemesPath error:&errorFile];
-		
+
 			// You don't need autorelease if you use garbage collection
 		dataOfArray = [[NSMutableArray alloc] init];
 		NSMutableArray *files = [[directory mutableCopy]autorelease];
 		[dataOfArray addObjectsFromArray:files];
-			NSLog(@"%d theme selected",[dataOfArray retainCount]);
 		
         NSPropertyListFormat format;
    
@@ -426,10 +425,10 @@ else if (![theManager fileExistsAtPath:comBootPath]){
 		self.SLarch = [bootTemp objectForKey:@"arch"];
 		self.devProps = [bootTemp objectForKey:@"device-properties"];
 		self.wait = [bootTemp objectForKey:@"Wait"];
-		
+
 		self.viewBootData = [NSPropertyListSerialization dataFromPropertyList:bootTemp
-																		   format:NSPropertyListXMLFormat_v1_0
-																 errorDescription:&errorDesc];
+																	   format:NSPropertyListXMLFormat_v1_0
+															 errorDescription:&errorDesc];
     }
     return self;
 	[saveGood setImage: nil];
@@ -683,63 +682,62 @@ else if (![theManager fileExistsAtPath:comBootPath]){
 
 //afficher les informations du theme en temps reel
 - (IBAction) sendThemeUpdate:(id)sender {
-	// evite le blocage du theme
-	[themeUpdate selectText:sender];
-	[testMe selectText:sender];
-	
-	// Definition du dossier Extra
-	NSString *showExtraPath = [[NSUserDefaults standardUserDefaults] stringForKey:@"Extra Folder"];
-	NSString *chameleonThemesPath = [showExtraPath stringByAppendingPathComponent:themePath];
-	
-	NSString *folderPath = [chameleonThemesPath stringByAppendingPathComponent:selectedTheme];
-	NSString *thumbsPath = [folderPath stringByAppendingPathComponent:@"/thumb.png"];
-	NSString *themePrefPath = [folderPath stringByAppendingPathComponent:@"/theme.plist"];
-	NSFileManager *theManager = [NSFileManager defaultManager];
-	[fileNameDisplay setStringValue:[theManager displayNameAtPath:folderPath]];
-	
-	//affiche Date 
-	NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];  // obtenir un format court et lisible 
-	[dateFormatter setFormatterBehavior:NSDateFormatterBehavior10_4]; //
-	[dateFormatter setDateStyle:NSDateFormatterLongStyle];            //configuration du format
-	
-	NSDictionary *theFileAttributes = [theManager fileAttributesAtPath:folderPath traverseLink:YES];
-	NSString *dateStr = [dateFormatter stringFromDate:[theFileAttributes objectForKey:NSFileCreationDate]];
-	[fileCreatedDisplay setStringValue:dateStr];
-	
-	if ([theManager fileExistsAtPath:thumbsPath] && (selectedTheme)) {//affiche l'icone si elle existe
-		NSImage *thumbFromTheme = [[NSImage alloc] initWithContentsOfFile:thumbsPath];
-		[[themeThumbDisplay image] release];
-		[themeThumbDisplay setImage: thumbFromTheme];
-		//FadeIn
-		[NSAnimationContext beginGrouping];
-		[[NSAnimationContext currentContext] setDuration:0];
-		[[themeThumbDisplay animator] setAlphaValue:0];
-		[NSAnimationContext endGrouping];
-		[NSAnimationContext beginGrouping];
-		[[themeThumbDisplay animator] setAlphaValue:1];
-		[NSAnimationContext endGrouping];
+	if ([dataOfArray count]>0) {
+		[testMe selectText:sender];
+		
+		// Definition du dossier Extra
+		NSString *showExtraPath = [[NSUserDefaults standardUserDefaults] stringForKey:@"Extra Folder"];
+		NSString *chameleonThemesPath = [showExtraPath stringByAppendingPathComponent:themePath];
+		
+		NSString *folderPath = [chameleonThemesPath stringByAppendingPathComponent:selectedTheme];
+		NSString *thumbsPath = [folderPath stringByAppendingPathComponent:@"/thumb.png"];
+		NSString *themePrefPath = [folderPath stringByAppendingPathComponent:@"/theme.plist"];
+		NSFileManager *theManager = [NSFileManager defaultManager];
+		[fileNameDisplay setStringValue:[theManager displayNameAtPath:folderPath]];
+		
+		//affiche Date 
+		NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+		[dateFormatter setFormatterBehavior:NSDateFormatterBehavior10_4];
+		[dateFormatter setDateStyle:NSDateFormatterLongStyle];
+		
+		NSDictionary *theFileAttributes = [theManager fileAttributesAtPath:folderPath traverseLink:YES];
+		NSString *dateStr = [dateFormatter stringFromDate:[theFileAttributes objectForKey:NSFileCreationDate]];
+		[fileCreatedDisplay setStringValue:dateStr];
+		
+		if ([theManager fileExistsAtPath:thumbsPath] && (selectedTheme)) {//affiche l'icone si elle existe
+			NSImage *thumbFromTheme = [[NSImage alloc] initWithContentsOfFile:thumbsPath];
+			[[themeThumbDisplay image] release];
+			[themeThumbDisplay setImage: thumbFromTheme];
+			//FadeIn
+			[NSAnimationContext beginGrouping];
+			[[NSAnimationContext currentContext] setDuration:0];
+			[[themeThumbDisplay animator] setAlphaValue:0];
+			[NSAnimationContext endGrouping];
+			[NSAnimationContext beginGrouping];
+			[[themeThumbDisplay animator] setAlphaValue:1];
+			[NSAnimationContext endGrouping];
+		}
+		else { // image par defaut sinon
+			NSString *defaultThumbPath = [[NSBundle mainBundle] pathForResource:@"no-thumb" ofType:@"png"];
+			NSImage *defaultThumb = [[NSImage alloc] initWithContentsOfFile:defaultThumbPath];
+			[[themeThumbDisplay image] release];
+			[themeThumbDisplay setImage:defaultThumb ];
+		}
+		
+		//infos du plist
+		NSPropertyListFormat format;
+		NSData *plistThemeXML = [[NSFileManager defaultManager] contentsAtPath:themePrefPath];
+		NSDictionary *themeTemp = (NSDictionary *)[NSPropertyListSerialization
+												   propertyListFromData:plistThemeXML
+												   mutabilityOption:NSPropertyListMutableContainersAndLeaves
+												   format:&format errorDescription:&errorDesc];
+		
+		self.themeAuthor = [themeTemp objectForKey:@"Author"];
+		self.themeVersion = [themeTemp objectForKey:@"Version"];
+		self.themeWidth = [themeTemp objectForKey:@"screen_width"];
+		self.themeHeight = [themeTemp objectForKey:@"screen_height"];
 	}
-	else { // image par defaut sinon
-		NSString *defaultThumbPath = [[NSBundle mainBundle] pathForResource:@"no-thumb" ofType:@"png"];
-		NSImage *defaultThumb = [[NSImage alloc] initWithContentsOfFile:defaultThumbPath];
-		[[themeThumbDisplay image] release];
-		[themeThumbDisplay setImage:defaultThumb ];
-	}
-	
-	//infos du plist
-	NSPropertyListFormat format;
-	NSData *plistThemeXML = [[NSFileManager defaultManager] contentsAtPath:themePrefPath];
-	NSDictionary *themeTemp = (NSDictionary *)[NSPropertyListSerialization
-											   propertyListFromData:plistThemeXML
-											   mutabilityOption:NSPropertyListMutableContainersAndLeaves
-											   format:&format errorDescription:&errorDesc];
-	
-	self.themeAuthor = [themeTemp objectForKey:@"Author"]; // <key>Author</key> à ajouter dans le theme.plist
-	self.themeVersion = [themeTemp objectForKey:@"Version"];
-	self.themeWidth = [themeTemp objectForKey:@"screen_width"];
-	self.themeHeight = [themeTemp objectForKey:@"screen_height"];
-	}
-
+}
 // récup le PCIroot
 
 - (IBAction) setPCIRoot:(id)sender {
