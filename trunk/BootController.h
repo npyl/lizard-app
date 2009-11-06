@@ -67,6 +67,7 @@
 	
 	
 	IBOutlet NSComboBox *theFlag;
+	IBOutlet NSComboBox *thePart;
 	IBOutlet NSTextField *updateFlag;
 	
 	NSMutableArray *dataOfArray;
@@ -130,6 +131,7 @@
 	NSString *SLarch;
 	NSString *devProps;
 	NSString *wait;
+	NSString *hidePartition;
 	
 	NSData *plistBootXML;
 	NSData *viewBootData;
@@ -142,6 +144,8 @@
 	NSArray *theicon;
 	NSString *dpString;
 	NSMutableArray *selectedPath;
+	NSMutableArray *selectedPartition;
+	
 	NSMutableArray *diskType;
 	NSMutableArray *diskUUID;
 	NSMutableArray *diskROnly;
@@ -181,6 +185,7 @@
 @property (copy, nonatomic) NSString *devProps;
 @property (copy, nonatomic) NSString *wait;
 @property (copy, nonatomic) NSString *pciRoot;
+@property (copy, nonatomic) NSString *hidePartition;
 
 @property (retain, nonatomic) NSData *viewBootData;
 
@@ -194,6 +199,7 @@
 @property (retain, nonatomic) NSString *dpString;
 @property (retain, nonatomic) NSMutableArray *diskUUID;
 @property (retain, nonatomic) NSMutableArray *selectedPath;
+@property (retain, nonatomic) NSMutableArray *selectedPartition;
 @property (retain, nonatomic) NSMutableArray *diskType;
 @property (retain, nonatomic) NSMutableArray *diskROnly;
 
@@ -202,6 +208,7 @@
 - (IBAction)timeOutValue:(id)sender;
 - (IBAction)sendThemeUpdate:(id)sender;
 - (IBAction)insertFlag:(id)sender;
+- (IBAction)insertPart:(id)sender;
 - (IBAction)setPCIRoot:(id)sender;
 
 - (IBAction)getWakeImage:(id)sender;

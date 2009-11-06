@@ -349,11 +349,6 @@
 	
 	//parcourir les champs après creation du plist
 	[saveGood setImage: nil];
-	[SMfamilyUpdate selectText:sender];
-	[SMproductnameUpdate selectText:sender];
-	[SMbiosversionUpdate selectText:sender];
-	[SMmemtypeConv selectText:sender];
-	[SMcputypeConv selectText:sender];
 	[testMe selectText:sender];
 	
 	//definition du dossier Extra
