@@ -42,6 +42,8 @@
 @synthesize SLarch;
 @synthesize devProps;
 @synthesize wait;
+@synthesize hidePartition;
+
 @synthesize pciRoot;
 @synthesize dpString;
 
@@ -54,6 +56,7 @@
 
 @synthesize theicon;
 @synthesize selectedPath;
+@synthesize selectedPartition;
 @synthesize diskType;
 @synthesize diskUUID;
 @synthesize diskROnly;
@@ -275,15 +278,15 @@ if ([theManager fileExistsAtPath:comBootPath]) {
 																 mutabilityOption:NSPropertyListMutableContainersAndLeaves
 																 format:&format errorDescription:&errorDesc];
 		
-			self.themeAuthor = [themeTemp objectForKey:@"Author"]; // <key>Author</key> à ajouter dans le theme.plist
+			self.themeAuthor = [themeTemp objectForKey:@"Author"];
 			self.themeVersion = [themeTemp objectForKey:@"Version"];
 			self.themeWidth = [themeTemp objectForKey:@"screen_width"];
-			self.themeHeight = [themeTemp objectForKey:@"screen_height"];// <key>Version</key> à ajouter dans le theme.plist
+			self.themeHeight = [themeTemp objectForKey:@"screen_height"];
 		
 		// afficher la date
-			NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];  // obtenir un format court et lisible 
-			[dateFormatter setFormatterBehavior:NSDateFormatterBehavior10_4]; //
-			[dateFormatter setDateStyle:NSDateFormatterLongStyle];            //configuration du format
+			NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+			[dateFormatter setFormatterBehavior:NSDateFormatterBehavior10_4];
+			[dateFormatter setDateStyle:NSDateFormatterLongStyle];
 			
 			NSDictionary *theFileAttributes = [theManager fileAttributesAtPath:themeShortPath traverseLink:NO];
 			NSString *dateStr = [dateFormatter stringFromDate:[theFileAttributes objectForKey:NSFileCreationDate]]; //récupere la date et la convertie
@@ -350,11 +353,26 @@ else if (![theManager fileExistsAtPath:comBootPath]){
 }
 - (IBAction)insertFlag:(id)sender {
 	NSString *addedFlag = [[theFlag objectValueOfSelectedItem] stringByAppendingString:@" "];
+	if (!addedFlag ) {
+		addedFlag = @"";
+	}
 	if (! self.kernelFlags) {
 		self.kernelFlags = @"";
 	}
 	else {
 		self.kernelFlags = [self.kernelFlags stringByAppendingString:addedFlag]; // ajoute la valeur au string
+	}
+}
+- (IBAction)insertPart:(id)sender {
+	NSString *addedFlag = [[thePart objectValueOfSelectedItem] stringByAppendingString:@" "];
+	if (!addedFlag ) {
+		addedFlag = @"";
+	}
+	if (! hidePartition) {
+		self.hidePartition = @"";
+	}
+	else {
+		self.hidePartition = [self.hidePartition stringByAppendingString:addedFlag]; // ajoute la valeur au string
 	}
 }
 
@@ -425,6 +443,7 @@ else if (![theManager fileExistsAtPath:comBootPath]){
 		self.SLarch = [bootTemp objectForKey:@"arch"];
 		self.devProps = [bootTemp objectForKey:@"device-properties"];
 		self.wait = [bootTemp objectForKey:@"Wait"];
+		self.hidePartition = [bootTemp objectForKey:@"Hide Partition"];
 
 		self.viewBootData = [NSPropertyListSerialization dataFromPropertyList:bootTemp
 																	   format:NSPropertyListXMLFormat_v1_0
@@ -568,6 +587,10 @@ else if (![theManager fileExistsAtPath:comBootPath]){
 		self.DefaultPartition = [DefaultPartition substringToIndex:7];//isole uniquement le hd(x,x)
 		[bootDict setObject:DefaultPartition forKey:@"Default Partition"];
 	}
+	if (hidePartition) {
+		[bootDict setObject:hidePartition forKey:@"Hide Partition"];
+	}
+	
 	if (setSmbioPath)
 		[bootDict setObject:setSmbioPath forKey:@"SMBIOS"];	
 	if (videoROM)
@@ -794,6 +817,7 @@ else if (![theManager fileExistsAtPath:comBootPath]){
 	//NSString *finalRDisk;
 	NSMutableArray *listItem = [NSMutableArray arrayWithCapacity:10];
 	NSMutableArray *listName = [NSMutableArray arrayWithCapacity:10];
+	NSMutableArray *listPart = [NSMutableArray arrayWithCapacity:10];
 	
 	int i = 0;
 	for (moreString in theicon)
@@ -818,7 +842,7 @@ else if (![theManager fileExistsAtPath:comBootPath]){
 		theName = [tTheName stringByReplacingOccurrencesOfString:@"\n" withString:@""];
 		
 		//NSLog (theName);
-		if (![theName isEqualToString: @"None"]) { // rien ne s'afiche sinon
+		if (![theName isEqualToString: @"None"]) {
 			//ajout du rdisk dans une array
 			if ([listItems objectAtIndex:0])
 			{
@@ -826,7 +850,7 @@ else if (![theManager fileExistsAtPath:comBootPath]){
 				listItems = [[listItems objectAtIndex:1] componentsSeparatedByString:@"Device Node:"];
 				trootName = [[listItems objectAtIndex:0] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
 				rootName = [trootName stringByReplacingOccurrencesOfString:@"\n" withString:@""];
-				if ([rootName isEqualToString: @""]) { // rien ne s'afiche sinon
+				if ([rootName isEqualToString: @""]) {
 					rootName = @"Untitled";
 				}
 				moreString = [rootName stringByReplacingOccurrencesOfString:@"disk" withString:@"hd("];
@@ -837,20 +861,22 @@ else if (![theManager fileExistsAtPath:comBootPath]){
 			// Volume Name
 			listItems = [string componentsSeparatedByString:@"Volume Name:"];
 			if ([listItems objectAtIndex:0]) {
-				if (floor(NSAppKitVersionNumber) > NSAppKitVersionNumber10_5) { //modifications dans diskutil
+				if (floor(NSAppKitVersionNumber) > NSAppKitVersionNumber10_5) { //modifications dans diskutil 10.6
 					listItems = [[listItems objectAtIndex:1] componentsSeparatedByString:@"Escaped with Unicode:"];
 				}
 				else {
 					listItems = [[listItems objectAtIndex:1] componentsSeparatedByString:@"Mount Point:"];
 				}
 				readOnly = [[listItems objectAtIndex:0] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-				if ([readOnly isEqualToString: @""]) { // rien ne s'afiche sinon
+				if ([readOnly isEqualToString: @""]) {
 					readOnly = @"Untitled";
 				}
 			}
 			self.dpString = [NSString stringWithFormat:@"%@%@", moreString, @")"];
+			[listPart insertObject:self.dpString atIndex:i];
 			[listName insertObject:[NSString stringWithFormat:@"%@ %@ %@",self.dpString,@"->",readOnly] atIndex:i];
 			self.selectedPath = [NSMutableArray arrayWithArray:listName];
+			self.selectedPartition = [NSMutableArray arrayWithArray:listPart];
 			[diskutil release];
 			[string release];
 			[pipe release];
