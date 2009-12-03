@@ -368,7 +368,7 @@ else if (![theManager fileExistsAtPath:comBootPath]){
 	if (!addedFlag ) {
 		addedFlag = @"";
 	}
-	if (! hidePartition) {
+	if (! self.hidePartition) {
 		self.hidePartition = @"";
 	}
 	else {
