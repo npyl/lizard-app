@@ -26,7 +26,6 @@
 
 //@synthesize SMuuid;;
 @synthesize setSmbioPath;
-
 @synthesize smbiosData;
 
 // tableau memoire
@@ -35,6 +34,13 @@
 @synthesize smThree;
 @synthesize smFour;
 @synthesize theDico;
+
+//serail build
+@synthesize snCountry;
+@synthesize snYear;
+@synthesize snWeek;
+@synthesize snUnit;
+@synthesize snModel;
 
 
 // Gestion des popups et creation d'un plist si besoin
@@ -636,6 +642,69 @@
 	}
 	else {
 		[smWindow orderOut:nil];
+	}
+}
+
+//Serial Builder
+- (IBAction)randomUnit:(id)sender {
+    self.snUnit = [NSNumber numberWithInt:100 + rand()%899];
+	[self updateSerial];
+}
+- (IBAction)randomWeek:(id)sender {
+    self.snWeek = [NSNumber numberWithInt:1 + rand()%51];
+	[self updateSerial];
+}
+- (IBAction)randomYear:(id)sender {
+    self.snYear = [NSNumber numberWithInt: 5 + [snCombYear indexOfSelectedItem]];
+	[self updateSerial];
+}
+- (IBAction)randomCountry:(id)sender {
+	int realCountry = [snCombCountry indexOfSelectedItem];
+	
+	if (realCountry == 0)
+		self.snCountry = @"W8";
+	else if (realCountry == 1)
+		self.snCountry = @"CK";
+	else if (realCountry == 2)
+		self.snCountry = @"G8";
+	else if (realCountry == 3)
+		self.snCountry = @"V7";
+	else if (realCountry == 4)
+		self.snCountry = @"CY";
+	else if (realCountry == 5)
+		self.snCountry = @"RN";
+	else if (realCountry == 6) {
+		self.snCountry = @"RM";
+	}
+	[self updateSerial];
+}
+
+- (IBAction)randomModel:(id)sender {
+	int realModel = [snCombModel indexOfSelectedItem];
+	
+	if (realModel == 0)
+		self.snModel = @"0P1";
+	else if (realModel == 1)
+		self.snModel = @"66D";
+	else if (realModel == 2)
+		self.snModel = @"W87";
+	else if (realModel == 3) {
+		self.snModel = @"XYL";
+	}
+	[self updateSerial];
+}
+
+- (void) updateSerial {
+	self.SMserial = [NSString stringWithFormat:@"%@%@%@%@%@", snCountry, snYear, snWeek, snUnit, snModel];
+}
+
+// appel serial builder
+- (IBAction)sBuilder:(id)sender {
+	if (![sbWindow isVisible]) {
+		[sbWindow makeKeyAndOrderFront:self];
+	}
+	else {
+		[sbWindow orderOut:nil];
 	}
 }
 @end

@@ -36,6 +36,17 @@
 	IBOutlet id SMmanufacterUpdate;
 	IBOutlet NSComboBox *SMbiosversionUpdate;
 	
+	//serial builder
+	IBOutlet NSWindow *sbWindow;
+	IBOutlet NSComboBox *snCombCountry;
+	IBOutlet NSComboBox *snCombYear;
+	IBOutlet NSComboBox *snCombModel;
+	NSString *snCountry;
+	NSNumber *snYear;
+	NSNumber *snWeek;
+	NSNumber *snUnit;
+	NSString *snModel;
+	
 	//confirmation de sauvegarde
 	IBOutlet id saveGood;
 	
@@ -84,11 +95,23 @@
 
 //@property (copy, nonatomic) NSString *SMuuid;
 @property (copy, nonatomic) NSString *setSmbioPath;
-
 @property (retain, nonatomic) NSData *smbiosData;
+
+@property (copy, nonatomic) NSString *snCountry;
+@property (copy, nonatomic) NSNumber *snYear;
+@property (copy, nonatomic) NSNumber *snWeek;
+@property (copy, nonatomic) NSNumber *snUnit;
+@property (copy, nonatomic) NSString *snModel;
 
 - (IBAction)saveSMBIOS:(id)sender;
 - (IBAction)bindSelection:(id)sender;
+
+- (IBAction)randomUnit:(id)sender;
+- (IBAction)randomWeek:(id)sender;
+- (IBAction)randomYear:(id)sender;
+- (IBAction)randomCountry:(id)sender;
+- (IBAction)randomModel:(id)sender;
+- (IBAction)sBuilder:(id)sender;
 
 NSString *sSystemeBootPath = @"/Library/Preferences/SystemConfiguration/com.apple.Boot.plist";
 NSString *sBootPath = @"com.apple.Boot.plist";
@@ -135,4 +158,5 @@ NSString *UserBank = @"ramBank";
 
 - (id) tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)pTableColumn row:(int)pRowIndex;
 - (void)tableView:(NSTableView *)tableView setObjectValue:(id)pObject forTableColumn:(NSTableColumn *)pTableColumn row:(int)pRowIndex;
+- (void) updateSerial;
 @end

@@ -153,13 +153,13 @@
 		NSString *theName = @"";
 		NSString *tTheName = @"";
 		//NSString *finalRDisk;
-		NSMutableArray *listItem = [NSMutableArray arrayWithCapacity:10];
-		NSMutableArray *listName = [NSMutableArray arrayWithCapacity:10];
-		NSMutableArray *listType = [NSMutableArray arrayWithCapacity:10];
-		NSMutableArray *listUUID = [NSMutableArray arrayWithCapacity:10];
-		NSMutableArray *listROnly= [NSMutableArray arrayWithCapacity:10];
-		NSMutableArray *listRDiskX= [NSMutableArray arrayWithCapacity:10];
-		NSMutableArray *myString = [NSMutableArray arrayWithCapacity:10];
+		NSMutableArray *listItem = [NSMutableArray arrayWithCapacity:1];
+		NSMutableArray *listName = [NSMutableArray arrayWithCapacity:1];
+		NSMutableArray *listType = [NSMutableArray arrayWithCapacity:1];
+		NSMutableArray *listUUID = [NSMutableArray arrayWithCapacity:1];
+		NSMutableArray *listROnly= [NSMutableArray arrayWithCapacity:1];
+		NSMutableArray *listRDiskX= [NSMutableArray arrayWithCapacity:1];
+		NSMutableArray *myString = [NSMutableArray arrayWithCapacity:1];
 		
 		int i = 0;
 		for (moreString in theicon)
