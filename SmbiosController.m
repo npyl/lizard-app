@@ -297,10 +297,10 @@
 		NSString *tempMe;
 		NSString *SMSer;
 		NSString *SMPart;
-		NSMutableArray *manArray = [NSMutableArray arrayWithCapacity:8];
-		NSMutableArray *serArray = [NSMutableArray arrayWithCapacity:8];
-		NSMutableArray *partArray = [NSMutableArray arrayWithCapacity:8];
-		NSMutableArray *bankArray = [NSMutableArray arrayWithCapacity:8];
+		NSMutableArray *manArray = [[NSMutableArray alloc]init];
+		NSMutableArray *serArray = [[NSMutableArray alloc]init];
+		NSMutableArray *partArray = [[NSMutableArray alloc]init];
+		NSMutableArray *bankArray = [[NSMutableArray alloc]init];
 		
 		//scan la memoire et ajoute les valeurs dans le tableau
 		for (key in temp) {
@@ -563,10 +563,11 @@
 }
 
 - (IBAction)bindSelection:(id)sender {
-	[ramBank setStringValue:[self.smOne objectAtIndex:[tableView selectedRow]]];
-	[ramManufacter setStringValue:[self.smTwo objectAtIndex:[tableView selectedRow]]];
-	[ramSerial setStringValue:[self.smThree objectAtIndex:[tableView selectedRow]]];
-	[ramPart setStringValue:[self.smFour objectAtIndex:[tableView selectedRow]]];
+	int selectedView = [tableView selectedRow];
+	[ramBank setStringValue:[self.smOne objectAtIndex:selectedView]];
+	[ramManufacter setStringValue:[self.smTwo objectAtIndex:selectedView]];
+	[ramSerial setStringValue:[self.smThree objectAtIndex:selectedView]];
+	[ramPart setStringValue:[self.smFour objectAtIndex:selectedView]];
 }
 - (IBAction)addRow:(id)sender
 {
@@ -583,36 +584,37 @@
 }
 - (IBAction)insertRow:(id)sender
 {	
-	[smOne removeObjectAtIndex:[tableView selectedRow]];
-	[smThree removeObjectAtIndex:[tableView selectedRow]];
-	[smFour removeObjectAtIndex:[tableView selectedRow]];
-	[smTwo removeObjectAtIndex:[tableView selectedRow]];
+	int selectedView = [tableView selectedRow];
+	[smOne removeObjectAtIndex:selectedView];
+	[smThree removeObjectAtIndex:selectedView];
+	[smFour removeObjectAtIndex:selectedView];
+	[smTwo removeObjectAtIndex:selectedView];
 	
 	if ([[ramBank stringValue]isEqualToString:@"" ]) {
-		[smOne insertObject:@"1" atIndex:[tableView selectedRow]];
+		[smOne insertObject:@"1" atIndex:selectedView];
 	}
 	else {
-		[smOne insertObject:[ramBank stringValue] atIndex:[tableView selectedRow]];
+		[smOne insertObject:[ramBank stringValue] atIndex:selectedView];
 	}
-	[smTwo insertObject:[ramManufacter stringValue] atIndex:[tableView selectedRow]];
-	[smThree insertObject:[ramSerial stringValue] atIndex:[tableView selectedRow]];
-	[smFour insertObject:[ramPart stringValue] atIndex:[tableView selectedRow]];
+	[smTwo insertObject:[ramManufacter stringValue] atIndex:selectedView];
+	[smThree insertObject:[ramSerial stringValue] atIndex:selectedView];
+	[smFour insertObject:[ramPart stringValue] atIndex:selectedView];
 
 	[tableView reloadData];
 }
 
 - (IBAction)removeRow:(id)sender
-	{	
+	{
+		int selectedView = [tableView selectedRow];
 		if ([tableView selectedRow] > -1) {
-			
-			[smOne removeObjectAtIndex:[tableView selectedRow]];
-			[smThree removeObjectAtIndex:[tableView selectedRow]];
-			[smFour removeObjectAtIndex:[tableView selectedRow]];
-			[smTwo removeObjectAtIndex:[tableView selectedRow]];
-
+			[smOne removeObjectAtIndex:selectedView];
+			[smThree removeObjectAtIndex:selectedView];
+			[smFour removeObjectAtIndex:selectedView];
+			[smTwo removeObjectAtIndex:selectedView];
 			[tableView reloadData];
 		}
 }
+
 //synchro des selections dans les modeles
 - (IBAction) synchronizeModel:(id)sender {
 	[SMproductnameUpdate selectItemAtIndex:[SMfamilyUpdate indexOfSelectedItem]];
@@ -687,14 +689,32 @@
 	else if (realModel == 1)
 		self.snModel = @"66D";
 	else if (realModel == 2)
+		self.snModel = @"1G0";
+	else if (realModel == 3)
 		self.snModel = @"W87";
-	else if (realModel == 3) {
+	else if (realModel == 4) {
 		self.snModel = @"XYL";
 	}
 	[self updateSerial];
 }
 
+// mise à jour du champ
 - (void) updateSerial {
+	
+	NSNumber *emptyNum = [NSNumber numberWithInt:00];
+	NSString *emptyStg = @"00";
+	
+	if (!snCountry)
+		snCountry = emptyStg;
+	if (!snYear)
+		snYear = emptyNum;
+	if (!snWeek)
+		snWeek = emptyNum;
+	if (!snUnit)
+		snUnit = emptyNum;
+	if (!snModel) {
+		snModel = emptyStg;
+	}
 	self.SMserial = [NSString stringWithFormat:@"%@%@%@%@%@", snCountry, snYear, snWeek, snUnit, snModel];
 }
 

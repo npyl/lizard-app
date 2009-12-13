@@ -43,10 +43,9 @@
 @synthesize devProps;
 @synthesize wait;
 @synthesize hidePartition;
-
 @synthesize pciRoot;
-@synthesize dpString;
 
+@synthesize dpString;
 @synthesize viewBootData;
 
 @synthesize themeAuthor;
@@ -169,6 +168,7 @@ NSError *errorFile = nil;
 	
 	// definir la version de Chameleon installée
 	NSString *bootChamPath = [bootLoaderPath stringByAppendingPathComponent:@"boot"];
+	NSString *version4 = @"Chameleon 2 RC4";
 	NSString *version3 = @"Chameleon 2 RC3";
 	NSString *version2 = @"Chameleon 2 RC2";
 	NSString *version1 = @"Chameleon 2 RC1";
@@ -200,6 +200,8 @@ if ([theManager fileExistsAtPath:comBootPath]) {
 		[logoStatus setImage: warningIcon];
 		[bannerStatus setImage: warningIcon];
 		[waitStatus setImage: warningIcon];
+		[defpartStatus setImage: warningIcon];
+		[hideStatus setImage: warningIcon];
 	}
 		
 	if (! theFileSize) {
@@ -219,8 +221,16 @@ if ([theManager fileExistsAtPath:comBootPath]) {
 	}
 	else if ([theFileSize intValue]==309344) {
 		[bootSizeDisplay setStringValue:version3];
-		[imageStatus setImage: goodIcon];
+		[imageStatus setImage: warningIcon];
+		[defpartStatus setImage: warningIcon];
+		[hideStatus setImage: warningIcon];
+		[pciStatus setImage: warningIcon];
 		NSLog(@"initialized with chameleon 2 RC3");
+	}
+	else if ([theFileSize intValue]==320320) {
+		[bootSizeDisplay setStringValue:version4];
+		[imageStatus setImage: goodIcon];
+		NSLog(@"initialized with chameleon 2 RC4");
 	}
 	else {
 		[bootSizeDisplay setStringValue:errorVersion];
@@ -444,6 +454,7 @@ else if (![theManager fileExistsAtPath:comBootPath]){
 		self.devProps = [bootTemp objectForKey:@"device-properties"];
 		self.wait = [bootTemp objectForKey:@"Wait"];
 		self.hidePartition = [bootTemp objectForKey:@"Hide Partition"];
+		self.pciRoot = [bootTemp objectForKey:@"PciRoot"];
 
 		self.viewBootData = [NSPropertyListSerialization dataFromPropertyList:bootTemp
 																	   format:NSPropertyListXMLFormat_v1_0
@@ -587,10 +598,10 @@ else if (![theManager fileExistsAtPath:comBootPath]){
 		self.DefaultPartition = [DefaultPartition substringToIndex:7];//isole uniquement le hd(x,x)
 		[bootDict setObject:DefaultPartition forKey:@"Default Partition"];
 	}
-	if (hidePartition) {
+	if (pciRoot)
+		[bootDict setObject:pciRoot forKey:@"PciRoot"];
+	if (hidePartition)
 		[bootDict setObject:hidePartition forKey:@"Hide Partition"];
-	}
-	
 	if (setSmbioPath)
 		[bootDict setObject:setSmbioPath forKey:@"SMBIOS"];	
 	if (videoROM)
@@ -815,9 +826,9 @@ else if (![theManager fileExistsAtPath:comBootPath]){
 	NSString *theName = @"";
 	NSString *tTheName = @"";
 	//NSString *finalRDisk;
-	NSMutableArray *listItem = [NSMutableArray arrayWithCapacity:10];
-	NSMutableArray *listName = [NSMutableArray arrayWithCapacity:10];
-	NSMutableArray *listPart = [NSMutableArray arrayWithCapacity:10];
+	NSMutableArray *listItem = [[NSMutableArray alloc]init];
+	NSMutableArray *listName = [[NSMutableArray alloc]init];
+	NSMutableArray *listPart = [[NSMutableArray alloc]init];
 	
 	int i = 0;
 	for (moreString in theicon)

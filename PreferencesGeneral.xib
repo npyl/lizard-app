@@ -2,17 +2,17 @@
 <archive type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="7.10">
 	<data>
 		<int key="IBDocument.SystemTarget">1050</int>
-		<string key="IBDocument.SystemVersion">10B504</string>
-		<string key="IBDocument.InterfaceBuilderVersion">732</string>
-		<string key="IBDocument.AppKitVersion">1038.2</string>
-		<string key="IBDocument.HIToolboxVersion">437.00</string>
+		<string key="IBDocument.SystemVersion">10C540</string>
+		<string key="IBDocument.InterfaceBuilderVersion">740</string>
+		<string key="IBDocument.AppKitVersion">1038.25</string>
+		<string key="IBDocument.HIToolboxVersion">458.00</string>
 		<object class="NSMutableDictionary" key="IBDocument.PluginVersions">
 			<string key="NS.key.0">com.apple.InterfaceBuilder.CocoaPlugin</string>
-			<string key="NS.object.0">732</string>
+			<string key="NS.object.0">740</string>
 		</object>
 		<object class="NSMutableArray" key="IBDocument.EditedObjectIDs">
 			<bool key="EncodedWithXMLCoder">YES</bool>
-			<integer value="10"/>
+			<integer value="143"/>
 		</object>
 		<object class="NSArray" key="IBDocument.PluginDependencies">
 			<bool key="EncodedWithXMLCoder">YES</bool>
@@ -103,7 +103,7 @@
 											<reference key="NSSupport" ref="366768821"/>
 											<reference key="NSControlView" ref="526799121"/>
 											<int key="NSButtonFlags">-2038152961</int>
-											<int key="NSButtonFlags2">163</int>
+											<int key="NSButtonFlags2">162</int>
 											<string key="NSAlternateContents"/>
 											<string key="NSKeyEquivalent"/>
 											<int key="NSPeriodicDelay">400</int>
@@ -113,7 +113,7 @@
 									<object class="NSButton" id="795687724">
 										<reference key="NSNextResponder" ref="1067164141"/>
 										<int key="NSvFlags">268</int>
-										<string key="NSFrame">{{347, 24}, {47, 18}}</string>
+										<string key="NSFrame">{{347, 21}, {47, 24}}</string>
 										<reference key="NSSuperview" ref="1067164141"/>
 										<bool key="NSEnabled">YES</bool>
 										<object class="NSButtonCell" key="NSCell" id="214871452">
@@ -127,7 +127,7 @@
 											</object>
 											<reference key="NSControlView" ref="795687724"/>
 											<int key="NSButtonFlags">-2038152961</int>
-											<int key="NSButtonFlags2">163</int>
+											<int key="NSButtonFlags2">162</int>
 											<string key="NSAlternateContents"/>
 											<string key="NSKeyEquivalent"/>
 											<int key="NSPeriodicDelay">400</int>
@@ -226,7 +226,7 @@
 											<reference key="NSSupport" ref="366768821"/>
 											<reference key="NSControlView" ref="969592759"/>
 											<int key="NSButtonFlags">-2038152961</int>
-											<int key="NSButtonFlags2">163</int>
+											<int key="NSButtonFlags2">162</int>
 											<string key="NSAlternateContents"/>
 											<string key="NSKeyEquivalent"/>
 											<int key="NSPeriodicDelay">400</int>
@@ -236,7 +236,7 @@
 									<object class="NSButton" id="325518656">
 										<reference key="NSNextResponder" ref="1020104200"/>
 										<int key="NSvFlags">268</int>
-										<string key="NSFrame">{{347, 16}, {47, 18}}</string>
+										<string key="NSFrame">{{347, 13}, {47, 24}}</string>
 										<reference key="NSSuperview" ref="1020104200"/>
 										<bool key="NSEnabled">YES</bool>
 										<object class="NSButtonCell" key="NSCell" id="663104887">
@@ -246,7 +246,7 @@
 											<reference key="NSSupport" ref="26"/>
 											<reference key="NSControlView" ref="325518656"/>
 											<int key="NSButtonFlags">-2038152961</int>
-											<int key="NSButtonFlags2">163</int>
+											<int key="NSButtonFlags2">162</int>
 											<string key="NSAlternateContents"/>
 											<string key="NSKeyEquivalent"/>
 											<int key="NSPeriodicDelay">400</int>
@@ -456,10 +456,6 @@
 				<string key="NSClassName">Preferences</string>
 			</object>
 			<object class="NSUserDefaultsController" id="764902579">
-				<object class="NSMutableArray" key="NSDeclaredKeys">
-					<bool key="EncodedWithXMLCoder">YES</bool>
-					<string>disableUpdates</string>
-				</object>
 				<bool key="NSSharedInstance">YES</bool>
 			</object>
 		</object>
@@ -1168,19 +1164,11 @@
 						<object class="NSArray" key="dict.sortedKeys">
 							<bool key="EncodedWithXMLCoder">YES</bool>
 							<string>backupPath</string>
-							<string>disableCC</string>
-							<string>disableChamUpdates</string>
-							<string>disableSound</string>
 							<string>displayBackupPath</string>
 							<string>displayExtraPath</string>
-							<string>systemBoot</string>
 						</object>
 						<object class="NSMutableArray" key="dict.values">
 							<bool key="EncodedWithXMLCoder">YES</bool>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
-							<string>id</string>
 							<string>id</string>
 							<string>id</string>
 							<string>id</string>
@@ -1559,55 +1547,6 @@
 					<object class="IBClassDescriptionSource" key="sourceIdentifier">
 						<string key="majorKey">IBFrameworkSource</string>
 						<string key="minorKey">Foundation.framework/Headers/NSURLDownload.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">NSObject</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBFrameworkSource</string>
-						<string key="minorKey">ImageKit.framework/Headers/IKImageBrowserView.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">NSObject</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBFrameworkSource</string>
-						<string key="minorKey">ImageKit.framework/Headers/ImageKitDeprecated.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">NSObject</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBFrameworkSource</string>
-						<string key="minorKey">PDFKit.framework/Headers/PDFDocument.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">NSObject</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBFrameworkSource</string>
-						<string key="minorKey">PDFKit.framework/Headers/PDFView.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">NSObject</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBFrameworkSource</string>
-						<string key="minorKey">QuartzComposer.framework/Headers/QCCompositionParameterView.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">NSObject</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBFrameworkSource</string>
-						<string key="minorKey">QuartzComposer.framework/Headers/QCCompositionPickerView.h</string>
-					</object>
-				</object>
-				<object class="IBPartialClassDescription">
-					<string key="className">NSObject</string>
-					<object class="IBClassDescriptionSource" key="sourceIdentifier">
-						<string key="majorKey">IBFrameworkSource</string>
-						<string key="minorKey">QuartzFilters.framework/Headers/QuartzFilterManager.h</string>
 					</object>
 				</object>
 				<object class="IBPartialClassDescription">

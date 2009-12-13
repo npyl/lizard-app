@@ -82,6 +82,9 @@
 	IBOutlet id logoStatus;
 	IBOutlet id bannerStatus;
 	IBOutlet id waitStatus;
+	IBOutlet id hideStatus;
+	IBOutlet id defpartStatus;
+	IBOutlet id pciStatus;
 	
 	//image sauvegarde succès
 	IBOutlet id saveGood;

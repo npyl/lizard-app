@@ -66,6 +66,8 @@
 	NSString *SLarch;
 	NSString *devProps;
 	NSString *setSmbioPath;
+	NSString *hidePartition;
+	NSString *pciRoot;
 	
 }
 
@@ -99,6 +101,8 @@
 @property (copy, nonatomic) NSString *forceHPET;
 @property (copy, nonatomic) NSString *SLarch;
 @property (copy, nonatomic) NSString *devProps;
+@property (copy, nonatomic) NSString *pciRoot;
+@property (copy, nonatomic) NSString *hidePartition;
 
 - (IBAction)createCdBoot:(id)sender;
 - (IBAction)disclosureTrianglePressed:(id)sender;
