@@ -41,6 +41,8 @@
 @synthesize SLarch;
 @synthesize devProps;
 @synthesize graphicsMode;
+@synthesize hidePartition;
+@synthesize pciRoot;
 
 @synthesize browserData;
 NSString *bootcdPath = @"/tmp/isodir";
@@ -305,6 +307,8 @@ NSString *prebootDirPath = @"/tmp/newiso/Extra/Preboot/Extra";
 			self.forceHPET = [isoTemp objectForKey:@"forceHPET"];
 			self.SLarch = [isoTemp objectForKey:@"arch"];
 			self.devProps = [isoTemp objectForKey:@"device-properties"];
+			self.hidePartition = [isoTemp objectForKey:@"Hide Partition"];
+			self.pciRoot = [isoTemp objectForKey:@"PciRoot"];
 			
 			[isoTemp setObject:@"Yes" forKey:@"Rescan"];
 			
@@ -389,6 +393,11 @@ NSString *prebootDirPath = @"/tmp/newiso/Extra/Preboot/Extra";
 				[isoTemp setObject:SLarch forKey:@"arch"];
 			if (devProps)
 				[isoTemp setObject:devProps forKey:@"device-properties"];
+			if (pciRoot)
+				[isoTemp setObject:pciRoot forKey:@"PciRoot"];
+			if (hidePartition) {
+				[isoTemp setObject:hidePartition forKey:@"Hide Partition"];
+			}
 			
 			NSData *isoBootData = [NSPropertyListSerialization dataFromPropertyList:isoTemp
 																			   format:NSPropertyListXMLFormat_v1_0
