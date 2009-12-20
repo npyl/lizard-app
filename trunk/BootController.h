@@ -143,6 +143,14 @@
 	NSString *pciRoot;
 	NSString *comBootPath;
 	
+	//custom fields
+	NSMutableArray *realKeys;
+	NSMutableArray *chamKeys;
+	NSMutableArray *customKeys;
+	IBOutlet NSTableView *tableView;
+	IBOutlet NSTextField *cStringField;
+	IBOutlet NSTextField *cKeyField;
+	
 	//getPartitions
 	NSArray *theicon;
 	NSString *dpString;
@@ -198,6 +206,9 @@
 @property (copy, nonatomic) NSString *themeHeight;
 
 //getPartitions
+@property (retain, nonatomic) NSMutableArray *realKeys;
+@property (retain, nonatomic) NSMutableArray *chamKeys;
+@property (retain, nonatomic) NSMutableArray *customKeys;
 @property (retain, nonatomic) NSArray *theicon;
 @property (retain, nonatomic) NSString *dpString;
 @property (retain, nonatomic) NSMutableArray *diskUUID;
@@ -221,9 +232,15 @@
 
 - (IBAction)bootPreview:(id)sender;
 
+- (IBAction)addCustom:(id)sender;
+- (IBAction)replaceCustom:(id)sender;
+- (IBAction)removeCustom:(id)sender;
+
 NSString *systemeBootPath = @"/Library/Preferences/SystemConfiguration/com.apple.Boot.plist";
 NSString *bootPath = @"com.apple.Boot.plist";
 NSString *smbiosPath = @"smbios.plist";
 NSString *themePath = @"Themes/";
+
+- (void)tableViewSelectionDidChange:(NSNotification *)aNotification;
 
 @end
