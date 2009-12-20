@@ -60,6 +60,11 @@
 @synthesize diskUUID;
 @synthesize diskROnly;
 
+//custom fields
+@synthesize realKeys;
+@synthesize chamKeys;
+@synthesize customKeys;
+
 //constantes
 NSString *errorDesc;
 NSError *errorFile = nil;
@@ -388,7 +393,8 @@ else if (![theManager fileExistsAtPath:comBootPath]){
 
 // debut recuperation plist
 - (id) init {
-
+	NSPropertyListFormat format;
+	
     if (self = [super init]) {
 		[NSThread detachNewThreadSelector:@selector(getPartitions) toTarget:self withObject:self];
 		//definition du dossier Extra
@@ -403,8 +409,6 @@ else if (![theManager fileExistsAtPath:comBootPath]){
 		dataOfArray = [[NSMutableArray alloc] init];
 		NSMutableArray *files = [[directory mutableCopy]autorelease];
 		[dataOfArray addObjectsFromArray:files];
-		
-        NSPropertyListFormat format;
    
 		// com.apple.boot.plist
 		//check les preferences du path com.boot
@@ -416,6 +420,9 @@ else if (![theManager fileExistsAtPath:comBootPath]){
 		else {
 			comBootPath = chameleonBootPath;
 		}
+		//custom keys check
+		self.chamKeys = [[NSMutableArray alloc] init];
+		
         plistBootXML = [[NSFileManager defaultManager] contentsAtPath:comBootPath];
         bootTemp = (NSMutableDictionary *)[NSPropertyListSerialization
 												  propertyListFromData:plistBootXML
@@ -423,46 +430,87 @@ else if (![theManager fileExistsAtPath:comBootPath]){
 												  format:&format errorDescription:&errorDesc];
 
 		self.graphicsMode = [bootTemp objectForKey:@"Graphics Mode"];
+			if (graphicsMode) {[chamKeys addObject:@"Graphics Mode"];}
 		self.kernelPath = [bootTemp objectForKey:@"Kernel"];
+			if (kernelPath) {[chamKeys addObject:@"Kernel"];}
 		self.kernelFlags = [bootTemp objectForKey:@"Kernel Flags"];
+			if (kernelFlags) {[chamKeys addObject:@"Kernel Flags"];}
 		self.graphicsEnabler = [bootTemp objectForKey:@"GraphicsEnabler"];
+			if (graphicsEnabler) {[chamKeys addObject:@"GraphicsEnabler"];}
 		self.timeOut = [bootTemp objectForKey:@"Timeout"];
+			if (timeOut) {[chamKeys addObject:@"Timeout"];}
 		self.ethernetBuiltIn = [bootTemp objectForKey:@"EthernetBuiltIn"];
+			if (ethernetBuiltIn) {[chamKeys addObject:@"EthernetBuiltIn"];}
 		self.selectedTheme = [bootTemp objectForKey:@"Theme"];
+			if (selectedTheme) {[chamKeys addObject:@"Theme"];}
 		self.USBBusFix = [bootTemp objectForKey:@"USBBusFix"];
+			if (USBBusFix) {[chamKeys addObject:@"USBBusFix"];}
 		self.EHCIacquire = [bootTemp objectForKey:@"EHCIacquire"];
+			if (EHCIacquire) {[chamKeys addObject:@"EHCIacquire"];}
 		self.UHCIreset = [bootTemp objectForKey:@"UHCIreset"];
+			if (UHCIreset) {[chamKeys addObject:@"UHCIreset"];}
 		self.Wake = [bootTemp objectForKey:@"Wake"];
+			if (Wake) {[chamKeys addObject:@"Wake"];}
 		self.ForceWake = [bootTemp objectForKey:@"ForceWake"];
+			if (ForceWake) {[chamKeys addObject:@"ForceWake"];}
 		self.WakeImage = [bootTemp objectForKey:@"WakeImage"];
+			if (WakeImage) {[chamKeys addObject:@"WakeImage"];}
 		self.DropSSDT = [bootTemp objectForKey:@"DropSSDT"];
+			if (DropSSDT) {[chamKeys addObject:@"DropSSDT"];}
 		self.DSDT = [bootTemp objectForKey:@"DSDT"];
+			if (DSDT) {[chamKeys addObject:@"DSDT"];}
 		self.SMBIOSdefaults = [bootTemp objectForKey:@"SMBIOSdefaults"];
+			if (SMBIOSdefaults) {[chamKeys addObject:@"SMBIOSdefaults"];}
 		self.Rescan = [bootTemp objectForKey:@"Rescan"];
+			if (Rescan) {[chamKeys addObject:@"Rescan"];}
 		self.RescanPrompt = [bootTemp objectForKey:@"Rescan Prompt"];
+			if (RescanPrompt) {[chamKeys addObject:@"Rescan Prompt"];}
 		self.GUI = [bootTemp objectForKey:@"GUI"];
+			if (GUI) {[chamKeys addObject:@"GUI"];}
 		self.InstantMenu = [bootTemp objectForKey:@"Instant Menu"];
+			if (InstantMenu) {[chamKeys addObject:@"Instant Menu"];}
 		self.DefaultPartition = [bootTemp objectForKey:@"Default Partition"];
+			if (DefaultPartition) {[chamKeys addObject:@"Default Partition"];}
 		self.setSmbioPath = [bootTemp objectForKey:@"SMBIOS"];
+			if (setSmbioPath) {[chamKeys addObject:@"SMBIOS"];}
 		self.quietBoot = [bootTemp objectForKey:@"Quiet Boot"];
+			if (quietBoot) {[chamKeys addObject:@"Quiet Boot"];}
 		self.vBios = [bootTemp objectForKey:@"VBIOS"];
+			if (vBios) {[chamKeys addObject:@"VBIOS"];}
 		self.bootBanner = [bootTemp objectForKey:@"Boot Banner"];
+			if (bootBanner) {[chamKeys addObject:@"Boot Banner"];}
 		self.legacyLogo = [bootTemp objectForKey:@"Legacy Logo"];
+			if (legacyLogo) {[chamKeys addObject:@"Legacy Logo"];}
 		self.videoROM = [bootTemp objectForKey:@"VideoROM"];
+			if (videoROM) {[chamKeys addObject:@"VideoROM"];}
 		self.forceHPET = [bootTemp objectForKey:@"forceHPET"];
+			if (forceHPET) {[chamKeys addObject:@"forceHPET"];}
 		self.SLarch = [bootTemp objectForKey:@"arch"];
+			if (SLarch) {[chamKeys addObject:@"arch"];}
 		self.devProps = [bootTemp objectForKey:@"device-properties"];
+			if (graphicsMode) {[chamKeys addObject:@"device-properties"];}
 		self.wait = [bootTemp objectForKey:@"Wait"];
+			if (wait) {[chamKeys addObject:@"Wait"];}
 		self.hidePartition = [bootTemp objectForKey:@"Hide Partition"];
+			if (hidePartition) {[chamKeys addObject:@"Hide Partition"];}
 		self.pciRoot = [bootTemp objectForKey:@"PciRoot"];
+			if (pciRoot) {[chamKeys addObject:@"PciRoot"];}
 
-		self.viewBootData = [NSPropertyListSerialization dataFromPropertyList:bootTemp
-																	   format:NSPropertyListXMLFormat_v1_0
-															 errorDescription:&errorDesc];
-    }
+		self.viewBootData = [NSPropertyListSerialization dataFromPropertyList:bootTemp format:NSPropertyListXMLFormat_v1_0 errorDescription:&errorDesc];
+		
+		//comparer l'array et le dico pour trouver les key/string supplémentaires
+		self.realKeys = [[NSMutableArray alloc] init];
+		self.customKeys = [[NSMutableArray alloc] init];
+		for (id key in bootTemp) {
+			if (![self.chamKeys containsObject:key]) {
+				[self.realKeys addObject:[bootTemp objectForKey:key]];
+				[self.customKeys addObject:key];
+			}
+		}
+	}
     return self;
 	[saveGood setImage: nil];
-	self.kernelFlags = [[NSMutableString alloc] initWithCapacity:10];
+	self.kernelFlags = [[NSMutableString alloc] initWithCapacity:1];
 }
 
 // début ecriture du plists
@@ -618,8 +666,16 @@ else if (![theManager fileExistsAtPath:comBootPath]){
 	if ((devProps) && ([theFileSize intValue] > 295328) && ([graphicsEnablerBox state]==NSOffState)) {
 			[graphicsEnablerStatus setImage: nil];
 	}
-	if (devProps)
+	if (devProps) {
 		[bootDict setObject:devProps forKey:@"device-properties"];
+	}
+	// enregistrement des custom keys
+	int i = 0;
+	for ( NSString *ramEntry in self.customKeys)
+	{
+		[bootDict setObject:[self.realKeys objectAtIndex:i] forKey:[self.customKeys objectAtIndex:i]];	
+		i++;
+	}
 
 	self.viewBootData = [NSPropertyListSerialization dataFromPropertyList:bootDict
 																   format:NSPropertyListXMLFormat_v1_0
@@ -958,6 +1014,57 @@ else if (![theManager fileExistsAtPath:comBootPath]){
 	else {
 		[bootWindow orderOut:nil];
 	}
+}
+
+//Tableau custom keys
+- (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView {
+    return [self.realKeys count];
+}
+- (id) tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)pTableColumn row:(int)pRowIndex {
+	
+	if ([[pTableColumn identifier] isEqualToString:@"key"]) {
+		return [customKeys objectAtIndex:pRowIndex];
+	}
+	if ([[pTableColumn identifier] isEqualToString:@"string"]) {
+		return [realKeys objectAtIndex:pRowIndex];
+	}
+	return NULL;
+}
+- (void)tableViewSelectionDidChange:(NSNotification *)aNotification
+{
+	[cStringField setStringValue:[realKeys objectAtIndex:[tableView selectedRow]]];
+	[cKeyField setStringValue:[customKeys objectAtIndex:[tableView selectedRow]]];
+}
+- (IBAction)addCustom:(id)sender
+{
+	if (![customKeys containsObject:[cKeyField stringValue]]) {
+		[realKeys addObject:[cStringField stringValue]];
+		[customKeys addObject:[cKeyField stringValue]];
+	}
+	else {
+		NSBeep();
+	}
+	[tableView reloadData];
+}
+- (IBAction)replaceCustom:(id)sender
+{
+	int selectedView = [tableView selectedRow];
+	if (![customKeys containsObject:[cKeyField stringValue]]) {
+		[customKeys removeObjectAtIndex:selectedView];
+		[customKeys insertObject:[cKeyField stringValue] atIndex:selectedView];
+	}
+	[realKeys removeObjectAtIndex:selectedView];
+	[realKeys insertObject:[cStringField stringValue] atIndex:selectedView];
+	[tableView reloadData];
+}
+- (IBAction)removeCustom:(id)sender
+{
+	int selectedView = [tableView selectedRow];
+	if (selectedView != -1) {
+	[realKeys removeObjectAtIndex:selectedView];
+	[customKeys removeObjectAtIndex:selectedView];
+	}
+	[tableView reloadData];
 }
 
 @end
