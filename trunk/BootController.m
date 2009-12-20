@@ -1030,7 +1030,7 @@ else if (![theManager fileExistsAtPath:comBootPath]){
 	}
 	return NULL;
 }
-- (void)tableViewSelectionDidChange:(NSNotification *)aNotification
+- (IBAction)selectView:(id)sender
 {
 	[cStringField setStringValue:[realKeys objectAtIndex:[tableView selectedRow]]];
 	[cKeyField setStringValue:[customKeys objectAtIndex:[tableView selectedRow]]];

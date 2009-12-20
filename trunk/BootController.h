@@ -235,12 +235,11 @@
 - (IBAction)addCustom:(id)sender;
 - (IBAction)replaceCustom:(id)sender;
 - (IBAction)removeCustom:(id)sender;
+- (IBAction)selectView:(id)sender;
 
 NSString *systemeBootPath = @"/Library/Preferences/SystemConfiguration/com.apple.Boot.plist";
 NSString *bootPath = @"com.apple.Boot.plist";
 NSString *smbiosPath = @"smbios.plist";
 NSString *themePath = @"Themes/";
-
-- (void)tableViewSelectionDidChange:(NSNotification *)aNotification;
 
 @end
