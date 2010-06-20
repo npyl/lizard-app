@@ -405,7 +405,7 @@ else if (![theManager fileExistsAtPath:comBootPath]){
 		NSFileManager* fileManager = [NSFileManager defaultManager];
 		NSArray *directory = [fileManager contentsOfDirectoryAtPath:chameleonThemesPath error:&errorFile];
 
-			// You don't need autorelease if you use garbage collection
+		// You don't need autorelease if you use garbage collection
 		dataOfArray = [[NSMutableArray alloc] init];
 		NSMutableArray *files = [[directory mutableCopy]autorelease];
 		[dataOfArray addObjectsFromArray:files];
@@ -420,7 +420,7 @@ else if (![theManager fileExistsAtPath:comBootPath]){
 		else {
 			comBootPath = chameleonBootPath;
 		}
-		//custom keys check
+		//custom keys check pour isoler les flags utilisés par cham
 		self.chamKeys = [[NSMutableArray alloc] init];
 		
         plistBootXML = [[NSFileManager defaultManager] contentsAtPath:comBootPath];
@@ -428,7 +428,6 @@ else if (![theManager fileExistsAtPath:comBootPath]){
 												  propertyListFromData:plistBootXML
 												  mutabilityOption:NSPropertyListMutableContainersAndLeaves
 												  format:&format errorDescription:&errorDesc];
-
 		self.graphicsMode = [bootTemp objectForKey:@"Graphics Mode"];
 			if (graphicsMode) {[chamKeys addObject:@"Graphics Mode"];}
 		self.kernelPath = [bootTemp objectForKey:@"Kernel"];
@@ -677,9 +676,8 @@ else if (![theManager fileExistsAtPath:comBootPath]){
 		i++;
 	}
 
-	self.viewBootData = [NSPropertyListSerialization dataFromPropertyList:bootDict
-																   format:NSPropertyListXMLFormat_v1_0
-														 errorDescription:&errorDesc];
+	self.viewBootData = [NSPropertyListSerialization dataFromPropertyList:bootDict format:NSPropertyListXMLFormat_v1_0 errorDescription:&errorDesc];
+	
 	// declaration des alertes
 	NSAlert *alert = [[NSAlert alloc] init];
 	[alert setAlertStyle:NSWarningAlertStyle];
@@ -744,6 +742,7 @@ else if (![theManager fileExistsAtPath:comBootPath]){
 			[[saveGood animator] setAlphaValue:0];
 			[NSAnimationContext endGrouping];
 	}
+	//pas de fichier trouvé
 	else if (![theManager fileExistsAtPath:comBootPath]){
 		[alert setMessageText:@"com.apple.Boot.plist not found"];
 		[alert addButtonWithTitle:@"Generate new"];
@@ -848,7 +847,7 @@ else if (![theManager fileExistsAtPath:comBootPath]){
 	NSString *string=[[NSString alloc] initWithData:[handle readDataToEndOfFile] encoding:NSUTF8StringEncoding];
 	outPuts = [string componentsSeparatedByString:@"DevicePath = "];
 	tempString = [outPuts objectAtIndex:1];
-	//NSLog (@"%@",tempString); 
+	
 	if ([tempString hasPrefix:@"PciRoot(0x0)"]) {
 		self.pciRoot = @"0";
 	}
@@ -856,7 +855,7 @@ else if (![theManager fileExistsAtPath:comBootPath]){
 		self.pciRoot = @"1";
 	}
 	else {
-		self.pciRoot = @"error: can't find a correct value";
+		self.pciRoot = @"error, can't find correct value";
 	}
 	
 	[gfxutil release];
@@ -873,7 +872,7 @@ else if (![theManager fileExistsAtPath:comBootPath]){
 }
 - (void) getPartitions
 {
-		NSAutoreleasePool *thePool = [[NSAutoreleasePool alloc] init];
+	NSAutoreleasePool *thePool = [[NSAutoreleasePool alloc] init];
 	self.theicon = [[NSWorkspace sharedWorkspace] mountedLocalVolumePaths];
 	NSString *trootName = @"";
 	NSString *rootName = @"";
@@ -954,7 +953,6 @@ else if (![theManager fileExistsAtPath:comBootPath]){
 }
 
 // envoie la valeur du default partition
-
 - (void)openPanelWillEnd:(NSOpenPanel *)sheet returnCode:(int)returnCode contextInfo:(void *)contextInfo {
 	[[NSUserDefaults standardUserDefaults] setBool:NO forKey:@"AppleShowAllFiles"];
 	if (returnCode == NSOKButton) {
@@ -1030,11 +1028,13 @@ else if (![theManager fileExistsAtPath:comBootPath]){
 	}
 	return NULL;
 }
+
 - (IBAction)selectView:(id)sender
 {
 	[cStringField setStringValue:[realKeys objectAtIndex:[tableView selectedRow]]];
 	[cKeyField setStringValue:[customKeys objectAtIndex:[tableView selectedRow]]];
 }
+
 - (IBAction)addCustom:(id)sender
 {
 	if (![customKeys containsObject:[cKeyField stringValue]]) {
@@ -1046,6 +1046,7 @@ else if (![theManager fileExistsAtPath:comBootPath]){
 	}
 	[tableView reloadData];
 }
+
 - (IBAction)replaceCustom:(id)sender
 {
 	int selectedView = [tableView selectedRow];
@@ -1057,6 +1058,7 @@ else if (![theManager fileExistsAtPath:comBootPath]){
 	[realKeys insertObject:[cStringField stringValue] atIndex:selectedView];
 	[tableView reloadData];
 }
+
 - (IBAction)removeCustom:(id)sender
 {
 	int selectedView = [tableView selectedRow];
