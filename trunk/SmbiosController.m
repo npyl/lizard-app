@@ -149,6 +149,9 @@
 	else if ([SMcputype isEqualToString:@"1281"]) {
 			[SMcputypeConv setStringValue:coreXeon];
 	}
+	else if ([SMcputype isEqualToString:@"1537"]) {
+			[SMcputypeConv setStringValue:iCore5];
+	}
 	
 	if ([SMmemDisplayDefault isEqualToString:@"default"]) {
 		[SMmemtypeConv setStringValue:memDefault];
@@ -440,6 +443,9 @@
 		}
 		else if ([SMcputype isEqualToString:coreXeon] || [SMcputype isEqualToString:@"1281"]) {
 				[smbiosDict setObject:@"1281" forKey:SMcpuKey];
+		}
+		else if ([SMcputype isEqualToString:iCore5] || [SMcputype isEqualToString:@"1537"]) {
+			[smbiosDict setObject:@"1537" forKey:SMcpuKey];
 		}
 		else {
 				[smbiosDict setObject:@"257" forKey:SMcpuKey];
