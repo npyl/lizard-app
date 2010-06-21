@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		34237F0011215CE3002396A1 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 34237EFF11215CE3002396A1 /* Credits.rtf */; };
+		3470BB1B10BB3BDD00C20FE6 /* SMLPreviewIcon.pdf in Resources */ = {isa = PBXBuildFile; fileRef = 3470BB1A10BB3BDD00C20FE6 /* SMLPreviewIcon.pdf */; };
 		8D11072B0486CEB800E47090 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 089C165CFE840E0CC02AAC07 /* InfoPlist.strings */; };
 		8D11072D0486CEB800E47090 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 29B97316FDCFA39411CA2CEA /* main.m */; settings = {ATTRIBUTES = (); }; };
 		8D11072F0486CEB800E47090 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 1058C7A1FEA54F0111CA2CBB /* Cocoa.framework */; };
@@ -80,6 +82,8 @@
 		29B97324FDCFA39411CA2CEA /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = /System/Library/Frameworks/AppKit.framework; sourceTree = "<absolute>"; };
 		29B97325FDCFA39411CA2CEA /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = /System/Library/Frameworks/Foundation.framework; sourceTree = "<absolute>"; };
 		32CA4F630368D1EE00C91783 /* Lizard_Prefix.pch */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Lizard_Prefix.pch; sourceTree = "<group>"; };
+		34237EFF11215CE3002396A1 /* Credits.rtf */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; path = Credits.rtf; sourceTree = "<group>"; };
+		3470BB1A10BB3BDD00C20FE6 /* SMLPreviewIcon.pdf */ = {isa = PBXFileReference; lastKnownFileType = image.pdf; path = SMLPreviewIcon.pdf; sourceTree = "<group>"; };
 		8D1107310486CEB800E47090 /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		8D1107320486CEB800E47090 /* Lizard.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Lizard.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		AE0653C8106BCF51001B7713 /* refresh.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = refresh.png; sourceTree = "<group>"; };
@@ -118,7 +122,7 @@
 		AE82429A104FCCBF007C70CD /* Boot.xib */ = {isa = PBXFileReference; lastKnownFileType = file.xib; path = Boot.xib; sourceTree = "<group>"; };
 		AE82429F104FCCD0007C70CD /* smbios.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = smbios.png; sourceTree = "<group>"; };
 		AE8242A0104FCCD0007C70CD /* boot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = boot.png; sourceTree = "<group>"; };
-		AE8242A9104FCCE6007C70CD /* BootController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BootController.m; sourceTree = "<group>"; };
+		AE8242A9104FCCE6007C70CD /* BootController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = BootController.m; sourceTree = "<group>"; xcLanguageSpecificationIdentifier = xcode.lang.objcpp; };
 		AE8242AA104FCCE6007C70CD /* BootController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = BootController.h; sourceTree = "<group>"; };
 		AE8242AB104FCCE6007C70CD /* SmbiosController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SmbiosController.m; sourceTree = "<group>"; };
 		AE8242AC104FCCE7007C70CD /* SmbiosController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SmbiosController.h; sourceTree = "<group>"; };
@@ -255,6 +259,8 @@
 		29B97317FDCFA39411CA2CEA /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				34237EFF11215CE3002396A1 /* Credits.rtf */,
+				3470BB1A10BB3BDD00C20FE6 /* SMLPreviewIcon.pdf */,
 				AE7F161A1094A31E00A0F61E /* Lizard.icns */,
 				AEFFC947108B3ACB00F8ED34 /* iu.png */,
 				AECF267910774CE60089000B /* LizardHelp */,
@@ -462,6 +468,8 @@
 				AEFFC90D108B37B600F8ED34 /* instalUpdate.xib in Resources */,
 				AEFFC948108B3ACB00F8ED34 /* iu.png in Resources */,
 				AE7F161B1094A31E00A0F61E /* Lizard.icns in Resources */,
+				3470BB1B10BB3BDD00C20FE6 /* SMLPreviewIcon.pdf in Resources */,
+				34237F0011215CE3002396A1 /* Credits.rtf in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

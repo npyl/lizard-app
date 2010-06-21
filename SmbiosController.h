@@ -130,6 +130,7 @@ NSString *SMmemKey = @"SMmemtype";
 NSString *coreSolo = @"Intel Core Solo";
 NSString *coreTwo = @"Intel Core 2 Duo";
 NSString *coreXeon = @"Quad-Core Intel Xeon";
+NSString *iCore5 = @"Intel Core i5";
 NSString *cpuDefault = @"Intel Core 2 Duo (Default)";
 NSString *SMcpuKey = @"SMcputype";
 
