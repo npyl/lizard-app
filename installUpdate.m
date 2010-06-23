@@ -177,113 +177,115 @@
 			[diskutil launch];
 			NSString *string=[[NSString alloc] initWithData:[handle readDataToEndOfFile] encoding:NSUTF8StringEncoding]; // convert NSData -> NSString
 			
-			listItems = [string componentsSeparatedByString:@" Device Identifier:"];
-			itemsFirst = [string componentsSeparatedByString:@" Partition Type:"];
-			itemsFirst = [[itemsFirst objectAtIndex:1] componentsSeparatedByString:@"Bootable:"];
-			tTheName = [[itemsFirst objectAtIndex:0] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-			theName = [tTheName stringByReplacingOccurrencesOfString:@"\n" withString:@""];
-			
-			//NSLog (theName);
-			if (![theName isEqualToString: @"None"]) { // rien ne s'afiche sinon
-				//ajout du rdisk dans une array
-				if ([listItems objectAtIndex:0])
-				{
-					//supprime l'espace a l'entrée
-					listItems = [[listItems objectAtIndex:1] componentsSeparatedByString:@"Device Node:"];
-					trootName = [[listItems objectAtIndex:0] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-					rootName = [trootName stringByReplacingOccurrencesOfString:@"\n" withString:@""];
-					[listItem insertObject:rootName atIndex:0 + i];
-					if ([rootName isEqualToString: @""]) { // rien ne s'afiche sinon
-						[listItem insertObject:@"Untitled" atIndex:0 + i];
-						rootName = @"Untitled";
+			if (! [string hasPrefix:@"Could not find disk:"]) {
+				listItems = [string componentsSeparatedByString:@" Device Identifier:"];
+				itemsFirst = [string componentsSeparatedByString:@" Partition Type:"];
+				itemsFirst = [[itemsFirst objectAtIndex:1] componentsSeparatedByString:@"Bootable:"];
+				tTheName = [[itemsFirst objectAtIndex:0] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+				theName = [tTheName stringByReplacingOccurrencesOfString:@"\n" withString:@""];
+				
+				//NSLog (theName);
+				if (![theName isEqualToString: @"None"]) { // rien ne s'afiche sinon
+					//ajout du rdisk dans une array
+					if ([listItems objectAtIndex:0])
+					{
+						//supprime l'espace a l'entrée
+						listItems = [[listItems objectAtIndex:1] componentsSeparatedByString:@"Device Node:"];
+						trootName = [[listItems objectAtIndex:0] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+						rootName = [trootName stringByReplacingOccurrencesOfString:@"\n" withString:@""];
+						[listItem insertObject:rootName atIndex:0 + i];
+						if ([rootName isEqualToString: @""]) { // rien ne s'afiche sinon
+							[listItem insertObject:@"Untitled" atIndex:0 + i];
+							rootName = @"Untitled";
+						}
+						self.rDisk = [NSMutableArray arrayWithArray:listItem];
+						
 					}
-					self.rDisk = [NSMutableArray arrayWithArray:listItem];
+					// Volume Name
+					listItems = [string componentsSeparatedByString:@"Volume Name:"];
+					if ([listItems objectAtIndex:0]) {
+						if (floor(NSAppKitVersionNumber) > NSAppKitVersionNumber10_5) { //modifications dans diskutil
+							listItems = [[listItems objectAtIndex:1] componentsSeparatedByString:@"Escaped with Unicode:"];
+						}
+						else {
+							listItems = [[listItems objectAtIndex:1] componentsSeparatedByString:@"Mount Point:"];
+						}
+						readOnly = [[listItems objectAtIndex:0] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+						[listName insertObject:readOnly atIndex:i];
+						if ([readOnly isEqualToString: @""]) { // rien ne s'afiche sinon
+							[listName insertObject:@"Untitled" atIndex:i];
+							readOnly = @"Untitled";
+						}
+						self.selectedPath = [NSMutableArray arrayWithArray:listName];
+					}
 					
-				}
-				// Volume Name
-				listItems = [string componentsSeparatedByString:@"Volume Name:"];
-				if ([listItems objectAtIndex:0]) {
-					if (floor(NSAppKitVersionNumber) > NSAppKitVersionNumber10_5) { //modifications dans diskutil
-						listItems = [[listItems objectAtIndex:1] componentsSeparatedByString:@"Escaped with Unicode:"];
+					//System files
+					listItems = [string componentsSeparatedByString:@"File System:"];
+					if ([listItems objectAtIndex:0]) {
+						if (floor(NSAppKitVersionNumber) > NSAppKitVersionNumber10_5) {
+							listItems = [[listItems objectAtIndex:1] componentsSeparatedByString:@"Type:"];
+						}
+						else {
+							listItems = [[listItems objectAtIndex:1] componentsSeparatedByString:@"Owners:"];
+						}
+						type = [[listItems objectAtIndex:0] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+						[listType insertObject:type atIndex:i];
+						if ([type isEqualToString: @""]) { // rien ne s'afiche sinon
+							[listType insertObject:@"Unknown" atIndex:i];
+							type = @"Unknown";
+						}
+						self.diskType = [NSMutableArray arrayWithArray:listType];
 					}
-					else {
-						listItems = [[listItems objectAtIndex:1] componentsSeparatedByString:@"Mount Point:"];
+					
+					//Bootable
+					listItems = [string componentsSeparatedByString:@"Bootable:"];
+					if ([listItems objectAtIndex:0]) {
+						listItems = [[listItems objectAtIndex:1] componentsSeparatedByString:@"Media Type:"];
+						UUID = [[listItems objectAtIndex:0] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+						[listUUID insertObject:UUID atIndex:i];
+						if ([UUID isEqualToString: @""]) { // rien ne s'afiche sinon
+							[listUUID insertObject:@"Unknown" atIndex:i];
+							UUID = @"Unknown";
+						}
+						self.diskUUID = [NSMutableArray arrayWithArray:listUUID];
 					}
-					readOnly = [[listItems objectAtIndex:0] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-					[listName insertObject:readOnly atIndex:i];
-					if ([readOnly isEqualToString: @""]) { // rien ne s'afiche sinon
-						[listName insertObject:@"Untitled" atIndex:i];
-						readOnly = @"Untitled";
-					}
-					self.selectedPath = [NSMutableArray arrayWithArray:listName];
-				}
-				
-				//System files
-				listItems = [string componentsSeparatedByString:@"File System:"];
-				if ([listItems objectAtIndex:0]) {
+					
+					//readOnly
 					if (floor(NSAppKitVersionNumber) > NSAppKitVersionNumber10_5) {
-						listItems = [[listItems objectAtIndex:1] componentsSeparatedByString:@"Type:"];
+						listItems = [string componentsSeparatedByString:@"Read-Only Volume:"];
 					}
 					else {
-						listItems = [[listItems objectAtIndex:1] componentsSeparatedByString:@"Owners:"];
+						listItems = [string componentsSeparatedByString:@"Read Only:"];
 					}
-					type = [[listItems objectAtIndex:0] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-					[listType insertObject:type atIndex:i];
-					if ([type isEqualToString: @""]) { // rien ne s'afiche sinon
-						[listType insertObject:@"Unknown" atIndex:i];
-						type = @"Unknown";
+					if ([listItems objectAtIndex:0]) {
+						listItems = [[listItems objectAtIndex:1] componentsSeparatedByString:@"Ejectable:"];
+						rOnly = [[listItems objectAtIndex:0] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+						[listROnly insertObject:rOnly atIndex:i];
+						if ([rOnly isEqualToString: @""]) { // rien ne s'afiche sinon
+							[listROnly insertObject:@"Unknown" atIndex:i];
+							rOnly = @"Unknown";
+						}
+						self.diskROnly = [NSMutableArray arrayWithArray:listROnly];
 					}
-					self.diskType = [NSMutableArray arrayWithArray:listType];
-				}
-				
-				//Bootable
-				listItems = [string componentsSeparatedByString:@"Bootable:"];
-				if ([listItems objectAtIndex:0]) {
-					listItems = [[listItems objectAtIndex:1] componentsSeparatedByString:@"Media Type:"];
-					UUID = [[listItems objectAtIndex:0] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-					[listUUID insertObject:UUID atIndex:i];
-					if ([UUID isEqualToString: @""]) { // rien ne s'afiche sinon
-						[listUUID insertObject:@"Unknown" atIndex:i];
-						UUID = @"Unknown";
+					
+					//rdiskX
+					listItems = [string componentsSeparatedByString:@"Part Of Whole:"];
+					if ([listItems objectAtIndex:0]) {
+						listItems = [[listItems objectAtIndex:1] componentsSeparatedByString:@"Device / Media Name:"];
+						trDiskXx = [[listItems objectAtIndex:0] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+						rDiskXx = [trDiskXx stringByReplacingOccurrencesOfString:@"\n" withString:@""];
+						[listRDiskX insertObject:rDiskXx atIndex:i];
+						if ([rDiskXx isEqualToString: @""]) { // rien ne s'afiche sinon
+							[listRDiskX insertObject:@"Unknown" atIndex:i];
+							rDiskXx = @"Unknown";
+						}
+						self.rDiskXArray = [NSMutableArray arrayWithArray:listRDiskX];
 					}
-					self.diskUUID = [NSMutableArray arrayWithArray:listUUID];
+					[myString insertObject:[theicon objectAtIndex:i] atIndex:i];
+					self.displayFinal =  [NSMutableArray arrayWithArray:myString];
+					[diskutil release];
+					i++;
 				}
-				
-				//readOnly
-				if (floor(NSAppKitVersionNumber) > NSAppKitVersionNumber10_5) {
-					listItems = [string componentsSeparatedByString:@"Read-Only Volume:"];
-				}
-				else {
-					listItems = [string componentsSeparatedByString:@"Read Only:"];
-				}
-				if ([listItems objectAtIndex:0]) {
-					listItems = [[listItems objectAtIndex:1] componentsSeparatedByString:@"Ejectable:"];
-					rOnly = [[listItems objectAtIndex:0] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-					[listROnly insertObject:rOnly atIndex:i];
-					if ([rOnly isEqualToString: @""]) { // rien ne s'afiche sinon
-						[listROnly insertObject:@"Unknown" atIndex:i];
-						rOnly = @"Unknown";
-					}
-					self.diskROnly = [NSMutableArray arrayWithArray:listROnly];
-				}
-				
-				//rdiskX
-				listItems = [string componentsSeparatedByString:@"Part Of Whole:"];
-				if ([listItems objectAtIndex:0]) {
-					listItems = [[listItems objectAtIndex:1] componentsSeparatedByString:@"Device / Media Name:"];
-					trDiskXx = [[listItems objectAtIndex:0] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-					rDiskXx = [trDiskXx stringByReplacingOccurrencesOfString:@"\n" withString:@""];
-					[listRDiskX insertObject:rDiskXx atIndex:i];
-					if ([rDiskXx isEqualToString: @""]) { // rien ne s'afiche sinon
-						[listRDiskX insertObject:@"Unknown" atIndex:i];
-						rDiskXx = @"Unknown";
-					}
-					self.rDiskXArray = [NSMutableArray arrayWithArray:listRDiskX];
-				}
-				[myString insertObject:[theicon objectAtIndex:i] atIndex:i];
-				self.displayFinal =  [NSMutableArray arrayWithArray:myString];
-				[diskutil release];
-				i++;
 			}
 		}
 	}
