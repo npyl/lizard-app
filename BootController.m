@@ -884,7 +884,6 @@ else if (![theManager fileExistsAtPath:comBootPath]){
 	NSMutableArray *listItem = [[NSMutableArray alloc]init];
 	NSMutableArray *listName = [[NSMutableArray alloc]init];
 	NSMutableArray *listPart = [[NSMutableArray alloc]init];
-	
 	int i = 0;
 	for (moreString in theicon)
 	{
@@ -901,52 +900,54 @@ else if (![theManager fileExistsAtPath:comBootPath]){
 		[diskutil launch];
 		NSString *string=[[NSString alloc] initWithData:[handle readDataToEndOfFile] encoding:NSUTF8StringEncoding]; // convert NSData -> NSString
 		
-		listItems = [string componentsSeparatedByString:@" Device Identifier:"];
-		itemsFirst = [string componentsSeparatedByString:@" Partition Type:"];
-		itemsFirst = [[itemsFirst objectAtIndex:1] componentsSeparatedByString:@"Bootable:"];
-		tTheName = [[itemsFirst objectAtIndex:0] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-		theName = [tTheName stringByReplacingOccurrencesOfString:@"\n" withString:@""];
+		if (! [string hasPrefix:@"Could not find disk:"]) {
 		
-		//NSLog (theName);
-		if (![theName isEqualToString: @"None"]) {
-			//ajout du rdisk dans une array
-			if ([listItems objectAtIndex:0])
-			{
-				//supprime l'espace a l'entrée
-				listItems = [[listItems objectAtIndex:1] componentsSeparatedByString:@"Device Node:"];
-				trootName = [[listItems objectAtIndex:0] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
-				rootName = [trootName stringByReplacingOccurrencesOfString:@"\n" withString:@""];
-				if ([rootName isEqualToString: @""]) {
-					rootName = @"Untitled";
+			listItems = [string componentsSeparatedByString:@" Device Identifier:"];
+			itemsFirst = [string componentsSeparatedByString:@" Partition Type:"];
+			itemsFirst = [[itemsFirst objectAtIndex:1] componentsSeparatedByString:@"Bootable:"];
+			tTheName = [[itemsFirst objectAtIndex:0] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+			theName = [tTheName stringByReplacingOccurrencesOfString:@"\n" withString:@""];
+
+			if (![theName isEqualToString: @"None"]) {
+				//ajout du rdisk dans une array
+				if ([listItems objectAtIndex:0])
+				{
+					//supprime l'espace a l'entrée
+					listItems = [[listItems objectAtIndex:1] componentsSeparatedByString:@"Device Node:"];
+					trootName = [[listItems objectAtIndex:0] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
+					rootName = [trootName stringByReplacingOccurrencesOfString:@"\n" withString:@""];
+					if ([rootName isEqualToString: @""]) {
+						rootName = @"Untitled";
+					}
+					moreString = [rootName stringByReplacingOccurrencesOfString:@"disk" withString:@"hd("];
+					moreString = [moreString stringByReplacingOccurrencesOfString:@"s" withString:@","];
+					[listItem insertObject:rootName atIndex:i];
+					
 				}
-				moreString = [rootName stringByReplacingOccurrencesOfString:@"disk" withString:@"hd("];
-				moreString = [moreString stringByReplacingOccurrencesOfString:@"s" withString:@","];
-				[listItem insertObject:rootName atIndex:i];
-				
+				// Volume Name
+				listItems = [string componentsSeparatedByString:@"Volume Name:"];
+				if ([listItems objectAtIndex:0]) {
+					if (floor(NSAppKitVersionNumber) > NSAppKitVersionNumber10_5) { //modifications dans diskutil 10.6
+						listItems = [[listItems objectAtIndex:1] componentsSeparatedByString:@"Escaped with Unicode:"];
+					}
+					else {
+						listItems = [[listItems objectAtIndex:1] componentsSeparatedByString:@"Mount Point:"];
+					}
+					readOnly = [[listItems objectAtIndex:0] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
+					if ([readOnly isEqualToString: @""]) {
+						readOnly = @"Untitled";
+					}
+				}
+				self.dpString = [NSString stringWithFormat:@"%@%@", moreString, @")"];
+				[listPart insertObject:self.dpString atIndex:i];
+				[listName insertObject:[NSString stringWithFormat:@"%@ %@ %@",self.dpString,@"->",readOnly] atIndex:i];
+				self.selectedPath = [NSMutableArray arrayWithArray:listName];
+				self.selectedPartition = [NSMutableArray arrayWithArray:listPart];
+				[diskutil release];
+				[string release];
+				[pipe release];
+				i++;
 			}
-			// Volume Name
-			listItems = [string componentsSeparatedByString:@"Volume Name:"];
-			if ([listItems objectAtIndex:0]) {
-				if (floor(NSAppKitVersionNumber) > NSAppKitVersionNumber10_5) { //modifications dans diskutil 10.6
-					listItems = [[listItems objectAtIndex:1] componentsSeparatedByString:@"Escaped with Unicode:"];
-				}
-				else {
-					listItems = [[listItems objectAtIndex:1] componentsSeparatedByString:@"Mount Point:"];
-				}
-				readOnly = [[listItems objectAtIndex:0] stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceAndNewlineCharacterSet]];
-				if ([readOnly isEqualToString: @""]) {
-					readOnly = @"Untitled";
-				}
-			}
-			self.dpString = [NSString stringWithFormat:@"%@%@", moreString, @")"];
-			[listPart insertObject:self.dpString atIndex:i];
-			[listName insertObject:[NSString stringWithFormat:@"%@ %@ %@",self.dpString,@"->",readOnly] atIndex:i];
-			self.selectedPath = [NSMutableArray arrayWithArray:listName];
-			self.selectedPartition = [NSMutableArray arrayWithArray:listPart];
-			[diskutil release];
-			[string release];
-			[pipe release];
-			i++;
 		}
 	}
 	[thePool release];
