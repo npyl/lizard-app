@@ -1,0 +1,1 @@
+Lizard is a cocoa application designed to offer a GUI for some Chameleon bootloader options.
